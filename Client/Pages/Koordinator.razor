@@ -106,6 +106,7 @@ else
                 <th>Start Tid</th>
                 <th>Slut tid</th>
                 <th>Prioritering</th>
+                <th>Vagt id</th>
             </tr>
         </thead>
         <tbody>
@@ -119,11 +120,12 @@ else
                     <td>@booking.start_tid</td>
                     <td>@booking.slut_tid</td>
                     <td>@booking.priotering</td>
+                    <td>@booking.vagt_id</td>
                 </tr>
-            }
+            } 
         </tbody>
     </table>
-
+    
 }
 
 @code {
@@ -136,7 +138,9 @@ else
     // Injecter metoderne fra services
     [Inject]
     public IVagtService ServiceVagt { get; set; }
+    [Inject]
     public IBrugerService ServiceBruger { get; set; }
+    [Inject]
     public IBookingService ServiceBooking { get; set; }
 
 
@@ -146,7 +150,7 @@ else
     {
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-        BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+       BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
     }
 
 }
