@@ -38,6 +38,7 @@ else
                 <td>@frivillige.fødselsdag</td>
                 <td>@frivillige.cpr_nummer</td>
                 
+                <!--Skifter det den printer ud med ja og nej istedet for false og true-->
                 @if (frivillige.er_aktiv)
                     {
                         <td> Ja </td>
@@ -92,18 +93,19 @@ else
 }
 
 @code {
-    // Henter alle vagter
+    // Laver liste fra vagt datamodel
     public List<Vagt> VagtListe = new List<Vagt>();
 
     [Inject]
     public IVagtService Service { get; set; }
 
-    // Henter alle brugere og på initialized henter vagter og brugere
+    // Laver liste fra bruger datamodel og bliver sorteret i query med kun frivillige
     public List<Bruger> FrivilligListe = new List<Bruger>();
 
     [Inject]
     public IBrugerService ServiceBruger { get; set; }
 
+    // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
