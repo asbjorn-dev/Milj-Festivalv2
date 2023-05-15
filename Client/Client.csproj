@@ -25,7 +25,4 @@
   <ItemGroup>
     <None Remove="Pages\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
 </Project>

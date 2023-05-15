@@ -23,7 +23,8 @@ namespace Server.Models
 
 		public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
 		{
-			Sql = $"SELECT * FROM bruger WHERE rolle = 'frivillig'";
+			// Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
+			Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
 
 			var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
 			return BrugerListe.ToList();
