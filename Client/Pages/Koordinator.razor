@@ -14,102 +14,139 @@
 else
 {
     <!-- Printer alle Frivillige ud-->
-<h1 class="mb-3 mt-3">Alle Frivillige</h1>
- 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>fulde navn</th>
-            <th>email</th>
-            <th>telefon nummer</th>
-            <th>fødselsdag</th>
-            <th>cpr nummer</th>
-            <th>aktiv</th>
-            <th>blacklistet</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var frivillige in FrivilligListe)
-        {
+    <h1 class="mb-3 mt-3">Alle Frivillige</h1>
+
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@frivillige.fulde_navn</td>
-                <td>@frivillige.email</td>
-                <td>@frivillige.telefon_nummer</td>
-                <td>@frivillige.fødselsdag</td>
-                <td>@frivillige.cpr_nummer</td>
-                
-                <!--Skifter det den printer ud med ja og nej istedet for false og true-->
-                @if (frivillige.er_aktiv)
+                <th>fulde navn</th>
+                <th>email</th>
+                <th>telefon nummer</th>
+                <th>fødselsdag</th>
+                <th>cpr nummer</th>
+                <th>aktiv</th>
+                <th>blacklistet</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var frivillige in FrivilligListe)
+            {
+                <tr>
+                    <td>@frivillige.fulde_navn</td>
+                    <td>@frivillige.email</td>
+                    <td>@frivillige.telefon_nummer</td>
+                    <td>@frivillige.fødselsdag</td>
+                    <td>@frivillige.cpr_nummer</td>
+
+                    <!--Skifter det den printer ud med ja og nej istedet for false og true-->
+                    @if (frivillige.er_aktiv)
                     {
                         <td> Ja </td>
-                    } else 
-                    {
-                        <td> Nej </td>
                     }
-                   
-                @if (frivillige.er_blacklistet)
-                    {
-                        <td> Ja </td>
-                    } else 
+                    else
                     {
                         <td> Nej </td>
                     }
 
-            </tr>
-        }
-    </tbody>
-</table>
+                    @if (frivillige.er_blacklistet)
+                    {
+                        <td> Ja </td>
+                    }
+                    else
+                    {
+                        <td> Nej </td>
+                    }
 
-<!-- Printer alle vagter ud-->
-<h1 class="mb-3 mt-3">Alle Vagter</h1>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            
-            <th>Område</th>
-            <th>Antal Personer</th>
-            <th>Beskrivelse</th>
-            <th>Start Tid</th>
-            <th>Slut tid</th>
-            <th>Prioritering</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var vagt in VagtListe)
-        {
+    <!-- Printer alle vagter ud-->
+    <h1 class="mb-3 mt-3">Alle Vagter</h1>
+
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@vagt.område</td>
-                <td>@vagt.antal_personer</td>
-                <td>@vagt.beskrivelse</td>
-                <td>@vagt.start_tid</td>
-                <td>@vagt.slut_tid</td>
-                <td>@vagt.priotering</td>
+
+                <th>Område</th>
+                <th>Antal Personer</th>
+                <th>Beskrivelse</th>
+                <th>Start Tid</th>
+                <th>Slut tid</th>
+                <th>Prioritering</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var vagt in VagtListe)
+            {
+                <tr>
+                    <td>@vagt.område</td>
+                    <td>@vagt.antal_personer</td>
+                    <td>@vagt.beskrivelse</td>
+                    <td>@vagt.start_tid</td>
+                    <td>@vagt.slut_tid</td>
+                    <td>@vagt.priotering</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Printer alle bookinger-->
+    <h1 class="mb-3 mt-3">Bookinger</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+
+                <th>Område</th>
+                <th>Beskrivelse</th>
+                <th>Frivillige</th>
+                <th>Telefon nummer</th>
+                <th>Start Tid</th>
+                <th>Slut tid</th>
+                <th>Prioritering</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in BookingListe)
+            {
+                <tr>
+                    <td>@booking.område</td>
+                    <td>@booking.beskrivelse</td>
+                    <td>@booking.fulde_navn</td>
+                    <td>@booking.telefon_nummer</td>
+                    <td>@booking.start_tid</td>
+                    <td>@booking.slut_tid</td>
+                    <td>@booking.priotering</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }
 
 @code {
-    // Laver liste fra vagt datamodel
-    public List<Vagt> VagtListe = new List<Vagt>();
-
-    [Inject]
-    public IVagtService Service { get; set; }
-
-    // Laver liste fra bruger datamodel og bliver sorteret i query med kun frivillige
+    // Laver en liste med datamodel klasserne fra shared
     public List<Bruger> FrivilligListe = new List<Bruger>();
+    public List<Vagt> VagtListe = new List<Vagt>();
+    public List<Booking> BookingListe = new List<Booking>();
 
+
+    // Injecter metoderne fra services
     [Inject]
+    public IVagtService ServiceVagt { get; set; }
     public IBrugerService ServiceBruger { get; set; }
+    public IBookingService ServiceBooking { get; set; }
+
+
 
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
-        VagtListe = (await Service.HentAlleVagter()).ToList();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
     }
 
 }
