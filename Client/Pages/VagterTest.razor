@@ -1,0 +1,36 @@
+@page "/vagter"
+@using Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject HttpClient Http
+
+<h1>Vagtliste</h1>
+
+@if (VagtListe == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        @foreach (var vagt in VagtListe)
+        {
+            <li>@vagt.antal_personer</li>
+            <li>@vagt.område</li>
+            <li>@vagt.beskrivelse</li>
+        }
+    </table>
+}
+
+@code {
+    public List<Vagt> VagtListe = new List<Vagt>();
+
+    [Inject]
+    public IVagtService Service { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        VagtListe = (await Service.HentAlleVagter()).ToList();
+    }
+}

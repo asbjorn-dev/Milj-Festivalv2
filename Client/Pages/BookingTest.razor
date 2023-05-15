@@ -1,0 +1,36 @@
+@page "/bookinger"
+@using Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject HttpClient Http
+
+<h1>Bookingliste</h1>
+
+@if (BookingListe == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        @foreach (var booking in BookingListe)
+        {
+            <li>@booking.booking_id</li>
+            <li>@booking.</li>
+            <li>@booking.er_låst</li>
+        }
+    </table>
+}
+
+@code {
+    public List<Booking> BookingListe = new List<Booking>();
+
+    [Inject]
+    public IBookingService Service { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BookingListe = (await Service.HentAlleBookinger()).ToList();
+    }
+}

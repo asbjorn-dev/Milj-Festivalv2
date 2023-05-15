@@ -1,0 +1,36 @@
+@page "/frivillige"
+@using Shared
+@using System.Net.Http.Json
+@using Services
+@using System.Globalization
+@inject HttpClient Http
+
+<h1>Liste over frivillige</h1>
+
+@if (FrivilligListe == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        @foreach (var frivillig in FrivilligListe)
+        {
+            <li>@frivillig.fulde_navn</li>
+            <li>@frivillig.cpr_nummer</li>
+            <li>@frivillig.rolle</li>
+        }
+    </table>
+}
+
+@code {
+    public List<Bruger> FrivilligListe = new List<Bruger>();
+
+    [Inject]
+    public IBrugerService Service { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FrivilligListe = (await Service.HentAlleFrivillige()).ToList();
+    }
+}
