@@ -2,7 +2,7 @@
 using Dapper;
 using System.Linq;
 using Npgsql;
-using Shared;
+using MiljøFestivalv2.Shared;
 using System.Diagnostics;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

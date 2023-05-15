@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http.Json;
-using Shared;
+using MiljøFestivalv2.Shared;
 
 
 namespace Client.Services
@@ -16,7 +16,7 @@ namespace Client.Services
         }
         public Task<Booking[]> HentAlleBookinger()
         {
-            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>("https://localhost:7139/api/bookinger/hentallebookinger");
+            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>("https://localhost:7155/api/bookinger/hentallebookinger");
             return Resultat;
         }
     }

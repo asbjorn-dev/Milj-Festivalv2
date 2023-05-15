@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
 using Microsoft.AspNetCore.Cors;
-using Shared;
+using MiljøFestivalv2.Shared;
 using System.Diagnostics;
 
 namespace Server.Controllers

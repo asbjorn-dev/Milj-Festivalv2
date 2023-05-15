@@ -9,7 +9,7 @@ namespace Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddControllers();
             builder.Services.AddSingleton<dBContext>();
             builder.Services.AddSingleton<IBrugerRepository, BrugerRepository>();

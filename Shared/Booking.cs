@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace MiljøFestivalv2.Shared
 {
 	public class Booking
 	{

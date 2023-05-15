@@ -1,5 +1,5 @@
 ﻿using System;
-using Shared;
+using MiljøFestivalv2.Shared;
 
 namespace Client.Services
 {
