@@ -23,8 +23,8 @@ namespace Server.Models
 
         public async Task<IEnumerable<Booking>> HentAlleBookinger()
         {
-            Sql = $"SELECT * FROM booking";
-
+            Sql = $"SELECT booking.booking_id, bruger.fulde_navn, bruger.telefon_nummer, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id;";
+            //teasdsad
             var BookingList = await Context.Connection.QueryAsync<Booking>(Sql);
             return BookingList.ToList();
         }
