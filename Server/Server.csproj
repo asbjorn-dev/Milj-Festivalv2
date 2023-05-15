@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Shareddd\Shareddd.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
+  </ItemGroup>
 </Project>
