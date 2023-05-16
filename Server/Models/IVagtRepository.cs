@@ -6,6 +6,7 @@ namespace Server.Models
 	public interface IVagtRepository
 	{
         Task<IEnumerable<Vagt>> HentAlleVagter();
+        Task DeleteVagt(int vagt_id);
     }
 }
 

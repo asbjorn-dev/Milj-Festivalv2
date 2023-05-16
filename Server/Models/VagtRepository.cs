@@ -28,6 +28,12 @@ namespace Server.Models
             var VagtListe = await Context.Connection.QueryAsync<Vagt>(Sql);
             return VagtListe.ToList();
         }
+
+        public async Task DeleteVagt(int vagt_id)
+        {
+            Sql = $"DELETE FROM vagt WHERE vagt_id = {vagt_id}";
+            await Context.Connection.ExecuteAsync(Sql);
+        }
     }
 }
 

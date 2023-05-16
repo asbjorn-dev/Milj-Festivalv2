@@ -6,6 +6,7 @@ namespace Client.Services
 	public interface IVagtService
 	{
         Task<Vagt[]> HentAlleVagter();
+        Task DeleteVagt(int vagt_id);
     }
 }
 

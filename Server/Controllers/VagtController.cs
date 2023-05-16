@@ -28,6 +28,13 @@ namespace Server.Controllers
         {
             return await VagtReposi.HentAlleVagter();
         }
+
+        [EnableCors("policy")]
+        [HttpDelete("{vagt_id}")]
+        public void DeleteVagt(int vagt_id)
+        {
+            VagtReposi.DeleteVagt(vagt_id);
+        }
     }
 }
 
