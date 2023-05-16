@@ -87,6 +87,9 @@ else
                     <td>@vagt.start_tid</td>
                     <td>@vagt.slut_tid</td>
                     <td>@vagt.priotering</td>
+                     <td>
+                <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
+                </td>
                 </tr>
             }
         </tbody>
@@ -143,14 +146,20 @@ else
     [Inject]
     public IBookingService ServiceBooking { get; set; }
 
-
-
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-       BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+        BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+    }
+
+    // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
+    private async Task DeleteVagt(int vagt_id)
+    {
+        await ServiceVagt.DeleteVagt(vagt_id);
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        StateHasChanged();
     }
 
 }

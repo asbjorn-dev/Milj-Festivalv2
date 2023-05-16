@@ -17,6 +17,11 @@ namespace Client.Services
             var Resultat = HttpClient.GetFromJsonAsync<Vagt[]>("https://localhost:7155/api/vagter/hentallevagter");
             return Resultat;
         }
+        public async Task DeleteVagt(int vagt_id)
+        {
+            await HttpClient.DeleteAsync($"https://localhost:7155/api/vagter/{vagt_id}");
+        }
+
     }
 }
 
