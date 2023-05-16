@@ -3,6 +3,7 @@
 @using System.Net.Http.Json
 @using Client.Services
 @using System.Globalization
+@using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject HttpClient Http
 
@@ -12,50 +13,66 @@
 
 <h3>Register</h3>
 
+<EditForm EditContext="@bEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 <div class="container">
     <div>
         <label>Fulde Navn:</label>
-        <input type="text" @bind="fulde_navn" required />
+        <InputText id="fulde_navn"@bind="bruger.fulde_navn" required />
     </div>
     <div>
         <label>Email:</label>
-        <input type="email" @bind="email" required />
+        <InputText id="email" @bind="bruger.email" required />
     </div>
     <div>
         <label>Telefonnummer:</label>
-        <input type="text" @bind="telefon_nummer" required />
+        <InputText id="telefon_nummer" @bind="bruger.telefon_nummer" required />
     </div>
     <div>
         <label>Fødselsdag:</label>
-        <input type="date" @bind="fødselsdag" required />
+        <input type="date" @bind="bruger.fødselsdag" required />
     </div>
     <div>
         <label>CPR-nummer:</label>
-        <input type="text" @bind="cpr_nummer" required />
+        <InputText id="cpr_nummer" @bind="bruger.cpr_nummer" required />
     </div>
     <div>
         <label>Brugernavn:</label>
-        <input type="text" @bind="brugernavn" required />
+        <InputText id="brugernavn" @bind="bruger.brugernavn" required />
     </div>
     <div>
         <label>Password:</label>
-        <input type="password" @bind="password" required />
+        <InputText id="password" @bind="bruger.password" required />
     </div>
     <button @onclick="Register">Register</button>
     <button @onclick="BackToLogin">Back to Login</button>
 </div>
+</EditForm>
 
 @code {
-    private string fulde_navn;
-    private string email;
-    private int telefon_nummer;
-    private DateTime fødselsdag;
-    private int cpr_nummer;
-    private string brugernavn;
-    private string password;
+    private EditContext bEditContext;
+    Bruger bruger = new Bruger();
+
+    protected override void OnInitialized()
+    {   
+        bEditContext = new EditContext(bruger);
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Implementer registreringslogik her
+        // Eksempelvis kan du validere og gemme brugeroplysningerne i en database
+        // Efter registrering kan du navigere brugeren til en bekræftelsesside eller login-siden
+        NavManager.NavigateTo("/confirmation");
+    }
+
+
+
 
     private void Register()
     {
+        HandleValidSubmit();
         // Implementer registreringslogik her
         // Eksempelvis kan du validere og gemme brugeroplysningerne i en database
         // Efter registrering kan du navigere brugeren til en bekræftelsesside eller login-siden
