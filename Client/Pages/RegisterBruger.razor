@@ -6,39 +6,44 @@
 @inject NavigationManager NavManager
 @inject HttpClient Http
 
+<head>
+    <link href="/register.css" rel="stylesheet" />
+</head>
 
 <h3>Register</h3>
 
-<div>
-    <label>Fulde Navn:</label>
-    <input type="text" @bind="fulde_navn" />
+<div class="container">
+    <div>
+        <label>Fulde Navn:</label>
+        <input type="text" @bind="fulde_navn" required />
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" @bind="email" required />
+    </div>
+    <div>
+        <label>Telefonnummer:</label>
+        <input type="text" @bind="telefon_nummer" required />
+    </div>
+    <div>
+        <label>Fødselsdag:</label>
+        <input type="date" @bind="fødselsdag" required />
+    </div>
+    <div>
+        <label>CPR-nummer:</label>
+        <input type="text" @bind="cpr_nummer" required />
+    </div>
+    <div>
+        <label>Brugernavn:</label>
+        <input type="text" @bind="brugernavn" required />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" @bind="password" required />
+    </div>
+    <button @onclick="Register">Register</button>
+    <button @onclick="BackToLogin">Back to Login</button>
 </div>
-<div>
-    <label>Email:</label>
-    <input type="email" @bind="email" />
-</div>
-<div>
-    <label>Telefonnummer:</label>
-    <input type="text" @bind="telefon_nummer" />
-</div>
-<div>
-    <label>Fødselsdag:</label>
-    <input type="date" @bind="fødselsdag" />
-</div>
-<div>
-    <label>CPR-nummer:</label>
-    <input type="text" @bind="cpr_nummer" />
-</div>
-<div>
-    <label>Brugernavn:</label>
-    <input type="text" @bind="brugernavn" />
-</div>
-<div>
-    <label>Password:</label>
-    <input type="password" @bind="password" />
-</div>
-<button @onclick="Register">Register</button>
-<button @onclick="BackToLogin">Back to Login</button>
 
 @code {
     private string fulde_navn;

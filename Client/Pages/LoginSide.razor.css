@@ -1,0 +1,82 @@
+﻿/* login.css */
+
+/* Reset default styles */
+body,
+h3,
+div,
+label,
+input,
+button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 400px;
+    padding: 20px;
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto; /* Center horizontally */
+    color: white; /* Set text color to white */
+}
+
+h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.centerpage {
+    display: grid; /* Use CSS Grid layout */
+    place-items: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="email"],
+input[type="password"] {
+    margin-bottom: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Make inputs expand to full width */
+    color: #000; /* Set input text color to black */
+}
+
+button {
+    padding: 10px 16px;
+    background-color: transparent; /* Set buttons background color to transparent */
+    color: #fff;
+    border: 1px solid #fff; /* Set buttons border color to white */
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%; /* Make buttons expand to full width */
+    transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Set buttons background color on hover */
+    }
+
+    button:active {
+        background-color: rgba(255, 255, 255, 0.3); /* Set buttons background color on active */
+    }

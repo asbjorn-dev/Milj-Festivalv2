@@ -6,19 +6,30 @@
 @inject NavigationManager NavManager
 @inject HttpClient Http
 
+<head>
+    <link href="/login.css" rel="stylesheet" />
+</head>
+
 
 <h3>Login</h3>
+<div class="centerpage">
+    <div class="container">
+        <div class="form-container">
+            <div>
+                <label>Email:  </label>
+                <input type="email" @bind="email" />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" @bind="password" />
+            </div>
+            <button @onclick="Login">Login</button>
+            <button @onclick="Register">Register</button>
+        </div>
+    </div>
+</div>
 
-<div>
-    <label>Email:</label>
-    <input type="email" @bind="email" />
-</div>
-<div>
-    <label>Password:</label>
-    <input type="password" @bind="password" />
-</div>
-<button @onclick="Login">Login</button>
-<button @onclick="Register">Register</button>
+
 
 @code {
     private string email;

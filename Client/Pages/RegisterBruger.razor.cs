@@ -5,12 +5,13 @@ namespace Client.Pages
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage = "Email er påkrævet")]
-        [EmailAddress(ErrorMessage = "Ugyldig email-adresse")]
-
         
        
         public string fulde_navn { get; set; }
+
+
+        [Required(ErrorMessage = "Email er påkrævet")]
+        [EmailAddress(ErrorMessage = "Ugyldig email-adresse")]
         public string email { get; set; }
         public int telefon_nummer { get; set; }
         public DateTime fødselsdag { get; set; }
