@@ -19,5 +19,10 @@ namespace Client.Services
             var Resultat = HttpClient.GetFromJsonAsync<Bruger[]>("https://localhost:7155/api/brugere/hentallefrivillige");
             return Resultat;
         }
+
+        public async Task TilføjBruger(Bruger bruger)
+        {
+            await HttpClient.PostAsJsonAsync($"https://localhost:7155/api/brugere/tilfoejfrivillig", bruger);
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace Client.Services
     public interface IBrugerService 
     {
         Task<Bruger[]> HentAlleFrivillige();
+        Task TilføjBruger(Bruger bruger);
     }
 }

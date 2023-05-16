@@ -19,33 +19,33 @@
 <div class="container">
     <div>
         <label>Fulde Navn:</label>
-        <InputText id="fulde_navn"@bind="bruger.fulde_navn" required />
+        <input type ="text" @bind="bruger.fulde_navn" required />
     </div>
     <div>
         <label>Email:</label>
-        <InputText id="email" @bind="bruger.email" required />
+        <input type ="text" @bind="bruger.email" required />
     </div>
     <div>
         <label>Telefonnummer:</label>
-        <InputText id="telefon_nummer" @bind="bruger.telefon_nummer" required />
+        <input type ="text" @bind="bruger.telefon_nummer" required />
     </div>
     <div>
         <label>Fødselsdag:</label>
-        <input type="date" @bind="bruger.fødselsdag" required />
+        <input type="datetime" @bind="bruger.fødselsdag" required />
     </div>
     <div>
         <label>CPR-nummer:</label>
-        <InputText id="cpr_nummer" @bind="bruger.cpr_nummer" required />
+        <input type ="text" @bind="bruger.cpr_nummer" required />
     </div>
     <div>
         <label>Brugernavn:</label>
-        <InputText id="brugernavn" @bind="bruger.brugernavn" required />
+        <input type ="text" @bind="bruger.brugernavn" required />
     </div>
     <div>
         <label>Password:</label>
-        <InputText id="password" @bind="bruger.password" required />
+        <input type ="text" @bind="bruger.password" required />
     </div>
-    <button @onclick="Register">Register</button>
+    <button type="submit">Register</button>
     <button @onclick="BackToLogin">Back to Login</button>
 </div>
 </EditForm>
@@ -54,28 +54,17 @@
     private EditContext bEditContext;
     Bruger bruger = new Bruger();
 
+    [Inject]
+    public IBrugerService BrugerService {get; set;}
+
     protected override void OnInitialized()
     {   
         bEditContext = new EditContext(bruger);
     }
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Implementer registreringslogik her
-        // Eksempelvis kan du validere og gemme brugeroplysningerne i en database
-        // Efter registrering kan du navigere brugeren til en bekræftelsesside eller login-siden
-        NavManager.NavigateTo("/confirmation");
-    }
-
-
-
-
-    private void Register()
-    {
-        HandleValidSubmit();
-        // Implementer registreringslogik her
-        // Eksempelvis kan du validere og gemme brugeroplysningerne i en database
-        // Efter registrering kan du navigere brugeren til en bekræftelsesside eller login-siden
+        await BrugerService.TilføjBruger(bruger);
         NavManager.NavigateTo("/confirmation");
     }
 

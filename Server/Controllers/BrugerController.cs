@@ -28,6 +28,13 @@ namespace Server.Controllers
         {
             return await FrivilligRepo.HentAlleFrivillige();
         }
+
+        [EnableCors("policy")]
+        [HttpPost("tilfoejfrivillig")]
+        public async Task TilføjFrivillig(Bruger bruger)
+        {
+           await FrivilligRepo.TilføjFrivillig(bruger);
+        }
     }
 }
 

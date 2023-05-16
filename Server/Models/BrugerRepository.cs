@@ -29,7 +29,30 @@ namespace Server.Models
 			var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
 			return BrugerListe.ToList();
 		}
-	}
+
+        public async Task TilføjFrivillig(Bruger bruger)
+        {
+            Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr(@cpr_nummer, 'furkan'), @rolle, @er_aktiv, @er_blacklistet)";
+
+            var parametre = new
+            {
+                fulde_navn = bruger.fulde_navn,
+                email = bruger.email,
+                telefon_nummer = bruger.telefon_nummer,
+                fødselsdag = bruger.fødselsdag,
+                brugernavn = bruger.brugernavn,
+                password = bruger.password,
+                cpr_nummer = bruger.cpr_nummer,
+                rolle = "frivillig", // Default value
+                er_aktiv = true, // Default value
+                er_blacklistet = false // Default value
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, parametre);
+        }
+
+
+    }
 }
 
 
