@@ -153,10 +153,12 @@ else
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
     }
+
+    // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
     private async Task DeleteVagt(int vagt_id)
     {
         await ServiceVagt.DeleteVagt(vagt_id);
-        OnInitializedAsync();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         StateHasChanged();
     }
 

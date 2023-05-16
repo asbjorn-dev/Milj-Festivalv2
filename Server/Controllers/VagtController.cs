@@ -31,9 +31,9 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         [HttpDelete("{vagt_id}")]
-        public void DeleteVagt(int vagt_id)
+        public async Task DeleteVagt(int vagt_id)
         {
-            VagtReposi.DeleteVagt(vagt_id);
+           await VagtReposi.DeleteVagt(vagt_id);
         }
     }
 }

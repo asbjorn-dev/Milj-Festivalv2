@@ -29,6 +29,7 @@ namespace Server.Models
             return VagtListe.ToList();
         }
 
+        // Sletter en enkelt vagt fra databasen ved hjælp af vagt_id
         public async Task DeleteVagt(int vagt_id)
         {
             Sql = $"DELETE FROM vagt WHERE vagt_id = {vagt_id}";
