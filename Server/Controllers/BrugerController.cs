@@ -37,13 +37,12 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
-        [HttpPost("login")]
-        public async Task<Login> Login(Login logininfo)
+        [HttpGet("login/{brugernavn}/{password}")]
+        public Login Login(string brugernavn, string password)
         {
-            return await FrivilligRepo.HentBrugerMedBrugernavnOgPassword(logininfo.Brugernavn, logininfo.Password);
+            return FrivilligRepo.HentBrugerMedBrugernavnOgPassword(brugernavn, password);
 
         }
-
 
     }
 }

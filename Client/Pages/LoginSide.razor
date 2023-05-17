@@ -41,11 +41,11 @@
     [Inject]
     public IBrugerService LoginService { get; set; }
 
-    private async Task LoginKnap()
+     private async Task LoginKnap()
     {
         var loggedInBruger = await LoginService.Login(Brugerinfo);
 
-        if (loggedInBruger != null)
+        if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
         {
             // Hvis rolle på bruger er "koordinator", redirect til /koordinator 
             if (loggedInBruger.Rolle == "koordinator")
@@ -58,12 +58,13 @@
                 NavManager.NavigateTo("/frivillig");
             }
         }
-        else
+        else if (loggedInBruger.Brugernavn == "FEJL")
         {
             UsynligTilSynlig = "visible";
             Console.WriteLine("Login fejlede");
         }
     }
+   
 
     private void Register()
     {

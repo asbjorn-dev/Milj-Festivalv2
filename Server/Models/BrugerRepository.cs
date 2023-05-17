@@ -10,24 +10,24 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Models
 {
-	public class BrugerRepository : IBrugerRepository
-	{
-		private string Sql = "";
+    public class BrugerRepository : IBrugerRepository
+    {
+        private string Sql = "";
 
-		private dBContext Context;
+        private dBContext Context;
 
-		public BrugerRepository(dBContext context)
+        public BrugerRepository(dBContext context)
         {
             this.Context = context;
         }
 
-		public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
-		{
-			// Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
-			Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
+        public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
+        {
+            // Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
+            Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
             var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
-			return BrugerListe.ToList();
-		}
+            return BrugerListe.ToList();
+        }
 
         public async Task TilføjFrivillig(Bruger bruger)
         {
@@ -51,24 +51,24 @@ namespace Server.Models
         }
 
         //login funktion
-        public async Task<Login> HentBrugerMedBrugernavnOgPassword(string Brugernavn, string Password)
+        public Login HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
         {
             var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
 
             var parametre = new
             {
-                Brugernavn = Brugernavn,
-                Password = Password,
- 
+                Brugernavn = brugernavn,
+                Password = password
+
             };
-
-            return await Context.Connection.QuerySingleOrDefaultAsync<Login>(sql, parametre);
+            var bruger = Context.Connection.QuerySingleOrDefault<Login>(sql, parametre);
+            if(bruger == null)
+            {
+                return new Login { Brugernavn = "FEJL", Rolle = "FEJL" };
+                
+            }
+            else return bruger;
         }
-
-
-
-
-
     }
 }
 

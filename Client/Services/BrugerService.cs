@@ -27,16 +27,8 @@ namespace Client.Services
 
         public async Task<Login> Login(Login brugerinfo)
         {
-            var Resultat = await HttpClient.PostAsJsonAsync<Login>("https://localhost:7155/api/brugere/login", brugerinfo);
-            if (Resultat.IsSuccessStatusCode)
-            {
-                return await Resultat.Content.ReadFromJsonAsync<Login>();
-            }
-            else
-            {
-                Console.WriteLine("Forkerte brugeroplysninger");
-                return null;
-            }
+            return await HttpClient.GetFromJsonAsync<Login>($"https://localhost:7155/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
+           
         }
     }
 }
