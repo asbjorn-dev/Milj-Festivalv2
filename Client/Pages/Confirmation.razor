@@ -1,0 +1,35 @@
+﻿@page "/confirmation"
+@using MiljøFestivalv2.Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject NavigationManager NavManager
+@inject HttpClient Http
+
+    <head>
+        <link href="/confirmation.css" rel="stylesheet" />
+    </head>
+
+    <div class="container">
+
+        <h3>Confirmation</h3>
+
+        <p>Du har nu oprettet dig!</p>
+
+        <button @onclick="BackToLogin">Tilbage til loginside</button>
+
+        </div>
+
+        @code {
+
+            private void BackToLogin()
+            {
+                NavManager.NavigateTo("/login");
+            }
+        }
+
+
+
+
+
+
