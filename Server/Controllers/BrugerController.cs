@@ -31,10 +31,20 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         [HttpPost("tilfoejfrivillig")]
-        public async Task TilføjFrivillig(Bruger bruger)
+        public async Task TilføjFrivillig(Bruger Bruger)
         {
-           await FrivilligRepo.TilføjFrivillig(bruger);
+           await FrivilligRepo.TilføjFrivillig(Bruger);
         }
+
+        [EnableCors("policy")]
+        [HttpPost("login")]
+        public async Task<Login> Login(Login logininfo)
+        {
+            return await FrivilligRepo.HentBrugerMedBrugernavnOgPassword(logininfo.Brugernavn, logininfo.Password);
+
+        }
+
+
     }
 }
 

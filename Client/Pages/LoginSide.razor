@@ -18,14 +18,15 @@
         <div class="form-container">
             <div>
                 <label>Email:  </label>
-                <input type="email" @bind="email" />
+                <input type="email" @bind="Brugerinfo.Brugernavn" />
             </div>
             <div>
                 <label>Password:</label>
-                <input type="password" @bind="password" />
+                <input type="password" @bind="Brugerinfo.Password" />
             </div>
-            <button @onclick="Login">Login</button>
+            <button @onclick="LoginKnap">Login</button>
             <button @onclick="Register">Register</button>
+            <h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
         </div>
     </div>
 </div>
@@ -33,19 +34,41 @@
 
 
 @code {
-    private string email;
-    private string password;
+    public string UsynligTilSynlig = "hidden";
 
-    private void Login()
+    Login Brugerinfo = new();
+
+    [Inject]
+    public IBrugerService LoginService { get; set; }
+
+    private async Task LoginKnap()
     {
-        // Implementer login-logik her
-        // Eksempelvis kan du tjekke email og password mod en database eller anden form for autentificering
-        // Hvis login er succesfuldt, kan du navigere brugeren til en anden side  (ref til 2 forskellige sider: frivillig og koordinator med if statement)
-        // NavManager.NavigateTo("/dashboard");
+        var loggedInBruger = await LoginService.Login(Brugerinfo);
+
+        if (loggedInBruger != null)
+        {
+            // Hvis rolle på bruger er "koordinator", redirect til /koordinator 
+            if (loggedInBruger.Rolle == "koordinator")
+            {
+                NavManager.NavigateTo("/koordinator");
+            }
+            // Hvis rolle på bruger er "frivillig", redirect til /frivillig
+            else if (loggedInBruger.Rolle == "frivillig")
+            {
+                NavManager.NavigateTo("/frivillig");
+            }
+        }
+        else
+        {
+            UsynligTilSynlig = "visible";
+            Console.WriteLine("Login fejlede");
+        }
     }
 
     private void Register()
     {
         NavManager.NavigateTo("/register");
     }
+
+    
 }
