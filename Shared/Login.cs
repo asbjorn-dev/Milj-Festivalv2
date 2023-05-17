@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
-    internal class Login
+    public class Login
     {
+       public string brugernavn { get; set; }
+       public string password { get; set; }
     }
 }
