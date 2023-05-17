@@ -24,16 +24,16 @@ namespace Server.Models
 		public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
 		{
 			// Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
-			//Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
-            Sql = $"SELECT bruger_id, fulde_navn, email, rolle, telefon_nummer, fødselsdag, brugernavn, cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
+			Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
+            // Sql = $"SELECT bruger_id, fulde_navn, email, rolle, telefon_nummer, fødselsdag, brugernavn, cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
             var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
 			return BrugerListe.ToList();
 		}
 
         public async Task TilføjFrivillig(Bruger bruger)
         {
-           // Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr(@cpr_nummer, 'furkan'), @rolle, @er_aktiv, @er_blacklistet)";
-            Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, @cpr_nummer, @rolle, @er_aktiv, @er_blacklistet)";
+            Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr_nummer(@cpr_nummer), @rolle, @er_aktiv, @er_blacklistet)";
+
             var parametre = new
             {
                 fulde_navn = bruger.fulde_navn,
@@ -50,6 +50,7 @@ namespace Server.Models
 
             await Context.Connection.ExecuteAsync(Sql, parametre);
         }
+
 
 
     }
