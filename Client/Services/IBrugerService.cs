@@ -7,6 +7,6 @@ namespace Client.Services
     {
         Task<Bruger[]> HentAlleFrivillige();
         Task TilføjBruger(Bruger bruger);
-        Task<Bruger> Login(Bruger bruger);
+        Task<Login> Login(Login brugerinfo);
     }
 }

@@ -7,7 +7,7 @@ namespace Server.Models
 	{
 		Task<IEnumerable<Bruger>> HentAlleFrivillige();
 		Task TilføjFrivillig(Bruger bruger);
-		Task<Bruger> HentBrugerMedBrugernavnOgPassword(string brugernavn, string password);
+		Task<Login> HentBrugerMedBrugernavnOgPassword(string Brugernavn, string Password);
     }
 }
 

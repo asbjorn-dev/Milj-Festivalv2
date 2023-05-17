@@ -6,7 +6,7 @@ using MiljøFestivalv2.Shared;
 using System.Diagnostics;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Models
 {
@@ -51,17 +51,18 @@ namespace Server.Models
         }
 
         //login funktion
-        public async Task<Bruger> HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
+        public async Task<Login> HentBrugerMedBrugernavnOgPassword(string Brugernavn, string Password)
         {
             var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
 
             var parametre = new
             {
-                Brugernavn = brugernavn,
-                Password = password
+                Brugernavn = Brugernavn,
+                Password = Password,
+ 
             };
 
-            return await Context.Connection.QuerySingleOrDefaultAsync<Bruger>(sql, parametre);
+            return await Context.Connection.QuerySingleOrDefaultAsync<Login>(sql, parametre);
         }
 
 

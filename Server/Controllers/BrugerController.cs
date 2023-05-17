@@ -38,9 +38,9 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         [HttpPost("login")]
-        public async Task<Bruger> Login(Bruger Bruger)
+        public async Task<Login> Login(Login logininfo)
         {
-            return await FrivilligRepo.HentBrugerMedBrugernavnOgPassword(Bruger.brugernavn, Bruger.password);
+            return await FrivilligRepo.HentBrugerMedBrugernavnOgPassword(logininfo.Brugernavn, logininfo.Password);
 
         }
 

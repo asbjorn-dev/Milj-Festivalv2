@@ -18,14 +18,15 @@
         <div class="form-container">
             <div>
                 <label>Email:  </label>
-                <input type="email" @bind="Bruger.brugernavn" />
+                <input type="email" @bind="Brugerinfo.Brugernavn" />
             </div>
             <div>
                 <label>Password:</label>
-                <input type="password" @bind="Bruger.password" />
+                <input type="password" @bind="Brugerinfo.Password" />
             </div>
-            <button @onclick="Login">Login</button>
+            <button @onclick="LoginKnap">Login</button>
             <button @onclick="Register">Register</button>
+            <h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
         </div>
     </div>
 </div>
@@ -33,30 +34,33 @@
 
 
 @code {
-    Bruger Bruger = new();
+    public string UsynligTilSynlig = "hidden";
+
+    Login Brugerinfo = new();
 
     [Inject]
-    public IBrugerService BrugerService { get; set; }
+    public IBrugerService LoginService { get; set; }
 
-    private async Task Login()
+    private async Task LoginKnap()
     {
-        var loggedInBruger = await BrugerService.Login(Bruger);
+        var loggedInBruger = await LoginService.Login(Brugerinfo);
 
         if (loggedInBruger != null)
         {
-            // If the role of the user is "koordinator", redirect to koordinator dashboard
-            if (loggedInBruger.rolle == "koordinator")
+            // Hvis rolle på bruger er "koordinator", redirect til /koordinator 
+            if (loggedInBruger.Rolle == "koordinator")
             {
                 NavManager.NavigateTo("/koordinator");
             }
-            // If the role of the user is "frivillig", redirect to frivillig dashboard
-            else if (loggedInBruger.rolle == "frivillig")
+            // Hvis rolle på bruger er "frivillig", redirect til /frivillig
+            else if (loggedInBruger.Rolle == "frivillig")
             {
                 NavManager.NavigateTo("/frivillig");
             }
         }
         else
         {
+            UsynligTilSynlig = "visible";
             Console.WriteLine("Login fejlede");
         }
     }
@@ -66,4 +70,5 @@
         NavManager.NavigateTo("/register");
     }
 
+    
 }

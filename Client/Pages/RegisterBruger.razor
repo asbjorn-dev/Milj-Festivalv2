@@ -4,6 +4,7 @@
 @using Client.Services
 @using System.Globalization
 @using Microsoft.AspNetCore.Components.Forms
+@using System.Globalization
 @inject NavigationManager NavManager
 @inject HttpClient Http
 
@@ -19,31 +20,31 @@
 <div class="container">
     <div>
         <label>Fulde Navn:</label>
-        <input type ="text" @bind="bruger.fulde_navn" required />
+        <InputText id="fulde_navn" @bind-Value="bruger.fulde_navn" required />
     </div>
     <div>
         <label>Email:</label>
-        <input type ="text" @bind="bruger.email" required />
+        <InputText id ="email" @bind-Value="bruger.email" required />
     </div>
     <div>
         <label>Telefonnummer:</label>
-        <input type ="number" @bind="bruger.telefon_nummer" required />
+        <InputNumber id ="telefon_nummer" @bind-Value="bruger.telefon_nummer" required />
     </div>
     <div>
         <label>Fødselsdag:</label>
-        <input type="datetime" @bind="bruger.fødselsdag" required />
+        <InputDate id="fødseldag" @bind-Value="bruger.fødselsdag" required />
     </div>
     <div>
         <label>CPR-nummer:</label>
-        <input type ="text" @bind="bruger.cpr_nummer" required />
+        <InputText id ="cpr_number" @bind-Value="bruger.cpr_nummer" required />
     </div>
     <div>
         <label>Brugernavn:</label>
-        <input type ="text" @bind="bruger.brugernavn" required />
+        <InputText id ="brugernavn" @bind-Value="bruger.brugernavn" required />
     </div>
     <div>
         <label>Password:</label>
-        <input type ="text" @bind="bruger.password" required />
+        <InputText id ="password" @bind-Value="bruger.password" required />
     </div>
     <button type="submit">Register</button>
     <button @onclick="BackToLogin">Back to Login</button>
@@ -53,7 +54,7 @@
 @code {
     private EditContext bEditContext;
     Bruger bruger = new Bruger();
-
+    
     [Inject]
     public IBrugerService BrugerService {get; set;}
 

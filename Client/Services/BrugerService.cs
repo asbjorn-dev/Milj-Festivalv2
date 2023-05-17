@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http.Json;
+using System.Security.Cryptography.X509Certificates;
 using MiljøFestivalv2.Shared;
-
 
 namespace Client.Services
 {
@@ -25,12 +25,12 @@ namespace Client.Services
             await HttpClient.PostAsJsonAsync($"https://localhost:7155/api/brugere/tilfoejfrivillig", bruger);
         }
 
-        public async Task<Bruger> Login(Bruger bruger)
+        public async Task<Login> Login(Login brugerinfo)
         {
-            var Resultat = await HttpClient.PostAsJsonAsync<Bruger>("https://localhost:7155/api/brugere/login", bruger);
+            var Resultat = await HttpClient.PostAsJsonAsync<Login>("https://localhost:7155/api/brugere/login", brugerinfo);
             if (Resultat.IsSuccessStatusCode)
             {
-                return await Resultat.Content.ReadFromJsonAsync<Bruger>();
+                return await Resultat.Content.ReadFromJsonAsync<Login>();
             }
             else
             {
