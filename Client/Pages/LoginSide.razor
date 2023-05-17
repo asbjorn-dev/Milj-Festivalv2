@@ -18,11 +18,11 @@
         <div class="form-container">
             <div>
                 <label>Email:  </label>
-                <input type="email" @bind="email" />
+                <input type="email" @bind="Bruger.brugernavn" />
             </div>
             <div>
                 <label>Password:</label>
-                <input type="password" @bind="password" />
+                <input type="password" @bind="Bruger.password" />
             </div>
             <button @onclick="Login">Login</button>
             <button @onclick="Register">Register</button>
@@ -33,19 +33,37 @@
 
 
 @code {
-    private string email;
-    private string password;
+    Bruger Bruger = new();
 
-    private void Login()
+    [Inject]
+    public IBrugerService BrugerService { get; set; }
+
+    private async Task Login()
     {
-        // Implementer login-logik her
-        // Eksempelvis kan du tjekke email og password mod en database eller anden form for autentificering
-        // Hvis login er succesfuldt, kan du navigere brugeren til en anden side  (ref til 2 forskellige sider: frivillig og koordinator med if statement)
-        // NavManager.NavigateTo("/dashboard");
+        var loggedInBruger = await BrugerService.Login(Bruger);
+
+        if (loggedInBruger != null)
+        {
+            // If the role of the user is "koordinator", redirect to koordinator dashboard
+            if (loggedInBruger.rolle == "koordinator")
+            {
+                NavManager.NavigateTo("/koordinator");
+            }
+            // If the role of the user is "frivillig", redirect to frivillig dashboard
+            else if (loggedInBruger.rolle == "frivillig")
+            {
+                NavManager.NavigateTo("/frivillig");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Login fejlede");
+        }
     }
 
     private void Register()
     {
         NavManager.NavigateTo("/register");
     }
+
 }

@@ -24,5 +24,19 @@ namespace Client.Services
         {
             await HttpClient.PostAsJsonAsync($"https://localhost:7155/api/brugere/tilfoejfrivillig", bruger);
         }
+
+        public async Task<Bruger> Login(Bruger bruger)
+        {
+            var Resultat = await HttpClient.PostAsJsonAsync<Bruger>("https://localhost:7155/api/brugere/login", bruger);
+            if (Resultat.IsSuccessStatusCode)
+            {
+                return await Resultat.Content.ReadFromJsonAsync<Bruger>();
+            }
+            else
+            {
+                Console.WriteLine("Forkerte brugeroplysninger");
+                return null;
+            }
+        }
     }
 }

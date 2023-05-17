@@ -25,7 +25,6 @@ namespace Server.Models
 		{
 			// Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
 			Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
-            // Sql = $"SELECT bruger_id, fulde_navn, email, rolle, telefon_nummer, fødselsdag, brugernavn, cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
             var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
 			return BrugerListe.ToList();
 		}
@@ -34,7 +33,7 @@ namespace Server.Models
         {
             Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr_nummer(@cpr_nummer), @rolle, @er_aktiv, @er_blacklistet)";
 
-            var parametre = new
+            var Parametre = new
             {
                 fulde_navn = bruger.fulde_navn,
                 email = bruger.email,
@@ -48,8 +47,24 @@ namespace Server.Models
                 er_blacklistet = false // Default value
             };
 
-            await Context.Connection.ExecuteAsync(Sql, parametre);
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
+
+        //login funktion
+        public async Task<Bruger> HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
+        {
+            var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
+
+            var parametre = new
+            {
+                Brugernavn = brugernavn,
+                Password = password
+            };
+
+            return await Context.Connection.QuerySingleOrDefaultAsync<Bruger>(sql, parametre);
+        }
+
+
 
 
 
