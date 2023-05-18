@@ -31,7 +31,7 @@
     </div>
     <div>
         <label>Fødselsdag:</label>
-        <input type="datetime" @bind="bruger.fødselsdag" required />
+        <input type="date" @bind="bruger.fødselsdag" required />
     </div>
     <div>
         <label>CPR-nummer:</label>
@@ -54,6 +54,7 @@
     private EditContext bEditContext;
     Bruger bruger = new Bruger();
 
+
     [Inject]
     public IBrugerService BrugerService {get; set;}
 
@@ -66,6 +67,11 @@
     {
         await BrugerService.TilføjBruger(bruger);
         NavManager.NavigateTo("/confirmation");
+    }
+
+    private void HåndterFødselsdag(DateOnly NyDato)
+    {
+        bruger.fødselsdag = NyDato.ToDateTime(TimeOnly.MinValue);
     }
 
     private void BackToLogin()
