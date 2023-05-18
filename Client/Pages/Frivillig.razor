@@ -1,0 +1,55 @@
+﻿@page "/frivillig"
+@using MiljøFestivalv2.Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject HttpClient Http
+
+<!-- Printer alle vagter ud-->
+<h1 class="mb-3 mt-3">Alle Vagter</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+            <th>Område</th>
+            <th>Antal Personer</th>
+            <th>Beskrivelse</th>
+            <th>Start Tid</th>
+            <th>Slut tid</th>
+            <th>Prioritering</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vagt in VagtListe)
+        {
+            <tr>
+                <td>@vagt.område</td>
+                <td>@vagt.antal_personer</td>
+                <td>@vagt.beskrivelse</td>
+                <td>@vagt.start_tid</td>
+                <td>@vagt.slut_tid</td>
+                <td>@vagt.priotering</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    // Laver en liste med datamodel klasserne fra shared
+    public List<Vagt> VagtListe = new List<Vagt>();
+
+
+    // Injecter metoderne fra services
+    [Inject]
+    public IVagtService ServiceVagt { get; set; }
+
+    // På initialized henter vagter og brugere
+    protected override async Task OnInitializedAsync()
+    {
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+    }
+}
+

@@ -6,35 +6,34 @@ using MiljøFestivalv2.Shared;
 using System.Diagnostics;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Models
 {
-	public class BrugerRepository : IBrugerRepository
-	{
-		private string Sql = "";
+    public class BrugerRepository : IBrugerRepository
+    {
+        private string Sql = "";
 
-		private dBContext Context;
+        private dBContext Context;
 
-		public BrugerRepository(dBContext context)
+        public BrugerRepository(dBContext context)
         {
             this.Context = context;
         }
 
-		public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
-		{
-			// Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
-			//Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
-            Sql = $"SELECT bruger_id, fulde_navn, email, rolle, telefon_nummer, fødselsdag, brugernavn, cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
+        public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
+        {
+            // Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
+            Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
             var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
-			return BrugerListe.ToList();
-		}
+            return BrugerListe.ToList();
+        }
 
         public async Task TilføjFrivillig(Bruger bruger)
         {
-           // Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr(@cpr_nummer, 'furkan'), @rolle, @er_aktiv, @er_blacklistet)";
-            Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, @cpr_nummer, @rolle, @er_aktiv, @er_blacklistet)";
-            var parametre = new
+            Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr_nummer(@cpr_nummer), @rolle, @er_aktiv, @er_blacklistet)";
+
+            var Parametre = new
             {
                 fulde_navn = bruger.fulde_navn,
                 email = bruger.email,
@@ -48,10 +47,28 @@ namespace Server.Models
                 er_blacklistet = false // Default value
             };
 
-            await Context.Connection.ExecuteAsync(Sql, parametre);
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
+        //login funktion
+        public Login HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
+        {
+            var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
 
+            var parametre = new
+            {
+                Brugernavn = brugernavn,
+                Password = password
+
+            };
+            var bruger = Context.Connection.QuerySingleOrDefault<Login>(sql, parametre);
+            if(bruger == null)
+            {
+                return new Login { Brugernavn = "FEJL", Rolle = "FEJL" };
+                
+            }
+            else return bruger;
+        }
     }
 }
 

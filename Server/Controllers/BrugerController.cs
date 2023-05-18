@@ -31,10 +31,19 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         [HttpPost("tilfoejfrivillig")]
-        public async Task TilføjFrivillig(Bruger bruger)
+        public async Task TilføjFrivillig(Bruger Bruger)
         {
-           await FrivilligRepo.TilføjFrivillig(bruger);
+           await FrivilligRepo.TilføjFrivillig(Bruger);
         }
+
+        [EnableCors("policy")]
+        [HttpGet("login/{brugernavn}/{password}")]
+        public Login Login(string brugernavn, string password)
+        {
+            return FrivilligRepo.HentBrugerMedBrugernavnOgPassword(brugernavn, password);
+
+        }
+
     }
 }
 
