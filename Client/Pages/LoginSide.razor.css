@@ -1,12 +1,6 @@
-﻿/* login.css */
-
+﻿@@ -1,82 +0,0 @@ ﻿ /* login.css */
 /* Reset default styles */
-body,
-h3,
-div,
-label,
-input,
-button {
+body, h3, div, label, input, button {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

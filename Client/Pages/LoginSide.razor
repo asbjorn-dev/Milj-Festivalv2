@@ -7,69 +7,70 @@
 @inject NavigationManager NavManager
 @inject HttpClient Http
 
-<head>
-    <link href="/login.css" rel="stylesheet" />
-</head>
-
-
 <h3>Login</h3>
-<div class="centerpage">
-    <div class="container">
-        <div class="form-container">
-            <div>
-                <label>Brugernavn:  </label>
-                <input type="email" @bind="Brugerinfo.Brugernavn" />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" @bind="Brugerinfo.Password" />
-            </div>
-            <button @onclick="LoginKnap">Login</button>
-            <button @onclick="Register">Register</button>
-            <h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
-        </div>
-    </div>
-</div>
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="container">
+		<div>
+			<label>Brugernavn:  </label>
+			<InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
+		</div>
+		<div>
+			<label>Password:</label>
+			<InputText id="Password" @bind-Value="Brugerinfo.Password" />
+		</div>
+		<button type="submit">Login</button>
+		<button @onclick="Register">Register</button>
+		<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
+	</div>
+</EditForm>
 
 
 
 @code {
-    public string UsynligTilSynlig = "hidden";
+	public string UsynligTilSynlig = "hidden";
 
-    Login Brugerinfo = new();
+	Login Brugerinfo = new();
+	private EditContext aEditContext;
 
-    [Inject]
-    public IBrugerService LoginService { get; set; }
+	[Inject]
+	public IBrugerService LoginService { get; set; }
 
-     private async Task LoginKnap()
-    {
-        var loggedInBruger = await LoginService.Login(Brugerinfo);
+	protected override void OnInitialized()
+	{
+		aEditContext = new EditContext(Brugerinfo);
+	}
 
-        if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
-        {
-            // Hvis rolle på bruger er "koordinator", redirect til /koordinator 
-            if (loggedInBruger.Rolle == "koordinator")
-            {
-                NavManager.NavigateTo("/koordinator");
-            }
-            // Hvis rolle på bruger er "frivillig", redirect til /frivillig
-            else if (loggedInBruger.Rolle == "frivillig")
-            {
-                NavManager.NavigateTo("/frivillig");
-            }
-        }
-        else if (loggedInBruger.Brugernavn == "FEJL")
-        {
-            UsynligTilSynlig = "visible";
-            Console.WriteLine("Login fejlede");
-        }
-    }
-   
+	private async Task HandleValidSubmit()
+	{
+		var loggedInBruger = await LoginService.Login(Brugerinfo);
 
-    private void Register()
-    {
-        NavManager.NavigateTo("/register");
-    }
+		if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
+		{
+			// Hvis rolle på bruger er "koordinator", redirect til /koordinator
+			if (loggedInBruger.Rolle == "koordinator")
+			{
+				NavManager.NavigateTo("/koordinator");
+			}
+			// Hvis rolle på bruger er "frivillig", redirect til /frivillig
+			else if (loggedInBruger.Rolle == "frivillig")
+			{
+				NavManager.NavigateTo("/frivillig");
+			}
+		}
+		else if (loggedInBruger.Brugernavn == "FEJL")
+		{
+			UsynligTilSynlig = "visible";
+			Console.WriteLine("Login fejlede");
+		}
+	}
 
-    
+
+	private void Register()
+	{
+		NavManager.NavigateTo("/register");
+	}
+
+
 }
