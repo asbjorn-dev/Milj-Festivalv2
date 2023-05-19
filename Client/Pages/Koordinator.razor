@@ -41,20 +41,20 @@ else
                     <!--Skifter det den printer ud med ja og nej istedet for false og true-->
                     @if (frivillige.er_aktiv)
                     {
-                        <td> Ja </td>
+                        <td> Ja <button @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Toggle Aktiv</button> </td>
                     }
                     else
                     {
-                        <td> Nej </td>
+                        <td> Nej <button @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Toggle Aktiv</button> </td>
                     }
 
                     @if (frivillige.er_blacklistet)
                     {
-                        <td> Ja </td>
+                        <td> Ja <button @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Toggle Blacklist</button> </td>
                     }
                     else
                     {
-                        <td> Nej </td>
+                        <td> Nej <button @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Toggle Blacklist</button> </td>
                     }
 
                 </tr>
@@ -161,6 +161,22 @@ else
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         StateHasChanged();
     }
+
+    private async Task SkiftAktivStatus(int bruger_id)
+    {
+        await ServiceBruger.SkiftAktivStatus(bruger_id);
+        FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
+        StateHasChanged();
+    }
+
+    private async Task SkiftBlacklistStatus(int bruger_id)
+    {
+        await ServiceBruger.SkiftBlacklistStatus(bruger_id);
+        FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
+        StateHasChanged();
+    }
+
+
 
 }
 

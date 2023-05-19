@@ -30,5 +30,16 @@ namespace Client.Services
             return await HttpClient.GetFromJsonAsync<Login>($"https://localhost:7155/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
            
         }
+
+        public async Task SkiftAktivStatus(int bruger_id)
+        {
+            await HttpClient.PutAsync($"https://localhost:7155/api/brugere/skiftaktivstatus/{bruger_id}", null);
+        }
+
+        public async Task SkiftBlacklistStatus(int bruger_id)
+        {
+            await HttpClient.PutAsync($"https://localhost:7155/api/brugere/skiftblackliststatus/{bruger_id}", null);
+        }
+
     }
 }

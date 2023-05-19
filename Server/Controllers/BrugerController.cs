@@ -44,6 +44,19 @@ namespace Server.Controllers
 
         }
 
+        [HttpPut("skiftaktivstatus/{bruger_id}")]
+        public async Task SkiftAktivStatus(int bruger_id)
+        {
+            Console.WriteLine(bruger_id);
+            await FrivilligRepo.SkiftAktivStatus(bruger_id);
+        }
+
+        [HttpPut("skiftblackliststatus/{bruger_id}")]
+        public async Task SkiftBlacklistStatus(int bruger_id)
+        {   
+            await FrivilligRepo.SkiftBlacklistStatus(bruger_id);
+        }
+
     }
 }
 

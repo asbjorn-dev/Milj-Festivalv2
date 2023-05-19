@@ -24,7 +24,7 @@ namespace Server.Models
         public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
         {
             // Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
-            Sql = $"SELECT bruger_id, fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig'";
+            Sql = $"SELECT *, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE rolle = 'frivillig' ORDER BY fulde_navn ASC";
             var BrugerListe = await Context.Connection.QueryAsync<Bruger>(Sql);
             return BrugerListe.ToList();
         }
@@ -69,6 +69,22 @@ namespace Server.Models
             }
             else return bruger;
         }
+        public async Task SkiftAktivStatus(int bruger_id)
+        {
+            Console.WriteLine("penis was here");
+            Sql = "UPDATE bruger SET er_aktiv = NOT er_aktiv WHERE bruger_id = @Bruger_id";
+            var Parametre = new { Bruger_id = bruger_id };
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
+        public async Task SkiftBlacklistStatus(int bruger_id)
+        {
+            Sql = "UPDATE bruger SET er_blacklistet = NOT er_blacklistet WHERE bruger_id = @Bruger_id";
+            var Parametre = new { Bruger_id = bruger_id };
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
+
     }
 }
 
