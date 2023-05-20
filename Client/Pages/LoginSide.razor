@@ -36,6 +36,9 @@
 
 	[Inject]
 	public IBrugerService LoginService { get; set; }
+	//injecter GlobalState så den kan bruges i login, så man er logget ind som brugeren
+	[Inject]
+	public GlobalState GlobalState { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -47,7 +50,10 @@
 		var loggedInBruger = await LoginService.Login(Brugerinfo);
 
 		if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
-		{
+		{ 
+			//Sætter GlobalState brugernavnet til at være det samme som loggedInBruger.Brugernavn
+			GlobalState.Brugernavn = loggedInBruger.Brugernavn;
+			GlobalState.bruger_id = loggedInBruger.bruger_id;
 			// Hvis rolle på bruger er "koordinator", redirect til /koordinator
 			if (loggedInBruger.Rolle == "koordinator")
 			{

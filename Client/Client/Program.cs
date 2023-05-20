@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Client;
 using Client.Services;
+using MiljøFestivalv2.Shared;
 
 namespace MiljøFestivalv2.Client;
 
@@ -27,7 +28,8 @@ public class Program
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
-        await builder.Build().RunAsync();
+		builder.Services.AddSingleton<GlobalState>(); 
+		await builder.Build().RunAsync();
     }
 }
 

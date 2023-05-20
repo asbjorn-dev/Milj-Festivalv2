@@ -19,5 +19,10 @@ namespace Client.Services
             var Resultat = HttpClient.GetFromJsonAsync<Booking[]>("https://localhost:7155/api/bookinger/hentallebookinger");
             return Resultat;
         }
+        public Task<Booking[]> HentBookingerForBruger(int bruger_id)
+        {
+            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"https://localhost:7155/api/bookinger/hentbookingerforbruger/{bruger_id}");
+            return Resultat;
+        }
     }
 }

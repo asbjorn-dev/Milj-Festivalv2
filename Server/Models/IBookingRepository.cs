@@ -6,6 +6,7 @@ namespace Server.Models
 	public interface IBookingRepository 
 	{
         Task<IEnumerable<Booking>> HentAlleBookinger();
+        Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId);
     }
 }
 
