@@ -23,7 +23,8 @@ namespace Server.Models
 
         public async Task<IEnumerable<Vagt>> HentAlleVagter()
         {
-            Sql = $"SELECT * FROM vagt";
+            // filtre efter priotering med 'høj' kommer først og bagefter filtre den tidligste start_tid
+            Sql = $"SELECT * FROM vagt ORDER BY (priotering = 'høj') DESC, start_tid DESC;";
 
             var VagtListe = await Context.Connection.QueryAsync<Vagt>(Sql);
             return VagtListe.ToList();
