@@ -63,7 +63,7 @@ namespace Server.Controllers
         }
 
 		[HttpPut("updatebruger/{bruger_id}")]
-		public async Task UpdateBruger(int bruger_id, [FromBody] Bruger updatedBruger)
+		public async Task UpdateBruger([FromBody] Bruger updatedBruger)
 		{
 			await FrivilligRepo.UpdateBruger(updatedBruger);
 		}

@@ -11,5 +11,6 @@ namespace MiljøFestivalv2.Shared
     {
         public string Brugernavn { get; set; }
         public int bruger_id { get; set; }
+        public int vagt_id { get; set; }
     }
 }

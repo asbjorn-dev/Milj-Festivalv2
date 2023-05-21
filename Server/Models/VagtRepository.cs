@@ -36,6 +36,33 @@ namespace Server.Models
             Sql = $"DELETE FROM vagt WHERE vagt_id = {vagt_id}";
             await Context.Connection.ExecuteAsync(Sql);
         }
+
+		public async Task<Vagt> HentVagtSingle(int vagt_id)
+		{
+			Sql = $"SELECT * FROM vagt WHERE vagt_id = {vagt_id}";
+			var Parametre = new { Vagt_id = vagt_id };
+			var Vagt = await Context.Connection.QuerySingleOrDefaultAsync<Vagt>(Sql, Parametre);
+			return Vagt;
+		}
+
+		public async Task OpdaterVagt(Vagt OpdateretVagt)
+        {
+            Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner WHERE vagt_id = @VagtId";
+
+            var Parametre = new
+            {
+                Område = OpdateretVagt.område,
+                StartTid = OpdateretVagt.start_tid,
+                SlutTid = OpdateretVagt.slut_tid,
+                Beskrivelse = OpdateretVagt.beskrivelse,
+                Priotering = OpdateretVagt.priotering,
+                AntalPersoner = OpdateretVagt.antal_personer,
+                VagtId = OpdateretVagt.vagt_id
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
     }
 }
 

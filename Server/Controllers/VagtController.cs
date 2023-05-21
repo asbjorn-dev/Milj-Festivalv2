@@ -35,6 +35,19 @@ namespace Server.Controllers
         {
            await VagtReposi.DeleteVagt(vagt_id);
         }
+
+		[HttpGet("hentvagtsingle/{vagt_id}")]
+		public async Task<Vagt> HentVagtSingle(int vagt_id)
+		{
+			return await VagtReposi.HentVagtSingle(vagt_id);
+		}
+
+		[HttpPut("opdatervagt/{vagt_id}")]
+        public async Task OpdaterVagt([FromBody] Vagt OpdateretVagt)
+        {
+            await VagtReposi.OpdaterVagt(OpdateretVagt);
+        }
+
     }
 }
 

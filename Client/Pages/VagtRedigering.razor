@@ -1,0 +1,78 @@
+﻿@page "/opdatervagt/{vagt_id:int}"
+@using MiljøFestivalv2.Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Globalization
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+
+<h1>Opdater Vagt</h1>
+
+@if (vagt != null)
+{
+		<EditForm Model="vagt" OnValidSubmit="OpdaterVagt">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+
+			<div class="form-group">
+				<label for="område">Område:</label>
+				<InputText id="område" @bind-Value="vagt.område" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="start_tid">Start tid:</label>
+				<InputDate id="start_tid" @bind-Value="vagt.start_tid" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label for="slut_tid">Slut tid:</label>
+				<InputDate id="slut_tid" @bind-Value="vagt.slut_tid" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label for="beskrivelse">Beskrivelse:</label>
+				<InputText id="beskrivelse" @bind-Value="vagt.beskrivelse" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label for="priotering">Priotering:</label>
+				<InputText id="priotering" @bind-Value="vagt.priotering" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label for="antal_personer">Antal personer:</label>
+				<InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" class="form-control" />
+			</div>
+
+			<button type="submit" class="btn btn-primary">Opdater</button>
+		</EditForm>
+}
+else
+{
+		<p>Loading...</p>
+}
+
+
+
+@code {
+	[Parameter]
+    public int vagt_id { get; set; }
+	[Inject]
+	public IVagtService VagtService { get; set; }
+
+	private Vagt vagt;
+
+	protected override async Task OnInitializedAsync()
+	{
+		//int Id = int.Parse(VagtId);
+		vagt = await VagtService.HentVagtSingle(vagt_id);
+	}
+
+	//forceload opdaterer siden og viser den nye information
+	private async Task OpdaterVagt()
+	{
+		await VagtService.OpdaterVagt(vagt);
+		Navigation.NavigateTo($"/opdatervagt/{vagt.vagt_id}", forceLoad: true);
+	}
+}

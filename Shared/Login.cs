@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MiljøFestivalv2.Shared
 {
     public class Login
-    {
+                                                     {
        public string Brugernavn { get; set; }
        public string Password { get; set; }
        public int bruger_id { get; set; }
