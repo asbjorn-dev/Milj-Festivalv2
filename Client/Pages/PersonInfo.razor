@@ -1,60 +1,75 @@
-﻿@page "/personinfo"
+﻿@page "/personinfo/{brugerId}"
 @using MiljøFestivalv2.Shared
-@using System.Net.Http.Json
 @using Client.Services
-@using System.Globalization
-@inject HttpClient Http
-
-
-
-
+@inject IBrugerService BrugerService
+@inject NavigationManager Navigation
 
 <h1 class="mb-3 mt-3">Oplysninger</h1>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
+@if (Person != null)
+{
+	<EditForm Model="Person" OnValidSubmit="UpdatePerson">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
 
-            <th>Bruger id</th>
-            <th>Fulde navn</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Telefon nummer</th>
-        </tr>
-    </thead>
-    <tbody>
-            <tr>
-                <td>@Person.bruger_id</td>
-                <td>@Person.fulde_navn</td>
-                <td>@Person.email</td>
-                <td>@Person.password</td>
-                <td>@Person.telefon_nummer</td>
+		<div class="form-group">
+			<label for="fulde_navn">Fulde Navn:</label>
+			<InputText id="fulde_navn" @bind-Value="Person.fulde_navn" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label for="fødselsdag">Fødselsdag:</label>
+			<InputDate id="fødselsdag" @bind-Value="Person.fødselsdag" class="form-control" readonly />
+		</div>
 
-            </tr>
-        
-    </tbody>
-</table>
+		<div class="form-group">
+			<label for="email">Email:</label>
+			<InputText id="email" @bind-Value="Person.email" class="form-control" />
+		</div>
 
-@code {
-    private Person Person;
+		<div class="form-group">
+			<label for="brugernavn">Brugernavn:</label>
+			<InputText id="brugernavn" @bind-Value="Person.brugernavn" class="form-control" />
+		</div>
 
-    [Parameter]
-    public int brugerId { get; set; }
+		<div class="form-group">
+			<label for="password">Password:</label>
+			<InputText id="password" @bind-Value="Person.password" class="form-control" />
+		</div>
 
-    protected override async Task OnInitializedAsync()
-    {
-        Person = await Http.GetFromJsonAsync<Person>($"api/bruger/{brugerId}");
-    }
+		<div class="form-group">
+			<label for="telefon_nummer">Telefonnummer:</label>
+			<InputNumber id="telefon_nummer" @bind-Value="Person.telefon_nummer" class="form-control" />
+		</div>
 
-    private async Task UpdatePerson()
-    {
-     
-        await Http.PutAsJsonAsync($"api/bruger/{Person.bruger_id}", Person);
-    }
+		<div class="form-group">
+			<label for="cpr_nummer">CPR Nummer:</label>
+			<InputText id="cpr_nummer" @bind-Value="Person.cpr_nummer" class="form-control" readonly />
+		</div>
+
+		<button type="submit" class="btn btn-primary">Opdater</button>
+	</EditForm>
+}
+else
+{
+	<p>Loading...</p>
 }
 
+@code {
+	[Parameter]
+	public string BrugerId { get; set; }
 
+	private Bruger Person;
 
+	protected override async Task OnInitializedAsync()
+	{
+		int Id = int.Parse(BrugerId);
+		Person = await BrugerService.HentBrugerSingle(Id);
+	}
 
-
-
+	//forceload opdaterer siden og viser den nye information
+	private async Task UpdatePerson()
+	{
+		await BrugerService.UpdateBruger(Person);
+		Navigation.NavigateTo($"/personinfo/{Person.bruger_id}", forceLoad: true);
+	}
+}

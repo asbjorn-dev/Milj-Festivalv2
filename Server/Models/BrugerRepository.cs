@@ -84,8 +84,32 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
+		public async Task<Bruger> HentBrugerSingle(int bruger_id)
+		{
+			Sql = $"SELECT *, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE bruger_id = {bruger_id}";
+            var Parametre = new { Bruger_id = bruger_id };
+			var person = await Context.Connection.QuerySingleOrDefaultAsync<Bruger>(Sql, Parametre);
+			return person;
+		}
 
-    }
+		public async Task UpdateBruger(Bruger updatedBruger)
+		{
+			Sql = "UPDATE bruger SET fulde_navn = @FuldeNavn, email = @Email, brugernavn = @Brugernavn, password = @Password, telefon_nummer = @TelefonNummer WHERE bruger_id = @BrugerId";
+
+			var Parametre = new
+			{
+				FuldeNavn = updatedBruger.fulde_navn,
+				Email = updatedBruger.email,
+                Brugernavn = updatedBruger.brugernavn,
+				Password = updatedBruger.password,
+				TelefonNummer = updatedBruger.telefon_nummer,
+				BrugerId = updatedBruger.bruger_id,
+
+			};
+
+			await Context.Connection.ExecuteAsync(Sql, Parametre);
+		}
+	}
 }
 
 

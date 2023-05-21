@@ -5,6 +5,7 @@
 @using System.Globalization
 @inject HttpClient Http
 @inject GlobalState GlobalState
+@inject NavigationManager NavManager
 
 
 <h1>Velkommen, @GlobalState.Brugernavn</h1>
@@ -66,6 +67,9 @@
         }
     </tbody>
 </table>
+<div>
+    <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
+</div>
 
 @code {
     // Laver en liste med datamodel klasserne fra shared
@@ -77,13 +81,18 @@
     public IVagtService ServiceVagt { get; set; }
     [Inject]
     public IBookingService ServiceBooking { get; set; }
-
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         var bruger_id = GlobalState.bruger_id;
         BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+    }
+
+    private void SkiftBrugerInfo()
+    {
+        var bruger_id = GlobalState.bruger_id;
+        NavManager.NavigateTo($"/personinfo/{bruger_id}");
     }
 }   
 

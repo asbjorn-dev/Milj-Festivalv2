@@ -41,5 +41,16 @@ namespace Client.Services
             await HttpClient.PutAsync($"https://localhost:7155/api/brugere/skiftblackliststatus/{bruger_id}", null);
         }
 
+        public async Task<Bruger> HentBrugerSingle(int bruger_id)
+        {
+            return await HttpClient.GetFromJsonAsync<Bruger>($"https://localhost:7155/api/brugere/hentbrugersingle/{bruger_id}");
+        }
+
+
+        public async Task UpdateBruger(Bruger updatedBruger)
+        {
+            await HttpClient.PutAsJsonAsync($"https://localhost:7155/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
+        }
+
     }
 }

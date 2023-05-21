@@ -22,8 +22,8 @@ namespace MiljøFestivalv2.Shared
         [RegularExpression(@"^\d{8}$", ErrorMessage = "Telefon nummer skal være 8 cifre langt")]
         public int telefon_nummer { get; set; } = 0;
         public DateTime fødselsdag { get; set; }
-        [Required(ErrorMessage = "CPR-nummer er påkrævet")]
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "CPR-nummer skal være præcis 10 cifre langt og uden bindestreg")]
+       [Required(ErrorMessage = "CPR-nummer er påkrævet")]
+       [StringLength(10, MinimumLength = 10, ErrorMessage = "CPR-nummer skal være præcis 10 cifre langt og uden bindestreg")]
         public string cpr_nummer { get; set; }
         public string brugernavn { get; set; }
         // Gør password skal have mindst et stort bogstav og et tal
