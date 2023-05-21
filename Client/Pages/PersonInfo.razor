@@ -1,0 +1,60 @@
+﻿@page "/personinfo"
+@using MiljøFestivalv2.Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject HttpClient Http
+
+
+
+
+
+<h1 class="mb-3 mt-3">Oplysninger</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+            <th>Bruger id</th>
+            <th>Fulde navn</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Telefon nummer</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>@Person.bruger_id</td>
+                <td>@Person.fulde_navn</td>
+                <td>@Person.email</td>
+                <td>@Person.password</td>
+                <td>@Person.telefon_nummer</td>
+
+            </tr>
+        
+    </tbody>
+</table>
+
+@code {
+    private Person Person;
+
+    [Parameter]
+    public int brugerId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Person = await Http.GetFromJsonAsync<Person>($"api/bruger/{brugerId}");
+    }
+
+    private async Task UpdatePerson()
+    {
+     
+        await Http.PutAsJsonAsync($"api/bruger/{Person.bruger_id}", Person);
+    }
+}
+
+
+
+
+
+
