@@ -29,12 +29,12 @@ namespace Server.Controllers
             return await BookingRepo.HentAlleBookinger();
         }
 
-        [EnableCors("policy")]
+        /* [EnableCors("policy")]
         [HttpPost("opretbooking")]
         public async Task OpretBooking(Booking booking)
         {
             await BookingRepo.OpretBooking(booking);
-        }
+        } */
 
         [EnableCors("policy")]
         [HttpGet("hentbookingerforbruger/{brugerId}")]
@@ -42,6 +42,21 @@ namespace Server.Controllers
         {
             Console.WriteLine(brugerId);
             return await BookingRepo.HentBookingerForBruger(brugerId);
+        }
+
+        [EnableCors("policy")]
+        [HttpPost("opretbooking")]
+        public async Task<IActionResult> OpretBooking([FromBody] BookingSql booking)
+        {
+            try
+            {
+                await BookingRepo.OpretBooking(booking);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

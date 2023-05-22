@@ -7,6 +7,6 @@ namespace Client.Services
     {
         Task<Booking[]> HentAlleBookinger();
         Task<Booking[]> HentBookingerForBruger(int bruger_id);
-        Task OpretBooking(Booking booking);
+        Task OpretBooking(BookingSql booking);
     }
 }

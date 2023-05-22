@@ -50,6 +50,7 @@ namespace Client.Services
         public async Task UpdateBruger(Bruger updatedBruger)
         {
             await HttpClient.PutAsJsonAsync($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
+
         }
 
     }

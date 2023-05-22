@@ -25,9 +25,14 @@ namespace Client.Services
             return Resultat;
         }
 
-        public async Task OpretBooking(Booking booking)
+        public async Task OpretBooking(BookingSql booking)
         {
-            await HttpClient.PostAsJsonAsync("https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/bookinger/opretbooking", booking);
+            Console.WriteLine(booking);
+            var response = await HttpClient.PostAsJsonAsync("https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/bookinger/opretbooking", booking);
+            
+            // Kontrollere svaret og kaster en exception hvis den fejler
+            response.EnsureSuccessStatusCode();
         }
+
     }
 }

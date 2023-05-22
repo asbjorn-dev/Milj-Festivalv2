@@ -39,18 +39,37 @@ namespace Server.Models
 			return bookingListe.ToList();
 		}
 
-        public async Task OpretBooking(Booking booking)
+        public async Task OpretBooking(BookingSql booking)
         {
-            Sql = $"INSERT INTO booking( bruger_id, vagt_id, er_låst) VALUES(@BrugerId, @VagtId, @ErLåst)";
-            var Parametre = new
+            await LavBooking(booking);
+            await OpdaterVagt(booking.vagt_id);
+        }
+
+        private async Task LavBooking(BookingSql booking)
+        {
+            Sql = "INSERT INTO booking (bruger_id, vagt_id, er_låst) VALUES (@BrugerId, @VagtId, @ErLåst);";
+
+            var parametre = new
             {
                 BrugerId = booking.bruger_id,
                 VagtId = booking.vagt_id,
                 ErLåst = booking.er_låst
             };
+
+            await Context.Connection.ExecuteAsync(Sql, parametre);
+        }
+
+        private async Task OpdaterVagt(int VagtId) 
+        {
+            Sql = "UPDATE vagt SET antal_personer = antal_personer - 1 WHERE vagt_id = @vagt_id;";
+            var Parametre = new 
+            { 
+                vagt_id = VagtId,
+            };
+
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
-	}
+    }
 }
 
 
