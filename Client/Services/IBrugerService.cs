@@ -10,5 +10,9 @@ namespace Client.Services
         Task<Login> Login(Login brugerinfo);
         Task SkiftAktivStatus(int bruger_id);
         Task SkiftBlacklistStatus(int bruger_id);
-    }
+        Task<Bruger> HentBrugerSingle(int bruger_id);
+		Task UpdateBruger(Bruger updatedBruger);
+
+
+	}
 }

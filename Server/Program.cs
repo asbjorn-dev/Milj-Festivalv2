@@ -1,4 +1,5 @@
 using Server.Models;
+using MiljøFestivalv2.Shared;
 
 namespace Server
 {
@@ -15,6 +16,7 @@ namespace Server
             builder.Services.AddSingleton<IBrugerRepository, BrugerRepository>();
             builder.Services.AddSingleton<IVagtRepository, VagtRepository>();
             builder.Services.AddSingleton<IBookingRepository, BookingRepository>();
+            builder.Services.AddSingleton<GlobalState>();
 
             builder.Services.AddCors(options =>
             {

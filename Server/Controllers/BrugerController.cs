@@ -19,7 +19,7 @@ namespace Server.Controllers
 
         public BrugerController(IBrugerRepository FriRepo)
         {
-                FrivilligRepo = FriRepo;
+            FrivilligRepo = FriRepo;
         }
 
         [EnableCors("policy")]
@@ -33,7 +33,7 @@ namespace Server.Controllers
         [HttpPost("tilfoejfrivillig")]
         public async Task TilføjFrivillig(Bruger Bruger)
         {
-           await FrivilligRepo.TilføjFrivillig(Bruger);
+            await FrivilligRepo.TilføjFrivillig(Bruger);
         }
 
         [EnableCors("policy")]
@@ -47,16 +47,27 @@ namespace Server.Controllers
         [HttpPut("skiftaktivstatus/{bruger_id}")]
         public async Task SkiftAktivStatus(int bruger_id)
         {
-            Console.WriteLine(bruger_id);
             await FrivilligRepo.SkiftAktivStatus(bruger_id);
         }
 
         [HttpPut("skiftblackliststatus/{bruger_id}")]
         public async Task SkiftBlacklistStatus(int bruger_id)
-        {   
+        {
             await FrivilligRepo.SkiftBlacklistStatus(bruger_id);
         }
 
-    }
+        [HttpGet("hentbrugersingle/{bruger_id}")]
+        public async Task <Bruger>HentBrugerSingle(int bruger_id)
+        {
+            return await FrivilligRepo.HentBrugerSingle(bruger_id);
+        }
+
+		[HttpPut("updatebruger/{bruger_id}")]
+		public async Task UpdateBruger([FromBody] Bruger updatedBruger)
+		{
+			await FrivilligRepo.UpdateBruger(updatedBruger);
+		}
+
+	}
 }
 

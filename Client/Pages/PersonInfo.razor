@@ -1,0 +1,75 @@
+﻿@page "/personinfo/{brugerId}"
+@using MiljøFestivalv2.Shared
+@using Client.Services
+@inject IBrugerService BrugerService
+@inject NavigationManager Navigation
+
+<h1 class="mb-3 mt-3">Oplysninger</h1>
+
+@if (Person != null)
+{
+	<EditForm Model="Person" OnValidSubmit="UpdatePerson">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label for="fulde_navn">Fulde Navn:</label>
+			<InputText id="fulde_navn" @bind-Value="Person.fulde_navn" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label for="fødselsdag">Fødselsdag:</label>
+			<InputDate id="fødselsdag" @bind-Value="Person.fødselsdag" class="form-control" readonly />
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email:</label>
+			<InputText id="email" @bind-Value="Person.email" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="brugernavn">Brugernavn:</label>
+			<InputText id="brugernavn" @bind-Value="Person.brugernavn" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="password">Password:</label>
+			<InputText id="password" @bind-Value="Person.password" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="telefon_nummer">Telefonnummer:</label>
+			<InputNumber id="telefon_nummer" @bind-Value="Person.telefon_nummer" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="cpr_nummer">CPR Nummer:</label>
+			<InputText id="cpr_nummer" @bind-Value="Person.cpr_nummer" class="form-control" readonly />
+		</div>
+
+		<button type="submit" class="btn btn-primary">Opdater</button>
+	</EditForm>
+}
+else
+{
+	<p>Loading...</p>
+}
+
+@code {
+	[Parameter]
+	public string BrugerId { get; set; }
+
+	private Bruger Person;
+
+	protected override async Task OnInitializedAsync()
+	{
+		int Id = int.Parse(BrugerId);
+		Person = await BrugerService.HentBrugerSingle(Id);
+	}
+
+	//forceload opdaterer siden og viser den nye information
+	private async Task UpdatePerson()
+	{
+		await BrugerService.UpdateBruger(Person);
+		Navigation.NavigateTo($"/personinfo/{Person.bruger_id}", forceLoad: true);
+	}
+}

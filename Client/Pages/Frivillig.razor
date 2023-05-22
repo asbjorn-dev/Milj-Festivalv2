@@ -4,10 +4,14 @@
 @using Client.Services
 @using System.Globalization
 @inject HttpClient Http
+@inject GlobalState GlobalState
+@inject NavigationManager NavManager
 
-<!-- Printer alle vagter ud-->
+
+<h1>Velkommen, @GlobalState.Brugernavn</h1>
+
+
 <h1 class="mb-3 mt-3">Alle Vagter</h1>
-
 <table class="table table-striped">
     <thead>
         <tr>
@@ -33,23 +37,63 @@
 
             </tr>
         }
+    </tbody>  
+</table>
+<h1 class="mb-3 mt-3">Din Bookinger</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+            <th>Område</th>
+            <th>Beskrivelse</th>
+            <th>Start Tid</th>
+            <th>Slut tid</th>
+            <th>Prioritering</th>
+            <th>Vagt id</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in BookingListe)
+        {
+            <tr>
+                <td>@booking.område</td>
+                <td>@booking.beskrivelse</td>
+                <td>@booking.start_tid</td>
+                <td>@booking.slut_tid</td>
+                <td>@booking.priotering</td>
+                <td>@booking.vagt_id</td>
+            </tr>
+        }
     </tbody>
 </table>
-
+<div>
+    <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
+</div>
 
 @code {
     // Laver en liste med datamodel klasserne fra shared
     public List<Vagt> VagtListe = new List<Vagt>();
-
+    public List<Booking> BookingListe = new List<Booking>();
 
     // Injecter metoderne fra services
     [Inject]
     public IVagtService ServiceVagt { get; set; }
-
+    [Inject]
+    public IBookingService ServiceBooking { get; set; }
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
+        var bruger_id = GlobalState.bruger_id;
+        BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
     }
-}
+
+    private void SkiftBrugerInfo()
+    {
+        var bruger_id = GlobalState.bruger_id;
+        NavManager.NavigateTo($"/personinfo/{bruger_id}");
+    }
+}   
+
 

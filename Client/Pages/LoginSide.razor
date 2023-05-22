@@ -13,15 +13,21 @@
 	<ValidationSummary />
 	<div class="container">
 		<div>
-			<label>Brugernavn:  </label>
+			<br />
+			<br />
+			<label>Brugernavn:</label>
 			<InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
 		</div>
 		<div>
-			<label>Password:</label>
+			<label>&zwnj; &zwnj; &zwnj; Password:</label>
 			<InputText id="Password" @bind-Value="Brugerinfo.Password" />
 		</div>
+		<br />
+
 		<button type="submit">Login</button>
 		<button @onclick="Register">Register</button>
+		<br />
+		<br />
 		<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
 	</div>
 </EditForm>
@@ -36,6 +42,9 @@
 
 	[Inject]
 	public IBrugerService LoginService { get; set; }
+	//injecter GlobalState så den kan bruges i login, så man er logget ind som brugeren
+	[Inject]
+	public GlobalState GlobalState { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -47,7 +56,10 @@
 		var loggedInBruger = await LoginService.Login(Brugerinfo);
 
 		if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
-		{
+		{ 
+			//Sætter GlobalState brugernavnet til at være det samme som loggedInBruger.Brugernavn
+			GlobalState.Brugernavn = loggedInBruger.Brugernavn;
+			GlobalState.bruger_id = loggedInBruger.bruger_id;
 			// Hvis rolle på bruger er "koordinator", redirect til /koordinator
 			if (loggedInBruger.Rolle == "koordinator")
 			{

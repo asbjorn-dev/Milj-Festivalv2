@@ -23,7 +23,8 @@ namespace Server.Models
 
         public async Task<IEnumerable<Vagt>> HentAlleVagter()
         {
-            Sql = $"SELECT * FROM vagt";
+            // filtre efter priotering med 'høj' kommer først og bagefter filtre den tidligste start_tid
+            Sql = $"SELECT * FROM vagt ORDER BY (priotering = 'høj') DESC, start_tid DESC;";
 
             var VagtListe = await Context.Connection.QueryAsync<Vagt>(Sql);
             return VagtListe.ToList();
@@ -36,6 +37,7 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql);
         }
 
+<<<<<<< HEAD
         public async Task TilføjVagt(Vagt vagt)
         {
             Sql = @"INSERT INTO vagt (vagt_id, område, start_tid, slut_tid, beskrivelse, priotering, antal_personer) 
@@ -53,6 +55,34 @@ namespace Server.Models
         }
 
 
+=======
+		public async Task<Vagt> HentVagtSingle(int vagt_id)
+		{
+			Sql = $"SELECT * FROM vagt WHERE vagt_id = {vagt_id}";
+			var Parametre = new { Vagt_id = vagt_id };
+			var Vagt = await Context.Connection.QuerySingleOrDefaultAsync<Vagt>(Sql, Parametre);
+			return Vagt;
+		}
+
+		public async Task OpdaterVagt(Vagt OpdateretVagt)
+        {
+            Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner WHERE vagt_id = @VagtId";
+
+            var Parametre = new
+            {
+                Område = OpdateretVagt.område,
+                StartTid = OpdateretVagt.start_tid,
+                SlutTid = OpdateretVagt.slut_tid,
+                Beskrivelse = OpdateretVagt.beskrivelse,
+                Priotering = OpdateretVagt.priotering,
+                AntalPersoner = OpdateretVagt.antal_personer,
+                VagtId = OpdateretVagt.vagt_id
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
+>>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
     }
 }
 

@@ -4,6 +4,8 @@
 @using Client.Services
 @using System.Globalization
 @inject HttpClient Http
+@inject NavigationManager NavManager
+@inject GlobalState GlobalState
 
 <h1>Koordinator</h1>
 
@@ -75,6 +77,8 @@ else
                 <th>Start Tid</th>
                 <th>Slut tid</th>
                 <th>Prioritering</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -87,9 +91,18 @@ else
                     <td>@vagt.start_tid</td>
                     <td>@vagt.slut_tid</td>
                     <td>@vagt.priotering</td>
+<<<<<<< HEAD
                     <td>
                         <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
                     </td>
+=======
+                <td>
+                <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
+                </td
+                <td>
+                <button class="btn btn-danger" @onclick="() => RedigerVagt(vagt.vagt_id)">Rediger vagt</button>
+                </td>
+>>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
                 </tr>
             }
         </tbody>
@@ -187,7 +200,11 @@ else
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
+<<<<<<< HEAD
         cEditContext = new EditContext(vagt);
+=======
+        var vagt_id = GlobalState.vagt_id;
+>>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
@@ -215,6 +232,7 @@ else
         StateHasChanged();
     }
 
+<<<<<<< HEAD
 
     private async Task HandleValidSubmit()
     {
@@ -225,5 +243,11 @@ else
 
 
 
+=======
+    private void RedigerVagt(int vagt_id)
+    {
+        NavManager.NavigateTo($"/opdatervagt/{vagt_id}");  
+	}
+>>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
 }
 

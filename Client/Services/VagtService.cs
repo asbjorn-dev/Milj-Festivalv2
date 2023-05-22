@@ -21,6 +21,15 @@ namespace Client.Services
         {
             await HttpClient.DeleteAsync($"https://localhost:7155/api/vagter/{vagt_id}");
         }
+		public async Task<Vagt> HentVagtSingle(int vagt_id)
+		{
+			return await HttpClient.GetFromJsonAsync<Vagt>($"https://localhost:7155/api/vagter/hentvagtsingle/{vagt_id}");
+		}
+
+		public async Task OpdaterVagt(Vagt OpdateretVagt)
+        {
+            await HttpClient.PutAsJsonAsync($"https://localhost:7155/api/vagter/opdatervagt/{OpdateretVagt.vagt_id}", OpdateretVagt);
+        }
 
         public async Task TilføjVagt(Vagt vagt)
         {

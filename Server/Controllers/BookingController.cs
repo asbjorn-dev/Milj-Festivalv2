@@ -28,6 +28,14 @@ namespace Server.Controllers
         {
             return await BookingRepo.HentAlleBookinger();
         }
+
+        [EnableCors("policy")]
+        [HttpGet("hentbookingerforbruger/{brugerId}")]
+        public async Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId)
+        {
+            Console.WriteLine(brugerId);
+            return await BookingRepo.HentBookingerForBruger(brugerId);
+        }
     }
 }
 

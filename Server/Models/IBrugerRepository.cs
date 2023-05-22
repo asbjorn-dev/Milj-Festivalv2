@@ -10,6 +10,8 @@ namespace Server.Models
 		Login HentBrugerMedBrugernavnOgPassword(string Brugernavn, string Password);
         Task SkiftAktivStatus(int FrivilligId);
         Task SkiftBlacklistStatus(int FrivilligId);
-    }
+		Task<Bruger> HentBrugerSingle(int bruger_id);
+		Task UpdateBruger(Bruger updatedBruger);
+	}
 }
 
