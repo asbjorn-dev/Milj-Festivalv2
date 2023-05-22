@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MiljøFestivalv2.Shared
 {
+	// booking arver fra vagt til frivilligsiden 
 	public class Booking : Vagt
 	{
 		public int booking_id { get; set; }
+		public string bruger_navn { get; set; }
+		public int telefon_nummer { get; set; }
 		public int bruger_id { get; set; }
-		public string fulde_navn { get; set; }
-		public string telefon_nummer { get; set; }
-		public Bruger koordinator { get; set; }
-		public Boolean er_låst { get; set; }
+		public Boolean er_låst { get; set; } = false;
 	}
 }
 

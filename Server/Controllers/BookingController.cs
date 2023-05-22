@@ -36,6 +36,13 @@ namespace Server.Controllers
             Console.WriteLine(brugerId);
             return await BookingRepo.HentBookingerForBruger(brugerId);
         }
+
+        [EnableCors("policy")]
+        [HttpPost("opretbooking")]
+        public async Task OpretBooking(Booking booking)
+        {
+            await BookingRepo.OpretBooking(booking);
+        }
     }
 }
 

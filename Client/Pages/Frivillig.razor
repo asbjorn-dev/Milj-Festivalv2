@@ -22,6 +22,7 @@
             <th>Start Tid</th>
             <th>Slut tid</th>
             <th>Prioritering</th>
+            <th>Book vagt</th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +35,7 @@
                 <td>@vagt.start_tid</td>
                 <td>@vagt.slut_tid</td>
                 <td>@vagt.priotering</td>
-
+                <!--<td><button onclick="@OpretBooking(booking.vagt_id)">Book vagt!</button></td> -->
             </tr>
         }
     </tbody>  
@@ -87,6 +88,11 @@
         var bruger_id = GlobalState.bruger_id;
         BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+    }
+
+    private async Task OpretBooking(Booking booking)
+    {
+       await ServiceBooking.OpretBooking(booking);
     }
 
     private void SkiftBrugerInfo()

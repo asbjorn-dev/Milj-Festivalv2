@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Metadata;
 
 namespace Server.Models
 {
@@ -37,6 +38,18 @@ namespace Server.Models
 			Console.WriteLine(brugerId + "hej brugerid");
 			return bookingListe.ToList();
 		}
+
+        public async Task OpretBooking(Booking booking)
+        {
+            Sql = $"INSERT INTO booking( bruger_id, vagt_id, er_låst) VALUES(@BrugerId, @VagtId, @ErLåst)";
+            var Parametre = new
+            {
+                BrugerId = booking.bruger_id,
+                VagtId = booking.vagt_id,
+                ErLåst = booking.er_låst
+            };
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
 	}
 }
 
