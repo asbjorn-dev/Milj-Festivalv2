@@ -100,12 +100,21 @@
         Booking booking = new Booking()
         {
             vagt_id = vagt.vagt_id,
+            område = vagt.område,
+            start_tid = vagt.start_tid,
+            slut_tid = vagt.slut_tid,
+            beskrivelse = vagt.beskrivelse,
+            priotering = vagt.priotering,
+            antal_personer = vagt.antal_personer,
+            fulde_navn = GlobalState.fulde_navn,
+            telefon_nummer = GlobalState.telefon_nummer,
             bruger_id = GlobalState.bruger_id,
             er_låst = false // Sætter den til default false når der bookes (skal have en værdi i db)
         };
 
         await OpretBooking(booking);
     }
+
 
     private void SkiftBrugerInfo()
     {
