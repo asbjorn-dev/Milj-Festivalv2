@@ -9,9 +9,11 @@ namespace Server.Models
 		public NpgsqlConnection Connection { get; }
 		public dBContext()
 		{
-			string connString = "User ID=hrcbomrh;Password=czku8YaHYA3BBb7nRQgvRxrPZb2LoZGC;Host=dumbo.db.elephantsql.com;Port=5432;Database=hrcbomrh;";
-			this.Connection = new NpgsqlConnection(connString);
-		}
+			//string connString = "User ID=hrcbomrh;Password=czku8YaHYA3BBb7nRQgvRxrPZb2LoZGC;Host=dumbo.db.elephantsql.com;Port=5432;Database=hrcbomrh;";
+
+			string connString = "User ID=postgres;Password=Whoistheknife112 ;Host=miljofestivalpggruppe2.postgres.database.azure.com;Port=5432;Database=postgres;";
+            this.Connection = new NpgsqlConnection(connString);
+        }
 	}
 }
 
