@@ -37,7 +37,6 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql);
         }
 
-<<<<<<< HEAD
         public async Task TilføjVagt(Vagt vagt)
         {
             Sql = @"INSERT INTO vagt (vagt_id, område, start_tid, slut_tid, beskrivelse, priotering, antal_personer) 
@@ -55,7 +54,6 @@ namespace Server.Models
         }
 
 
-=======
 		public async Task<Vagt> HentVagtSingle(int vagt_id)
 		{
 			Sql = $"SELECT * FROM vagt WHERE vagt_id = {vagt_id}";
@@ -82,7 +80,7 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
->>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
+
     }
 }
 

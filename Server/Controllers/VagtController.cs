@@ -36,7 +36,7 @@ namespace Server.Controllers
             await VagtReposi.DeleteVagt(vagt_id);
         }
 
-<<<<<<< HEAD
+
         [EnableCors("policy")]
         [HttpPost("tilfoejvagt")]
         public async Task TilføjVagt(Vagt vagt)
@@ -45,8 +45,6 @@ namespace Server.Controllers
         }
 
 
-
-=======
 		[HttpGet("hentvagtsingle/{vagt_id}")]
 		public async Task<Vagt> HentVagtSingle(int vagt_id)
 		{
@@ -59,7 +57,6 @@ namespace Server.Controllers
             await VagtReposi.OpdaterVagt(OpdateretVagt);
         }
 
->>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
     }
 
 

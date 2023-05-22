@@ -1,5 +1,5 @@
 using Server.Models;
-using MiljøFestivalv2.Shared;
+using MiljÃ¸Festivalv2.Shared;
 
 namespace Server
 {

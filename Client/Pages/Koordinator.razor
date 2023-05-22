@@ -32,7 +32,7 @@ else
         </thead>
         <tbody>
             @foreach (var frivillige in FrivilligListe)
-            {
+                {
                 <tr>
                     <td>@frivillige.fulde_navn</td>
                     <td>@frivillige.email</td>
@@ -42,25 +42,25 @@ else
 
                     <!--Skifter det den printer ud med ja og nej istedet for false og true-->
                     @if (frivillige.er_aktiv)
-                    {
+                        {
                         <td> Ja <button @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Toggle Aktiv</button> </td>
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <td> Nej <button @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Toggle Aktiv</button> </td>
-                    }
+                        }
 
                     @if (frivillige.er_blacklistet)
-                    {
+                        {
                         <td> Ja <button @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Toggle Blacklist</button> </td>
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <td> Nej <button @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Toggle Blacklist</button> </td>
-                    }
+                        }
 
                 </tr>
-            }
+                }
         </tbody>
     </table>
 
@@ -83,7 +83,7 @@ else
         </thead>
         <tbody>
             @foreach (var vagt in VagtListe)
-            {
+                {
                 <tr>
                     <td>@vagt.område</td>
                     <td>@vagt.antal_personer</td>
@@ -91,20 +91,19 @@ else
                     <td>@vagt.start_tid</td>
                     <td>@vagt.slut_tid</td>
                     <td>@vagt.priotering</td>
-<<<<<<< HEAD
+
                     <td>
                         <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
                     </td>
-=======
                 <td>
                 <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
                 </td
                 <td>
                 <button class="btn btn-danger" @onclick="() => RedigerVagt(vagt.vagt_id)">Rediger vagt</button>
                 </td>
->>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
+
                 </tr>
-            }
+                }
         </tbody>
     </table>
 
@@ -127,7 +126,7 @@ else
         </thead>
         <tbody>
             @foreach (var booking in BookingListe)
-            {
+                {
                 <tr>
                     <td>@booking.område</td>
                     <td>@booking.beskrivelse</td>
@@ -138,7 +137,7 @@ else
                     <td>@booking.priotering</td>
                     <td>@booking.vagt_id</td>
                 </tr>
-            }
+                }
         </tbody>
     </table>
 
@@ -180,74 +179,74 @@ else
 @code {
 
     private EditContext cEditContext;
-    Vagt vagt = new Vagt();
+        Vagt vagt = new Vagt();
 
 
-    // Laver en liste med datamodel klasserne fra shared
-    public List<Bruger> FrivilligListe = new List<Bruger>();
-    public List<Vagt> VagtListe = new List<Vagt>();
-    public List<Booking> BookingListe = new List<Booking>();
+        // Laver en liste med datamodel klasserne fra shared
+        public List<Bruger> FrivilligListe = new List<Bruger>();
+        public List<Vagt> VagtListe = new List<Vagt>();
+        public List<Booking> BookingListe = new List<Booking>();
 
 
-    // Injecter metoderne fra services
-    [Inject]
-    public IVagtService ServiceVagt { get; set; }
-    [Inject]
-    public IBrugerService ServiceBruger { get; set; }
-    [Inject]
-    public IBookingService ServiceBooking { get; set; }
+        // Injecter metoderne fra services
+        [Inject]
+        public IVagtService ServiceVagt { get; set; }
+        [Inject]
+        public IBrugerService ServiceBruger { get; set; }
+        [Inject]
+        public IBookingService ServiceBooking { get; set; }
 
-    // På initialized henter vagter og brugere
-    protected override async Task OnInitializedAsync()
-    {
-<<<<<<< HEAD
-        cEditContext = new EditContext(vagt);
-=======
-        var vagt_id = GlobalState.vagt_id;
->>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
-        FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
-        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-        BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+        // På initialized henter vagter og brugere
+        protected override async Task OnInitializedAsync()
+        {
+
+            cEditContext = new EditContext(vagt);
+            var vagt_id = GlobalState.vagt_id;
+
+            FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
+            VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+            BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+        }
+
+        // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
+        private async Task DeleteVagt(int vagt_id)
+        {
+            await ServiceVagt.DeleteVagt(vagt_id);
+            VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+            StateHasChanged();
+        }
+
+        private async Task SkiftAktivStatus(int bruger_id)
+        {
+            await ServiceBruger.SkiftAktivStatus(bruger_id);
+            FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
+            StateHasChanged();
+        }
+
+        private async Task SkiftBlacklistStatus(int bruger_id)
+        {
+            await ServiceBruger.SkiftBlacklistStatus(bruger_id);
+            FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
+            StateHasChanged();
+        }
+
+
+
+        private async Task HandleValidSubmit()
+        {
+            await ServiceVagt.TilføjVagt(vagt);
+
+        }
+
+
+
+
+
+        private void RedigerVagt(int vagt_id)
+        {
+            NavManager.NavigateTo($"/opdatervagt/{vagt_id}");
+        }
+
     }
 
-    // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
-    private async Task DeleteVagt(int vagt_id)
-    {
-        await ServiceVagt.DeleteVagt(vagt_id);
-        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-        StateHasChanged();
-    }
-
-    private async Task SkiftAktivStatus(int bruger_id)
-    {
-        await ServiceBruger.SkiftAktivStatus(bruger_id);
-        FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
-        StateHasChanged();
-    }
-
-    private async Task SkiftBlacklistStatus(int bruger_id)
-    {
-        await ServiceBruger.SkiftBlacklistStatus(bruger_id);
-        FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
-        StateHasChanged();
-    }
-
-<<<<<<< HEAD
-
-    private async Task HandleValidSubmit()
-    {
-        await ServiceVagt.TilføjVagt(vagt);
-     
-    }
-
-
-
-
-=======
-    private void RedigerVagt(int vagt_id)
-    {
-        NavManager.NavigateTo($"/opdatervagt/{vagt_id}");  
-	}
->>>>>>> c4063f873bf0f4c2fa57cee4a23442eb2b34840e
-}
 
