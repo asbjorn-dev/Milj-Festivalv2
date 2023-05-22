@@ -33,8 +33,21 @@ namespace Server.Controllers
         [HttpDelete("{vagt_id}")]
         public async Task DeleteVagt(int vagt_id)
         {
-           await VagtReposi.DeleteVagt(vagt_id);
+            await VagtReposi.DeleteVagt(vagt_id);
         }
+
+        [EnableCors("policy")]
+        [HttpPost("tilfoejvagt")]
+        public async Task TilføjVagt(Vagt vagt)
+        {
+            await VagtReposi.TilføjVagt(vagt);
+        }
+
+
+
     }
+
+
+
 }
 

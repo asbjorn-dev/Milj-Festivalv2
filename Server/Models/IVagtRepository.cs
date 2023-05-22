@@ -7,6 +7,7 @@ namespace Server.Models
 	{
         Task<IEnumerable<Vagt>> HentAlleVagter();
         Task DeleteVagt(int vagt_id);
+        Task TilføjVagt(Vagt vagt);
     }
 }
 

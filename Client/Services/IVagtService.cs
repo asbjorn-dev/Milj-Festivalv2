@@ -7,6 +7,7 @@ namespace Client.Services
 	{
         Task<Vagt[]> HentAlleVagter();
         Task DeleteVagt(int vagt_id);
+        Task TilføjVagt(Vagt vagt);
     }
 }
 

@@ -22,6 +22,13 @@ namespace Client.Services
             await HttpClient.DeleteAsync($"https://localhost:7155/api/vagter/{vagt_id}");
         }
 
+        public async Task TilføjVagt(Vagt vagt)
+        {
+            await HttpClient.PostAsJsonAsync($"https://localhost:7155/api/vagter/tilfoejvagt", vagt);
+        }
+
+
+     
     }
 }
 

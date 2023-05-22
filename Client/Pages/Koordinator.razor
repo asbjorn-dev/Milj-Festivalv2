@@ -87,9 +87,9 @@ else
                     <td>@vagt.start_tid</td>
                     <td>@vagt.slut_tid</td>
                     <td>@vagt.priotering</td>
-                     <td>
-                <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
-                </td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -125,13 +125,51 @@ else
                     <td>@booking.priotering</td>
                     <td>@booking.vagt_id</td>
                 </tr>
-            } 
+            }
         </tbody>
     </table>
-    
+
+    <EditForm EditContext="@cEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="container"> 
+            <div>
+                <label>Område:</label>
+                <InputText id="område" @bind-Value="vagt.område" required />
+            </div>
+            <div>
+                <label>Start tid:</label>
+                <InputDate id="start_tid" @bind-Value="vagt.start_tid" required />
+            </div>
+            <div>
+                <label>Slut tid:</label>
+                <InputDate id="slut_tid" @bind-Value="vagt.slut_tid" required />
+            </div>
+            <div>
+                <label>Vagt beskrivelse:</label>
+                <InputText id="beskrivelse" @bind-Value="vagt.beskrivelse" required />
+            </div>
+            <div>
+                <label>Vagt prioritering:</label>
+                <InputText id="priotering" @bind-Value="vagt.priotering" required />
+            </div>
+            <div>
+                <label>Antal personer:</label>
+                <InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" required />
+            </div>
+            <button type="submit">Opret vagt</button>
+        </div>
+    </EditForm>
+
+
 }
 
 @code {
+
+    private EditContext cEditContext;
+    Vagt vagt = new Vagt();
+
+
     // Laver en liste med datamodel klasserne fra shared
     public List<Bruger> FrivilligListe = new List<Bruger>();
     public List<Vagt> VagtListe = new List<Vagt>();
@@ -149,6 +187,7 @@ else
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
+        cEditContext = new EditContext(vagt);
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
@@ -175,6 +214,14 @@ else
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         StateHasChanged();
     }
+
+
+    private async Task HandleValidSubmit()
+    {
+        await ServiceVagt.TilføjVagt(vagt);
+     
+    }
+
 
 
 
