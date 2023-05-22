@@ -35,7 +35,7 @@
                 <td>@vagt.start_tid</td>
                 <td>@vagt.slut_tid</td>
                 <td>@vagt.priotering</td>
-                <button @onclick="() => OpretBookingForVagt(vagt)">Book vagt!</button>
+               <td> <button @onclick="() => OpretBookingForVagt(vagt)">Book vagt!</button> </td>
             </tr>
         }
     </tbody>  
@@ -101,7 +101,7 @@
         {
             vagt_id = vagt.vagt_id,
             bruger_id = GlobalState.bruger_id,
-            er_låst = false // Sæt denne værdi i henhold til din logik
+            er_låst = false // Sætter den til default false når der bookes (skal have en værdi i db)
         };
 
         await OpretBooking(booking);

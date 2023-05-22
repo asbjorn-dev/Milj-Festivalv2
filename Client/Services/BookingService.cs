@@ -16,18 +16,18 @@ namespace Client.Services
         }
         public Task<Booking[]> HentAlleBookinger()
         {
-            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>("https://festivalclient.azurewebsites.net/api/bookinger/hentallebookinger");
+            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>("https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/bookinger/hentallebookinger");
             return Resultat;
         }
         public Task<Booking[]> HentBookingerForBruger(int bruger_id)
         {
-            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"https://festivalclient.azurewebsites.net/api/bookinger/hentbookingerforbruger/{bruger_id}");
+            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/bookinger/hentbookingerforbruger/{bruger_id}");
             return Resultat;
         }
 
         public async Task OpretBooking(Booking booking)
         {
-            await HttpClient.PostAsJsonAsync("https://festivalclient.azurewebsites.net/api/bookinger/opretbooking", booking);
+            await HttpClient.PostAsJsonAsync("https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/bookinger/opretbooking", booking);
         }
     }
 }

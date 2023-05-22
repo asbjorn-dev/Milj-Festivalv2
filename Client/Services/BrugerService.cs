@@ -16,40 +16,40 @@ namespace Client.Services
         }
         public Task<Bruger[]> HentAlleFrivillige() 
         {
-            var Resultat = HttpClient.GetFromJsonAsync<Bruger[]>("https://festivalclient.azurewebsites.net/api/brugere/hentallefrivillige");
+            var Resultat = HttpClient.GetFromJsonAsync<Bruger[]>("https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/hentallefrivillige");
             return Resultat;
         }
 
         public async Task TilføjBruger(Bruger bruger)
         {
-            await HttpClient.PostAsJsonAsync($"https://festivalclient.azurewebsites.net/api/brugere/tilfoejfrivillig", bruger);
+            await HttpClient.PostAsJsonAsync($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/tilfoejfrivillig", bruger);
         }
 
         public async Task<Login> Login(Login brugerinfo)
         {
-            return await HttpClient.GetFromJsonAsync<Login>($"https://festivalclient.azurewebsites.net/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
+            return await HttpClient.GetFromJsonAsync<Login>($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
            
         }
 
         public async Task SkiftAktivStatus(int bruger_id)
         {
-            await HttpClient.PutAsync($"https://festivalclient.azurewebsites.net/api/brugere/skiftaktivstatus/{bruger_id}", null);
+            await HttpClient.PutAsync($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/skiftaktivstatus/{bruger_id}", null);
         }
 
         public async Task SkiftBlacklistStatus(int bruger_id)
         {
-            await HttpClient.PutAsync($"https://festivalclient.azurewebsites.net/api/brugere/skiftblackliststatus/{bruger_id}", null);
+            await HttpClient.PutAsync($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/skiftblackliststatus/{bruger_id}", null);
         }
 
         public async Task<Bruger> HentBrugerSingle(int bruger_id)
         {
-            return await HttpClient.GetFromJsonAsync<Bruger>($"https://festivalclient.azurewebsites.net/api/brugere/hentbrugersingle/{bruger_id}");
+            return await HttpClient.GetFromJsonAsync<Bruger>($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/hentbrugersingle/{bruger_id}");
         }
 
 
         public async Task UpdateBruger(Bruger updatedBruger)
         {
-            await HttpClient.PutAsJsonAsync($"https://festivalclient.azurewebsites.net/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
+            await HttpClient.PutAsJsonAsync($"https://xn--miljfestivalgruppe2-y7b.azurewebsites.net/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
         }
 
     }

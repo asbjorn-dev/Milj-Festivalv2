@@ -30,18 +30,18 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
+        [HttpPost("opretbooking")]
+        public async Task OpretBooking(Booking booking)
+        {
+            await BookingRepo.OpretBooking(booking);
+        }
+
+        [EnableCors("policy")]
         [HttpGet("hentbookingerforbruger/{brugerId}")]
         public async Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId)
         {
             Console.WriteLine(brugerId);
             return await BookingRepo.HentBookingerForBruger(brugerId);
-        }
-
-        [EnableCors("policy")]
-        [HttpPost("opretbooking")]
-        public async Task OpretBooking(Booking booking)
-        {
-            await BookingRepo.OpretBooking(booking);
         }
     }
 }
