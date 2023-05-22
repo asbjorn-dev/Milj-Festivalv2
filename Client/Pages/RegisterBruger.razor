@@ -14,11 +14,14 @@
     <ValidationSummary />
 <div class="container">
     <div>
-        <label>Fulde Navn:</label>
+        <!--&zwnj; betyder usynligt mellem (specielt tegn i html)-->
+        <label>&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; 
+            Fulde Navn:</label>
         <InputText id="fulde_navn" @bind-Value="bruger.fulde_navn" required />
     </div>
     <div>
-        <label>Email:</label>
+        <label>&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+            Email:</label>
         <InputText id ="email" @bind-Value="bruger.email" required />
     </div>
     <div>
@@ -26,19 +29,23 @@
         <InputNumber id ="telefon_nummer" @bind-Value="bruger.telefon_nummer" required />
     </div>
     <div>
-        <label>Fødselsdag:</label>
+        <label> &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+            Fødselsdag:</label>
         <InputDate id="fødseldag" @bind-Value="bruger.fødselsdag" required />
     </div>
     <div>
-        <label>CPR-nummer:</label>
+        <label> &zwnj; &zwnj; &zwnj; &zwnj;
+            CPR-nummer:</label>
         <InputText id ="cpr_number" @bind-Value="bruger.cpr_nummer" required />
     </div>
     <div>
-        <label>Brugernavn:</label>
+        <label> &zwnj; &zwnj;&zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+            Brugernavn:</label>
         <InputText id ="brugernavn" @bind-Value="bruger.brugernavn" required />
     </div>
     <div>
-        <label>Password:</label>
+        <label> &zwnj; &zwnj;&zwnj; &zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+            Password:</label>
         <InputText id ="password" @bind-Value="bruger.password" required />
     </div>
     <button type="submit">Register</button>
