@@ -23,7 +23,7 @@ namespace MiljøFestivalv2.Shared
         public int telefon_nummer { get; set; } = 0;
         public DateTime fødselsdag { get; set; }
        [Required(ErrorMessage = "CPR-nummer er påkrævet")]
-       [StringLength(10, MinimumLength = 10, ErrorMessage = "CPR-nummer skal være præcis 10 cifre langt og uden bindestreg")]
+       [StringLength(10, MinimumLength = 10, ErrorMessage = "CPRnummer skal være præcis 10 cifre langt og uden bindestreg")]
         public string cpr_nummer { get; set; }
         public string brugernavn { get; set; }
         // Gør password skal have mindst et stort bogstav og et tal
@@ -32,8 +32,6 @@ namespace MiljøFestivalv2.Shared
         public string password { get; set; }
         public bool er_aktiv { get; set; } = true;
         public bool er_blacklistet { get; set; } = false;
-
-        public int højde { get; set; }
     }
 }
 
