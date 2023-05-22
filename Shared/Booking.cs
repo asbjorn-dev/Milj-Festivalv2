@@ -10,7 +10,7 @@ namespace MiljøFestivalv2.Shared
 	public class Booking : Vagt
 	{
 		public int booking_id { get; set; }
-		public string bruger_navn { get; set; }
+		public string fulde_navn { get; set; }
 		public int telefon_nummer { get; set; }
 		public int bruger_id { get; set; }
 		public Boolean er_låst { get; set; } = false;
