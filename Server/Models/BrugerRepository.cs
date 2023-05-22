@@ -71,7 +71,6 @@ namespace Server.Models
         }
         public async Task SkiftAktivStatus(int bruger_id)
         {
-            Console.WriteLine("penis was here");
             Sql = "UPDATE bruger SET er_aktiv = NOT er_aktiv WHERE bruger_id = @Bruger_id";
             var Parametre = new { Bruger_id = bruger_id };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
