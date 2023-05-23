@@ -7,7 +7,7 @@
 @inject GlobalState GlobalState
 @inject NavigationManager NavManager
 
-
+<link rel="stylesheet" type="text/css" href="Frivillig.razor.css">
 <h1>Velkommen, @GlobalState.Brugernavn</h1>
 
 @if (VagtListe.Count == 0)
@@ -84,16 +84,16 @@ else
 </div>
 
 <!-- Printer alle Beskeder ud-->
-    <h1 class="mb-3 mt-3">Beskeder</h1>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Besked</th>
-                <th>Afsender</th>
-                <th>Tidspunkt</th>
-            </tr>
-        </thead>
+<div class="besked-oversigt">
+     <h1 class="mb-3 mt-3">Beskeder</h1>
+    <table class="message-table">
+                <thead>
+                     <tr>
+                         <th>Besked</th>
+                         <th>Afsender</th>
+                         <th>Tidspunkt</th>
+                     </tr>
+                </thead>
         <tbody>
             @foreach (var besked in BeskedListe)
                 {
@@ -105,6 +105,7 @@ else
                 }
         </tbody>
     </table>
+</div>
 }
 @code {
     // Laver en liste med datamodel klasserne fra shared
