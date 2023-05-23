@@ -16,6 +16,7 @@ namespace Server
             builder.Services.AddSingleton<IBrugerRepository, BrugerRepository>();
             builder.Services.AddSingleton<IVagtRepository, VagtRepository>();
             builder.Services.AddSingleton<IBookingRepository, BookingRepository>();
+            builder.Services.AddSingleton<IMessageRepository, MessageRepository>();
             builder.Services.AddSingleton<GlobalState>();
 
             builder.Services.AddCors(options =>

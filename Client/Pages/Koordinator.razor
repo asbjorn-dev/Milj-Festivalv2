@@ -151,6 +151,8 @@ else
         </tbody>
     </table>
 
+    //editform til at oprette vagter
+     <h1 class="mb-3 mt-3">Opret vagt</h1>
     <EditForm EditContext="@cEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -186,19 +188,39 @@ else
         </div>
     </EditForm>
 
+    // editform til beskeder
+     <h1 class="mb-3 mt-3">Beskeder</h1>
+        <EditForm EditContext="@dEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmitBeskeder">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="container"> 
+            <div>
+                <label>Besked</label>
+                <InputText id="besked" @bind-Value="besked.besked" required />
+            </div>
+            <div>
+                <label>Afsender</label>
+                <InputText id="afsender" @bind-Value="besked.afsender" required />
+            </div>
+            <button type="submit">Opret besked</button>
+        </div>
+    </EditForm>
+
 
 }
 
 @code {
-
     private EditContext cEditContext;
+    private EditContext dEditContext;
     Vagt vagt = new Vagt();
+    Msg_board besked = new Msg_board();
 
 
     // Laver en liste med datamodel klasserne fra shared
     public List<Bruger> FrivilligListe = new List<Bruger>();
     public List<Vagt> VagtListe = new List<Vagt>();
     public List<Booking> BookingListe = new List<Booking>();
+    public List<Msg_board> BeskedListe = new List<Msg_board>();
 
 
     // Injecter metoderne fra services
@@ -208,17 +230,21 @@ else
     public IBrugerService ServiceBruger { get; set; }
     [Inject]
     public IBookingService ServiceBooking { get; set; }
+    [Inject]
+    public IMessageService ServiceMessage { get; set; }
 
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
 
         cEditContext = new EditContext(vagt);
+        dEditContext = new EditContext(besked);
         var vagt_id = GlobalState.vagt_id;
 
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+    //    BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
     }
 
     // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
@@ -249,12 +275,20 @@ else
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
         StateHasChanged();
     }
-
+    // handlevalidsumbit til vagter editformen
     private async Task HandleValidSubmit()
     {
         await ServiceVagt.TilføjVagt(vagt);
         StateHasChanged();
 
+    }
+    // handlevalidsumbit til beskeder editformen
+    private async Task HandleValidSubmitBeskeder()
+    {
+        // sender det nuværende tidspunkt og dato når man trykker sumbit knappen til beskeder
+        besked.tidspunkt = DateTime.Now;
+        await ServiceMessage.TilføjBesked(besked);
+        StateHasChanged();
     }
 
     private async Task SletBooking(int BookingId)

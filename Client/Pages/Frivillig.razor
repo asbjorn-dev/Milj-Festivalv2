@@ -8,7 +8,7 @@
 @inject GlobalState GlobalState
 @inject NavigationManager NavManager
 
-
+<link rel="stylesheet" type="text/css" href="Frivillig.razor.css">
 <h1>Velkommen, @GlobalState.Brugernavn</h1>
 
 @if (VagtListe.Count == 0)
@@ -17,7 +17,42 @@
 }
 else
 {
+    // knap til at skifte brugerinfo
+ <div>
+    <button class="BrugerInfoKnap" onclick="@SkiftBrugerInfo">Skift din bruger information</button>
+</div>
 
+
+<!-- Printer alle Beskeder ud-->
+<div class="besked-oversigt">
+     <h1 class="mb-3 mt-3">Beskeder</h1>
+    <table class="message-table">
+                <thead>
+                     <tr>
+                         <th>Besked</th>
+                         <th>Afsender</th>
+                         <th>Tidspunkt</th>
+                     </tr>
+                </thead>
+        <tbody>
+            @foreach (var besked in BeskedListe)
+                {
+                <tr>
+                    <td>@besked.besked</td>
+                    <td>@besked.afsender</td>
+                    <td>@besked.tidspunkt</td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
+
+// laver mellemrum
+<br />
+<br />
+<br />
+
+// printer alle vagter samt book knap
 <h1 class="mb-3 mt-3">Alle Vagter</h1>
 <table class="table table-striped">
     <thead>
@@ -52,7 +87,10 @@ else
         }
     </tbody>  
 </table>
-<h1 class="mb-3 mt-3">Din Bookinger</h1>
+
+
+// printer alle personlige bookinger ud
+<h1 class="mb-3 mt-3">Din Vagter</h1>
 
 <table class="table table-striped">
     <thead>
@@ -92,28 +130,29 @@ else
         }
     </tbody>
 </table>
-<div>
-    <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
-</div>
 
 }
 @code {
     // Laver en liste med datamodel klasserne fra shared
     public List<Vagt> VagtListe = new List<Vagt>();
     public List<Booking> BookingListe = new List<Booking>();
+    public List<Msg_board> BeskedListe = new List<Msg_board>();
 
     // Injecter metoderne fra services
     [Inject]
     public IVagtService ServiceVagt { get; set; }
     [Inject]
     public IBookingService ServiceBooking { get; set; }
-    // På initialized henter vagter og bookinger
+    [Inject]
+    public IMessageService ServiceMessage { get; set; }
+    // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         var bruger_id = GlobalState.bruger_id;
         BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
 
+        BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
     }
 
     private void SkiftBrugerInfo()
