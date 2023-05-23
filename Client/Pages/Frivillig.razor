@@ -10,6 +10,12 @@
 
 <h1>Velkommen, @GlobalState.Brugernavn</h1>
 
+@if (VagtListe.Count == 0)
+{
+      <img src="Images/loading.gif" class="GIF">
+}
+else
+{
 
 <h1 class="mb-3 mt-3">Alle Vagter</h1>
 <table class="table table-striped">
@@ -77,6 +83,7 @@
     <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
 </div>
 
+}
 @code {
     // Laver en liste med datamodel klasserne fra shared
     public List<Vagt> VagtListe = new List<Vagt>();
