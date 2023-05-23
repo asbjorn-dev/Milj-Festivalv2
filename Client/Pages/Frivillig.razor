@@ -16,7 +16,42 @@
 }
 else
 {
+    // knap til at skifte brugerinfo
+ <div>
+    <button class="BrugerInfoKnap" onclick="@SkiftBrugerInfo">Skift din bruger information</button>
+</div>
 
+
+<!-- Printer alle Beskeder ud-->
+<div class="besked-oversigt">
+     <h1 class="mb-3 mt-3">Beskeder</h1>
+    <table class="message-table">
+                <thead>
+                     <tr>
+                         <th>Besked</th>
+                         <th>Afsender</th>
+                         <th>Tidspunkt</th>
+                     </tr>
+                </thead>
+        <tbody>
+            @foreach (var besked in BeskedListe)
+                {
+                <tr>
+                    <td>@besked.besked</td>
+                    <td>@besked.afsender</td>
+                    <td>@besked.tidspunkt</td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
+
+// laver mellemrum
+<br />
+<br />
+<br />
+
+// printer alle vagter samt book knap
 <h1 class="mb-3 mt-3">Alle Vagter</h1>
 <table class="table table-striped">
     <thead>
@@ -51,7 +86,10 @@ else
         }
     </tbody>  
 </table>
-<h1 class="mb-3 mt-3">Din Bookinger</h1>
+
+
+// printer alle personlige bookinger ud
+<h1 class="mb-3 mt-3">Din Vagter</h1>
 
 <table class="table table-striped">
     <thead>
@@ -80,34 +118,6 @@ else
     </tbody>
 </table>
 
-<!-- Printer alle Beskeder ud-->
-<div class="besked-oversigt">
-     <h1 class="mb-3 mt-3">Beskeder</h1>
-    <table class="message-table">
-                <thead>
-                     <tr>
-                         <th>Besked</th>
-                         <th>Afsender</th>
-                         <th>Tidspunkt</th>
-                     </tr>
-                </thead>
-        <tbody>
-            @foreach (var besked in BeskedListe)
-                {
-                <tr>
-                    <td>@besked.besked</td>
-                    <td>@besked.afsender</td>
-                    <td>@besked.tidspunkt</td>
-                </tr>
-                }
-        </tbody>
-    </table>
-</div>
-
-// knap til at skifte brugerinfo
-<div>
-    <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
-</div>
 }
 @code {
     // Laver en liste med datamodel klasserne fra shared

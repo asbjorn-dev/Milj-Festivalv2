@@ -26,3 +26,9 @@
     .message-table tbody tr:hover {
         background-color: #e6e6e6;
     }
+
+.BrugerInfoKnap {
+    position: relative;
+    left: 735px;
+    top: -45px;
+}
