@@ -246,38 +246,18 @@ else
         StateHasChanged();
     }
 
-
-
-<<<<<<< HEAD
     private async Task HandleValidSubmit()
     {
         await ServiceVagt.TilføjVagt(vagt);
+        StateHasChanged();
 
     }
-=======
-        private async Task HandleValidSubmit()
-        {
-            await ServiceVagt.TilføjVagt(vagt);
-            StateHasChanged();
 
-        }
->>>>>>> 1bcc1aabe360b699f8d60b934c46e496ff1ad0dd
-
-
-
-
-
-<<<<<<< HEAD
     private void RedigerVagt(int vagt_id)
     {
         NavManager.NavigateTo($"/opdatervagt/{vagt_id}");
     }
-=======
-        private void RedigerVagt(int vagt_id)
-        {
-            NavManager.NavigateTo($"/opdatervagt/{vagt_id}");
-        }
->>>>>>> 1bcc1aabe360b699f8d60b934c46e496ff1ad0dd
+
 
     }
 
