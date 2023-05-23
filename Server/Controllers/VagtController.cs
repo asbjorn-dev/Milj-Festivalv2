@@ -44,13 +44,14 @@ namespace Server.Controllers
             await VagtReposi.TilføjVagt(vagt);
         }
 
-
+        [EnableCors("policy")]
 		[HttpGet("hentvagtsingle/{vagt_id}")]
 		public async Task<Vagt> HentVagtSingle(int vagt_id)
 		{
 			return await VagtReposi.HentVagtSingle(vagt_id);
 		}
 
+        [EnableCors("policy")]
 		[HttpPut("opdatervagt/{vagt_id}")]
         public async Task OpdaterVagt([FromBody] Vagt OpdateretVagt)
         {
