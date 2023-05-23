@@ -39,11 +39,10 @@ namespace Server.Models
 
         public async Task TilføjVagt(Vagt vagt)
         {
-            Sql = @"INSERT INTO vagt (vagt_id, område, start_tid, slut_tid, beskrivelse, priotering, antal_personer) 
-             VALUES (@VagtId, @Område, @StartTid, @SlutTid, @Beskrivelse, @Priotering, @AntalPersoner)";
+            Sql = @"INSERT INTO vagt ( område, start_tid, slut_tid, beskrivelse, priotering, antal_personer) 
+             VALUES (@Område, @StartTid, @SlutTid, @Beskrivelse, @Priotering, @AntalPersoner)";
             await Context.Connection.ExecuteAsync(Sql, new
             {
-                VagtId = vagt.vagt_id,
                 Område = vagt.område,
                 StartTid = vagt.start_tid,
                 SlutTid = vagt.slut_tid,

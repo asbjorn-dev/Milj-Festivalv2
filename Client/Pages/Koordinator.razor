@@ -158,11 +158,11 @@ else
             </div>
             <div>
             <label>Vagt prioritering:</label>
-            <InputSelect id="priotering" @bind-Value="vagt.priotering" required>
-                <option value="høj">høj</option>
-                <option value="lav">lav</option>
+            <InputSelect id="priotering" @bind-Value="vagt.priotering" class="form-control">
+               <option value="høj">høj</option>
+               <option value="lav">lav</option>
             </InputSelect>
-             </div>
+           </div>
             <div>
                 <label>Antal personer:</label>
                 <InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" required />
@@ -233,6 +233,7 @@ else
         private async Task HandleValidSubmit()
         {
             await ServiceVagt.TilføjVagt(vagt);
+            StateHasChanged();
 
         }
 
