@@ -158,7 +158,9 @@ else
             </div>
             <div>
                 <label>Vagt prioritering:</label>
-                <InputText id="priotering" @bind-Value="vagt.priotering" required />
+                <InputSelect id="priotering" @bind-Value="vagt.priotering" required />
+                <option value="høj">Høj</option>
+                <option value="lav">Lav</option>
             </div>
             <div>
                 <label>Antal personer:</label>
