@@ -83,23 +83,49 @@ else
     <button onclick="@SkiftBrugerInfo">Skift din bruger information</button>
 </div>
 
+<!-- Printer alle Beskeder ud-->
+    <h1 class="mb-3 mt-3">Beskeder</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Besked</th>
+                <th>Afsender</th>
+                <th>Tidspunkt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var besked in BeskedListe)
+                {
+                <tr>
+                    <td>@besked.besked</td>
+                    <td>@besked.afsender</td>
+                    <td>@besked.tidspunkt</td>
+                </tr>
+                }
+        </tbody>
+    </table>
 }
 @code {
     // Laver en liste med datamodel klasserne fra shared
     public List<Vagt> VagtListe = new List<Vagt>();
     public List<Booking> BookingListe = new List<Booking>();
+    public List<Msg_board> BeskedListe = new List<Msg_board>();
 
     // Injecter metoderne fra services
     [Inject]
     public IVagtService ServiceVagt { get; set; }
     [Inject]
     public IBookingService ServiceBooking { get; set; }
+    [Inject]
+    public IMessageService ServiceMessage { get; set; }
     // På initialized henter vagter og brugere
     protected override async Task OnInitializedAsync()
     {
         var bruger_id = GlobalState.bruger_id;
         BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
     }
 
     private void SkiftBrugerInfo()
@@ -132,6 +158,7 @@ else
             Console.WriteLine("Fejl ved booking: " + ex.Message);
         }
     }
+
 }   
 
 

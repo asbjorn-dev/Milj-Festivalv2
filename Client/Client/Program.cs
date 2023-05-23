@@ -28,7 +28,11 @@ public class Program
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
-		builder.Services.AddSingleton<GlobalState>(); 
+        builder.Services.AddHttpClient<IMessageService, MessageService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+        });
+        builder.Services.AddSingleton<GlobalState>(); 
 		await builder.Build().RunAsync();
     }
 }
