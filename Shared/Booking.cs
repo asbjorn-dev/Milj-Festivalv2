@@ -9,6 +9,7 @@ namespace MiljøFestivalv2.Shared
 	// booking arver fra vagt til frivilligsiden 
 	public class Booking : Vagt
 	{
+		// Denne klasse er kun til front-end variabler
 		public int booking_id { get; set; }
 		public string fulde_navn { get; set; }
 		public int telefon_nummer { get; set; }
