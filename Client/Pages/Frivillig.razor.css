@@ -3,6 +3,22 @@
     margin: 20px auto;
 }
 
+    .besked-oversigt th:first-child,
+    .besked-oversigt td:first-child {
+        width: 70%; /* Adjust the width as needed */
+    }
+
+    .besked-oversigt th:nth-child(2),
+    .besked-oversigt td:nth-child(2),
+    .besked-oversigt th:nth-child(3),
+    .besked-oversigt td:nth-child(3) {
+        width: 15%; /* Adjust the width as needed */
+    }
+
+    .besked-oversigt td {
+        text-align: left;
+    }
+
 .message-table {
     width: 100%;
     border-collapse: collapse;
