@@ -9,6 +9,7 @@ namespace Client.Services
     public class BrugerService : IBrugerService
     {
         private readonly HttpClient HttpClient;
+
         private string Host = "https://localhost:7155";
         //private string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
 

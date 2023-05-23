@@ -8,7 +8,7 @@ namespace Client.Services
 	{
         private readonly HttpClient HttpClient;
         public string Host = "https://localhost:7155";
-       // public string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
+        //public string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
 
         public VagtService(HttpClient HttpClient)
         {
