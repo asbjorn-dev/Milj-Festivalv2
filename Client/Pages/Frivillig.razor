@@ -3,6 +3,7 @@
 @using System.Net.Http.Json
 @using Client.Services
 @using System.Globalization
+@using System 
 @inject HttpClient Http
 @inject GlobalState GlobalState
 @inject NavigationManager NavManager
@@ -42,11 +43,11 @@ else
                 <td>@vagt.slut_tid</td>
                 <td>@vagt.priotering</td>
                 @if (vagt.antal_personer > 0)
-                {
-                <td>
+                    {
+                       <td>
                         <button class="btn btn-primary" @onclick="(() => BookVagt(vagt.vagt_id))">Book vagt</button>
-                </td>
-                }
+                       </td>
+                    }
             </tr>
         }
     </tbody>  
@@ -75,6 +76,18 @@ else
                 <td>@booking.slut_tid</td>
                 <td>@booking.priotering</td>
                 <td>@booking.vagt_id</td>
+                @if (!booking.er_låst)
+                {
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => SletBooking(booking.booking_id)">Slet Booking</button>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <button class="btn btn-danger" style="background-color: gray;" disabled="disabled" @onclick="() => SletBooking(booking.booking_id)">Vagten er låst</button>
+                    </td>
+                }
             </tr>
         }
     </tbody>
@@ -94,12 +107,13 @@ else
     public IVagtService ServiceVagt { get; set; }
     [Inject]
     public IBookingService ServiceBooking { get; set; }
-    // På initialized henter vagter og brugere
+    // På initialized henter vagter og bookinger
     protected override async Task OnInitializedAsync()
     {
         var bruger_id = GlobalState.bruger_id;
         BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+
     }
 
     private void SkiftBrugerInfo()
@@ -112,10 +126,10 @@ else
     {
         // Opret en ny booking
         var booking = new BookingSql
-            {
-                bruger_id = GlobalState.bruger_id,
-                vagt_id = vagtId
-            };
+        {
+            bruger_id = GlobalState.bruger_id,
+            vagt_id = vagtId
+        };
 
         try
         {
@@ -131,6 +145,14 @@ else
             // Håndter fejl her...
             Console.WriteLine("Fejl ved booking: " + ex.Message);
         }
+    }
+
+    private async Task SletBooking(int BookingId)
+    {
+        await ServiceBooking.SletBooking(BookingId);
+        BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger_id)).ToList();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        StateHasChanged();
     }
 }   
 

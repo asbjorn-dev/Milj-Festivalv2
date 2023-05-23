@@ -33,12 +33,51 @@ namespace Server.Models
 
 		public async Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId)
 		{
-			Sql = $"SELECT booking.booking_id, bruger.fulde_navn, bruger.telefon_nummer, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id WHERE booking.bruger_id = @BrugerId";
+			Sql = $"SELECT booking.booking_id, bruger.fulde_navn, bruger.telefon_nummer, booking.er_låst, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id WHERE booking.bruger_id = @BrugerId";
 			var parametre = new { BrugerId = brugerId };
 			var bookingListe = await Context.Connection.QueryAsync<Booking>(Sql, parametre);
 			Console.WriteLine(brugerId + "hej brugerid");
 			return bookingListe.ToList();
 		}
+
+        public async Task<Booking> HentBookingSingle(int BookingId)
+        {
+            Sql = $"SELECT * FROM booking WHERE booking_id = @BookingId";
+            var Parametre = new { BookingId = BookingId };
+
+            var booking = await Context.Connection.QueryFirstOrDefaultAsync<Booking>(Sql, Parametre);
+
+            return booking;
+        }
+
+        public async Task SletBooking(int BookingId)
+        {
+            var booking = await HentBookingSingle(BookingId);
+            await FjernBooking(BookingId);
+            await OpdaterVagtPlus(booking.vagt_id);
+        }
+
+        private async Task FjernBooking(int bookingId)
+        {
+            Sql = $"DELETE FROM booking WHERE booking_id = @BookingId";
+            var Parametre = new
+            {
+                BookingId = bookingId
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
+        private async Task OpdaterVagtPlus(int VagtId)
+        {
+            Sql = "UPDATE vagt SET antal_personer = antal_personer + 1 WHERE vagt_id = @vagt_id;";
+            var Parametre = new
+            {
+                vagt_id = VagtId,
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
 
         public async Task OpretBooking(BookingSql booking)
         {

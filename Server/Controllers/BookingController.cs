@@ -73,6 +73,14 @@ namespace Server.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [EnableCors("policy")]
+        [HttpDelete("slet/{BookingId}")]
+        public async Task SletBooking(int BookingId)
+        {
+            Booking booking = await BookingRepo.HentBookingSingle(BookingId);
+            await BookingRepo.SletBooking(BookingId);
+        }
     }
 }
 

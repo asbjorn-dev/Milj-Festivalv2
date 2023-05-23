@@ -120,6 +120,7 @@ else
                 <th>Prioritering</th>
                 <th>Vagt id</th>
                 <th>Låst</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -142,6 +143,9 @@ else
                     {
                         <td> Nej <button @onclick="() => SkiftLåsStatus(booking.booking_id)">Lås vagt</button> </td>
                     }
+                <td>
+                    <button class="btn btn-danger" @onclick="() => SletBooking(booking.booking_id)">Slet booking</button>
+                </td>
                 </tr>
                 }
         </tbody>
@@ -251,6 +255,14 @@ else
         await ServiceVagt.TilføjVagt(vagt);
         StateHasChanged();
 
+    }
+
+    private async Task SletBooking(int BookingId)
+    {
+        await ServiceBooking.SletBooking(BookingId);
+        BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        StateHasChanged();
     }
 
     private void RedigerVagt(int vagt_id)

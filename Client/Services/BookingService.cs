@@ -38,6 +38,11 @@ namespace Client.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task SletBooking(int bookingId)
+        {
+            await HttpClient.DeleteAsync($"{Host}/api/bookinger/slet/{bookingId}");
+        }
+
         public async Task SkiftLåsStatus(int BookingId)
         {
             await HttpClient.PutAsync($"{Host}/api/bookinger/skiftstatus/{BookingId}", null);
