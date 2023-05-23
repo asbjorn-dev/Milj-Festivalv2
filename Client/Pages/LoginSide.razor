@@ -8,6 +8,12 @@
 @inject HttpClient Http
 
 <h3>Login</h3>
+@if (IsLoading)
+{
+    <img src="Images/loading.gif" class="GIF">
+}
+else
+{
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
@@ -31,10 +37,12 @@
 		<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
 	</div>
 </EditForm>
-
+}
 
 
 @code {
+
+	public bool IsLoading { get; set; } = false;
 	public string UsynligTilSynlig = "hidden";
 
 	Login Brugerinfo = new();
@@ -53,7 +61,9 @@
 
 	private async Task HandleValidSubmit()
 	{
+		IsLoading = true;
 		var loggedInBruger = await LoginService.Login(Brugerinfo);
+		IsLoading = false;
 
 		if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
 		{ 
