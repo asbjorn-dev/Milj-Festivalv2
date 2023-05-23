@@ -58,6 +58,21 @@ namespace Server.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [EnableCors("policy")]
+        [HttpPut("skiftstatus/{BookingId}")]
+        public async Task<IActionResult> SkiftLåsStatus(int BookingId)
+        {
+            try
+            {
+                await BookingRepo.SkiftLåsStatus(BookingId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
 

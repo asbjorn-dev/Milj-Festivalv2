@@ -8,6 +8,7 @@ namespace Server.Models
         Task<IEnumerable<Booking>> HentAlleBookinger();
         Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId);
         Task OpretBooking(BookingSql booking);
+        Task SkiftLåsStatus(int BookingId);
     }
 }
 

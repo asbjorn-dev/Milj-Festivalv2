@@ -38,5 +38,10 @@ namespace Client.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task SkiftLåsStatus(int BookingId)
+        {
+            await HttpClient.PutAsync($"{Host}/api/bookinger/skiftstatus/{BookingId}", null);
+        }
+
     }
 }

@@ -24,8 +24,9 @@ namespace Server.Models
 
         public async Task<IEnumerable<Booking>> HentAlleBookinger()
         {
-            Sql = $"SELECT booking.booking_id, bruger.fulde_navn, bruger.telefon_nummer, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id;";
-     
+            // laver en join mellem booking, bruger og vagt og laver en order by start tiden fra vagt tabellen
+            Sql = $"SELECT booking.booking_id, booking.er_låst, bruger.fulde_navn, bruger.telefon_nummer, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id ORDER BY vagt.start_tid;";
+
             var BookingList = await Context.Connection.QueryAsync<Booking>(Sql);
             return BookingList.ToList();
         }
@@ -67,6 +68,13 @@ namespace Server.Models
                 vagt_id = VagtId,
             };
 
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
+        }
+
+        public async Task SkiftLåsStatus(int BookingId)
+        {
+            Sql = "UPDATE booking SET er_låst = NOT er_låst WHERE booking_id = @booking_id";
+            var Parametre = new { booking_id = BookingId };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
     }
