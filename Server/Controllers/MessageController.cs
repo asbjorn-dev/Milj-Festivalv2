@@ -19,11 +19,19 @@ namespace Server.Controllers
         {
             MessageReposi = MessageRepo;
         }
+
         [EnableCors("policy")]
         [HttpGet("hentallebeskeder")]
         public async Task<IEnumerable<Msg_board>> HentAlleBeskeder()
         {
             return await MessageReposi.HentAlleBeskeder();
+        }
+
+        [EnableCors("policy")]
+        [HttpPost("tilfoejbesked")]
+        public async Task TilføjBesked(Msg_board msg)
+        {
+            await MessageReposi.TilføjBesked(msg);
         }
     }
 }

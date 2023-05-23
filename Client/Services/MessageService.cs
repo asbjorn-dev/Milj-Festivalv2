@@ -19,5 +19,10 @@ namespace Client.Services
             var Resultat = HttpClient.GetFromJsonAsync<Msg_board[]>($"{Host}/api/beskeder/hentallebeskeder");
             return Resultat;
         }
+
+        public async Task TilføjBesked(Msg_board msg)
+        {
+            await HttpClient.PostAsJsonAsync($"{Host}/api/beskeder/tilfoejbesked", msg);
+        }
     }
 }

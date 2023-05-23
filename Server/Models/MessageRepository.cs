@@ -29,5 +29,17 @@ namespace Server.Models
             var BeskedListe = await Context.Connection.QueryAsync<Msg_board>(Sql);
             return BeskedListe.ToList();
         }
+
+        public async Task TilføjBesked(Msg_board msg)
+        {
+            Sql = @"INSERT INTO msg_board ( besked, afsender, tidspunkt) 
+                    VALUES (@Besked, @Afsender, @Tidspunkt)";
+            await Context.Connection.ExecuteAsync(Sql, new
+            {
+                Besked = msg.besked,
+                Afsender = msg.afsender,
+                Tidspunkt = msg.tidspunkt
+            });
+        }
     }
 }

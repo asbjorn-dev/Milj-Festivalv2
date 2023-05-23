@@ -8,7 +8,6 @@ namespace MiljøFestivalv2.Shared
 {
     public class Msg_board
     {
-        public int id {  get; set; }
         public string besked { get; set; }
         public string afsender { get; set; }
         public DateTime tidspunkt { get; set; }
