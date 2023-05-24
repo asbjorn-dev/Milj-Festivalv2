@@ -1,4 +1,28 @@
 ﻿/* koordinator.css */
+* {
+    color: white;
+}
+
+tbody td {
+    padding: 10px;
+}
+
+thead th {
+    background-color: orange;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.btn1 {
+    background-color:orange;
+}
+
 body, h3, div, label, input, button {
     margin: 0;
     padding: 0;
@@ -108,3 +132,5 @@ button.coordinator-button {
     button.coordinator-button:active {
         background-color: rgba(255, 255, 255, 0.3);
     }
+
+

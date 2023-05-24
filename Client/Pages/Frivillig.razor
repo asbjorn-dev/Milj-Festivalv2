@@ -39,7 +39,7 @@ else
 	<!-- Printer alle Beskeder ud-->
 	<div class="besked-oversigt">
 		<h1 class="mb-3 mt-3">Beskeder</h1>
-		<table class="message-table">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Besked</th>
@@ -64,8 +64,9 @@ else
 	<br />
 	<br />
 	<br />
-
+	
 	// printer alle vagter samt book knap
+<div class="Diverne">
 	<h1 class="mb-3 mt-3">Alle Vagter</h1>
 	<table class="table table-striped">
 		<thead>
@@ -95,23 +96,25 @@ else
 					@if (vagt.antal_personer > 0 && !ErVagtBooket(vagt.vagt_id))
 					{
 						<td>
-							<button class="btn btn-primary" @onclick="(() => BookVagt(vagt.vagt_id))">Book vagt</button>
+							<button class="btnBook" @onclick="(() => BookVagt(vagt.vagt_id))">Book vagt</button>
 						</td>
 					}
 					else if (vagt.antal_personer > 0)
 					{
 						<td>
-							<button class="btn btn-primary" disabled="disabled">Allerede booket</button>
+							<button class="btnBook" disabled="disabled">Allerede booket</button>
 						</td>
 					}
 				</tr>
 			}
 		</tbody>
 	</table>
+</div>
 	<br />
 	<br />
 
-	// printer alle personlige bookinger ud
+	<!--// printer alle personlige bookinger ud-->
+	<div class="Diverne1">
 	<h1 class="mb-3 mt-3">Dine bookinger</h1>
 
 	<table class="table table-striped">
@@ -155,6 +158,7 @@ else
 			}
 		</tbody>
 	</table>
+</div>
 
 }
 @code {
