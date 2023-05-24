@@ -1,0 +1,76 @@
+﻿.reward-list {
+    margin: 20px;
+}
+
+    .reward-list h3 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+.reward-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.reward-item {
+    flex-basis: 45%; /* Adjust as needed to fit desired width */
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.reward-list h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.reward-list p {
+    margin: 5px 0;
+}
+
+.claim-button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .claim-button:hover {
+        background-color: #45a049;
+    }
+
+.small-gif {
+    width: 100px;
+    height: auto;
+}
+
+.reward-item button {
+    margin-top: auto;
+}
+
+.small-gif1 {
+    width: 195px;
+    height: auto;
+}
+
+.small-gif2 {
+    width: 150px;
+    height: auto;
+}
+
+.small-gif3 {
+    width: 150px;
+    height: auto;
+}
+h5 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+}

@@ -23,6 +23,10 @@ else
 		<button class="BrugerInfoKnap" onclick="@SkiftBrugerInfo">Skift din bruger information</button>
 	</div>
 
+	<div>
+		<button class="BelønningInfoKnap" onclick="@RedirectBelønning">Gå til belønninger</button>
+	</div>
+
 
 	<!-- Printer alle Beskeder ud-->
 	<div class="besked-oversigt">
@@ -173,6 +177,11 @@ else
 	{
 		var bruger_id = GlobalState.bruger_id;
 		NavManager.NavigateTo($"/personinfo/{bruger_id}");
+	}
+
+	private void RedirectBelønning()
+	{
+		NavManager.NavigateTo($"/belønninger");
 	}
 
 	private async Task BookVagt(int vagtId)
