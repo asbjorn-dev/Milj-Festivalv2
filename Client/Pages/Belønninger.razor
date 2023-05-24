@@ -33,6 +33,7 @@
       <img src="Images/tshirt.gif" class="small-gif3">
       <button class="claim-button" onclick="@SynlighedFunktion">Indøs!</button>
      </div>
+     <h5 style="visibility:@Synlighed2">Indløser...</h5>
       <h5 style="visibility:@Synlighed">Belønning er indløst. Kontakt en koordinator for mere hjælp</h5>
   </div>
   <button class="back-button" @onclick="RedirectTilbage">Tilbage</button>
@@ -41,9 +42,13 @@
 
 
 @code {
+    public string Synlighed2 = "hidden";
     public string Synlighed = "hidden";
 
-    public void SynlighedFunktion() {
+    public async Task SynlighedFunktion() {
+        Synlighed2 = "visible";
+        await Task.Delay(3000);
+        Synlighed2 = "hidden";
         Synlighed = "visible";
     }
     public void RedirectTilbage()
