@@ -9,7 +9,8 @@
 @inject NavigationManager NavManager
 
 <link rel="stylesheet" type="text/css" href="Frivillig.razor.css">
-<h1>Velkommen, @GlobalState.Brugernavn</h1>
+<h3>Velkommen, @GlobalState.Brugernavn</h3>
+<h1>Dine optjente point @bruger.dine_point</h1>
 
 @if (VagtListe.Count == 0)
 {
@@ -64,6 +65,7 @@ else
 				<th>Start Tid</th>
 				<th>Slut tid</th>
 				<th>Prioritering</th>
+				<th>Point</th>
 				<th>&zwnj;</th>
 			</tr>
 		</thead>
@@ -77,6 +79,7 @@ else
 					<td>@vagt.start_tid</td>
 					<td>@vagt.slut_tid</td>
 					<td>@vagt.priotering</td>
+					<td>@vagt.point</td>
 					@if (vagt.antal_personer > 0 && !ErVagtBooket(vagt.vagt_id))
 					{
 						<td>
@@ -109,6 +112,7 @@ else
 				<th>Slut tid</th>
 				<th>Prioritering</th>
 				<th>Vagt id</th>
+				<th>Point</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -122,6 +126,7 @@ else
 					<td>@booking.slut_tid</td>
 					<td>@booking.priotering</td>
 					<td>@booking.vagt_id</td>
+					<td>@booking.point</td>
 					@if (!booking.er_låst)
 					{
 						<td>
@@ -145,6 +150,7 @@ else
 	public List<Vagt> VagtListe = new List<Vagt>();
 	public List<Booking> BookingListe = new List<Booking>();
 	public List<Msg_board> BeskedListe = new List<Msg_board>();
+	public Bruger bruger = new Bruger();
 
 	// Injecter metoderne fra services
 	[Inject]
@@ -182,7 +188,7 @@ else
 		var booking = new BookingSql
 			{
 				bruger_id = GlobalState.bruger_id,
-				vagt_id = vagtId
+				vagt_id = vagtId,
 			};
 
 		try

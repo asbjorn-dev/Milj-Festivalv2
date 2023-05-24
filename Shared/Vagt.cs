@@ -15,6 +15,7 @@ namespace MiljøFestivalv2.Shared
 		public string beskrivelse { get; set; }
 		public string priotering { get; set; }
 		public int antal_personer { get; set; }
+		public int point { get; set; }
 	}
 }
 

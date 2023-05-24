@@ -8,6 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection.Metadata;
+using System.Drawing;
 
 namespace Server.Models
 {
@@ -83,7 +84,9 @@ namespace Server.Models
         {
             await LavBooking(booking);
             await OpdaterVagt(booking.vagt_id);
-        }
+            await TilføjPoint(booking.vagt_id, booking.point);
+
+		}
 
         private async Task LavBooking(BookingSql booking)
         {
@@ -110,13 +113,26 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
+
         public async Task SkiftLåsStatus(int BookingId)
         {
             Sql = "UPDATE booking SET er_låst = NOT er_låst WHERE booking_id = @booking_id";
             var Parametre = new { booking_id = BookingId };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
-    }
+
+		// Tilføjer point til brugeren når de har booket en vagt
+		private async Task TilføjPoint(int VagtId, int Point)
+		{
+			Sql = $"UPDATE bruger SET dine_point = dine_point + @Point WHERE vagt_id = @VagtId";
+			var Parametre = new
+			{
+				vagt_id = VagtId,
+				dine_point = Point
+			};
+			await Context.Connection.ExecuteAsync(Sql, Parametre);
+		}
+	}
 }
 
 

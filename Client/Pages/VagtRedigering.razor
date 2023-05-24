@@ -42,7 +42,10 @@
                <option value="lav">lav</option>
             </InputSelect>
            </div>
-
+		    <div>
+                <label>Antal point</label>
+                <InputNumber id="point" @bind-Value="vagt.point" required />
+            </div>
 			<div class="form-group">
 				<label for="antal_personer">Antal personer:</label>
 				<InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" class="form-control" />

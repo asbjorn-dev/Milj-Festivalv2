@@ -39,8 +39,8 @@ namespace Server.Models
 
         public async Task TilføjVagt(Vagt vagt)
         {
-            Sql = @"INSERT INTO vagt ( område, start_tid, slut_tid, beskrivelse, priotering, antal_personer) 
-             VALUES (@Område, @StartTid, @SlutTid, @Beskrivelse, @Priotering, @AntalPersoner)";
+            Sql = @"INSERT INTO vagt ( område, start_tid, slut_tid, beskrivelse, priotering, antal_personer, point) 
+             VALUES (@Område, @StartTid, @SlutTid, @Beskrivelse, @Priotering, @AntalPersoner, @Point)";
             await Context.Connection.ExecuteAsync(Sql, new
             {
                 Område = vagt.område,
@@ -48,7 +48,8 @@ namespace Server.Models
                 SlutTid = vagt.slut_tid,
                 Beskrivelse = vagt.beskrivelse,
                 Priotering = vagt.priotering,
-                AntalPersoner = vagt.antal_personer
+                AntalPersoner = vagt.antal_personer,
+                Point = vagt.point
             });
         }
 
@@ -63,7 +64,7 @@ namespace Server.Models
 
 		public async Task OpdaterVagt(Vagt OpdateretVagt)
         {
-            Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner WHERE vagt_id = @VagtId";
+            Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner, point = @Point WHERE vagt_id = @VagtId";
 
             var Parametre = new
             {
@@ -73,7 +74,8 @@ namespace Server.Models
                 Beskrivelse = OpdateretVagt.beskrivelse,
                 Priotering = OpdateretVagt.priotering,
                 AntalPersoner = OpdateretVagt.antal_personer,
-                VagtId = OpdateretVagt.vagt_id
+                VagtId = OpdateretVagt.vagt_id,
+                Point = OpdateretVagt.point
             };
 
             await Context.Connection.ExecuteAsync(Sql, Parametre);
