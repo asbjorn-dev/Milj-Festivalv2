@@ -32,11 +32,11 @@
     }
 
     .message-table th {
-        background-color: #f2f2f2;
+        background-color: #5F7A75;
     }
 
     .message-table tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: #5F7A75;
     }
 
     .message-table tbody tr:hover {
@@ -48,7 +48,11 @@
     left: 735px;
     top: -45px;
 }
-
+.BelønningInfoKnap {
+    position: relative;
+    left: 735px;
+    top: -35px;
+}
 /* tabler til vagter */
 h1 {
     font-size: 24px;
@@ -64,7 +68,7 @@ h1 {
 
 /* Tilføjende styling til table head */
 thead th {
-    background-color: #1b6ec2;
+    background-color: #5F7A75;
     padding: 10px;
     text-align: left;
     font-weight: bold;

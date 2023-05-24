@@ -1,4 +1,12 @@
-﻿@page "/frivillig"
+﻿<style>
+    body {
+        background-color: #315d55;
+    }
+</style>
+
+
+
+@page "/frivillig"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
 @using Client.Services
@@ -21,6 +29,10 @@ else
 	// knap til at skifte brugerinfo
 	<div>
 		<button class="BrugerInfoKnap" onclick="@SkiftBrugerInfo">Skift din bruger information</button>
+	</div>
+
+	<div>
+		<button class="BelønningInfoKnap" onclick="@RedirectBelønning">Gå til belønninger</button>
 	</div>
 
 
@@ -176,8 +188,13 @@ else
         NavManager.NavigateTo($"/personinfo/{bruger_id}");
     }
 
-    private async Task BookVagt(int vagtId)
-    {
+	private void RedirectBelønning()
+	{
+		NavManager.NavigateTo($"/belønninger");
+	}
+
+	private async Task BookVagt(int vagtId)
+	{
 
         // Tjekker først om brugeren allerede har booket vagten.
         if (ErVagtBooket(vagtId))
