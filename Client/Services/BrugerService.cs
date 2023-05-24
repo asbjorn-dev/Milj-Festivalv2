@@ -17,6 +17,7 @@ namespace Client.Services
         {
             this.HttpClient = HttpClient;
         }
+
         public Task<Bruger[]> HentAlleFrivillige() 
         {
             var Resultat = HttpClient.GetFromJsonAsync<Bruger[]>($"{Host}/api/brugere/hentallefrivillige");
@@ -28,9 +29,9 @@ namespace Client.Services
             await HttpClient.PostAsJsonAsync($"{Host}/api/brugere/tilfoejfrivillig", bruger);
         }
 
-        public async Task<Login> Login(Login brugerinfo)
+        public async Task<Bruger> Login(Login brugerinfo)
         {
-            return await HttpClient.GetFromJsonAsync<Login>($"{Host}/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
+            return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
            
         }
 

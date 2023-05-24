@@ -38,7 +38,7 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         [HttpGet("login/{brugernavn}/{password}")]
-        public Login Login(string brugernavn, string password)
+        public Bruger Login(string brugernavn, string password)
         {
             return FrivilligRepo.HentBrugerMedBrugernavnOgPassword(brugernavn, password);
 
