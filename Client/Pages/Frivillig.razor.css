@@ -1,4 +1,13 @@
-﻿.besked-oversigt {
+﻿body,
+h1,
+h3,
+th,
+td,
+button {
+    color: white;
+}
+
+.besked-oversigt {
     width: 80%;
     margin: 20px auto;
 }
@@ -47,11 +56,13 @@
     position: relative;
     left: 735px;
     top: -45px;
+    color:black;
 }
 .BelønningInfoKnap {
     position: relative;
     left: 735px;
     top: -35px;
+    color: black;
 }
 /* tabler til vagter */
 h1 {
@@ -68,12 +79,14 @@ h1 {
 
 /* Tilføjende styling til table head */
 thead th {
-    background-color: #5F7A75;
+    background-color: orange;
     padding: 10px;
     text-align: left;
     font-weight: bold;
 }
-
+.btnBook {
+    background-color: orange;
+}
 /* Tilføjende styling til table body */
 tbody td {
     padding: 10px;
