@@ -11,5 +11,7 @@ namespace MiljøFestivalv2.Shared
         public int bruger_id { get; set; }
         public int vagt_id { get; set; }
         public Boolean er_låst { get; set; }
+        public int point { get; set; }
+
     }
 }

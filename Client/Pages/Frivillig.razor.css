@@ -48,7 +48,11 @@
     left: 735px;
     top: -45px;
 }
-
+.BelønningInfoKnap {
+    position: relative;
+    left: 735px;
+    top: -35px;
+}
 /* tabler til vagter */
 h1 {
     font-size: 24px;

@@ -1,0 +1,53 @@
+﻿@page "/belønninger"
+@using MiljøFestivalv2.Shared
+@using System.Net.Http.Json
+@using Client.Services
+@using System.Globalization
+@inject NavigationManager NavManager
+@inject HttpClient Http
+
+<div class="reward-list">
+  <h3>Belønninger</h3>
+  <div class="reward-container">
+    <div class="reward-item">
+      <h4>Få en gratis fadøl på Koncertpladsen!</h4>
+      <p>Koster 10 point</p>
+      <img src="Images/fadøl.gif" class="small-gif">
+      <button class="claim-button" onclick="@SynlighedFunktion">Indøs!</button>
+    </div>
+    <div class="reward-item">
+      <h4>Hamburger</h4>
+      <p>Koster 15 point</p>
+      <img src="Images/hamburger.gif" class="small-gif1">
+      <button class="claim-button" onclick="@SynlighedFunktion">Indøs!</button>
+    </div>
+    <div class="reward-item">
+      <h4>Endagsbillet til Smukfest</h4>
+      <p>Koster 40 point</p>
+      <img src="Images/smukfest.gif" class="small-gif2">
+      <button class="claim-button" onclick="@SynlighedFunktion">Indøs!</button>
+     </div>
+     <div class="reward-item">
+      <h4>T-Shirt med hjem</h4>
+      <p>Koster 30 point</p>
+      <img src="Images/tshirt.gif" class="small-gif3">
+      <button class="claim-button" onclick="@SynlighedFunktion">Indøs!</button>
+     </div>
+      <h5 style="visibility:@Synlighed">Belønning er indløst. Kontakt en koordinator for mere hjælp</h5>
+  </div>
+  <button class="back-button" @onclick="RedirectTilbage">Tilbage</button>
+</div>
+
+
+
+@code {
+    public string Synlighed = "hidden";
+
+    public void SynlighedFunktion() {
+        Synlighed = "visible";
+    }
+    public void RedirectTilbage()
+    {
+        NavManager.NavigateTo("/frivillig");
+    }
+}

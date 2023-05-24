@@ -11,6 +11,7 @@ namespace Server.Models
         Task OpretBooking(BookingSql booking);
         Task SletBooking(int BookingId);
         Task SkiftLåsStatus(int BookingId);
-    }
+
+	}
 }
 

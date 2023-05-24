@@ -81,6 +81,8 @@ namespace Server.Controllers
             Booking booking = await BookingRepo.HentBookingSingle(BookingId);
             await BookingRepo.SletBooking(BookingId);
         }
-    }
+
+
+	}
 }
 
