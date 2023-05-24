@@ -7,7 +7,7 @@ namespace Client.Services
     {
         Task<Bruger[]> HentAlleFrivillige();
         Task TilføjBruger(Bruger bruger);
-        Task<Login> Login(Login brugerinfo);
+        Task<Bruger> Login(Login brugerinfo);
         Task SkiftAktivStatus(int bruger_id);
         Task SkiftBlacklistStatus(int bruger_id);
         Task<Bruger> HentBrugerSingle(int bruger_id);

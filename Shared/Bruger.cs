@@ -33,7 +33,6 @@ namespace MiljøFestivalv2.Shared
         public bool er_aktiv { get; set; } = true;
         public bool er_blacklistet { get; set; } = false;
         public int dine_point { get; set; }
-
     }
 }
 

@@ -18,6 +18,7 @@ namespace Client.Services
         {
             this.HttpClient = HttpClient;
         }
+
         public Task<Booking[]> HentAlleBookinger()
         {
             var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"{Host}/api/bookinger/hentallebookinger");

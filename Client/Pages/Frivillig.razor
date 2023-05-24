@@ -9,8 +9,8 @@
 @inject NavigationManager NavManager
 
 <link rel="stylesheet" type="text/css" href="Frivillig.razor.css">
-<h3>Velkommen, @GlobalState.Brugernavn</h3>
-<h1>Dine optjente point @bruger.dine_point</h1>
+<h3>Velkommen, @GlobalState.bruger.brugernavn</h3>
+<h1>Dine optjente point @GlobalState.bruger.dine_point</h1>
 
 @if (VagtListe.Count == 0)
 {
@@ -146,80 +146,82 @@ else
 
 }
 @code {
-	// Laver en liste med datamodel klasserne fra shared
-	public List<Vagt> VagtListe = new List<Vagt>();
-	public List<Booking> BookingListe = new List<Booking>();
-	public List<Msg_board> BeskedListe = new List<Msg_board>();
-	public Bruger bruger = new Bruger();
+    // Laver en liste med datamodel klasserne fra shared
+    public List<Vagt> VagtListe = new List<Vagt>();
+    public List<Booking> BookingListe = new List<Booking>();
+    public List<Msg_board> BeskedListe = new List<Msg_board>();
 
-	// Injecter metoderne fra services
-	[Inject]
-	public IVagtService ServiceVagt { get; set; }
-	[Inject]
-	public IBookingService ServiceBooking { get; set; }
-	[Inject]
-	public IMessageService ServiceMessage { get; set; }
-	// På initialized henter vagter og brugere
-	protected override async Task OnInitializedAsync()
-	{
-		var bruger_id = GlobalState.bruger_id;
-		BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
-		VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+    // Injecter metoderne fra services
+    [Inject]
+    public IVagtService ServiceVagt { get; set; }
+    [Inject]
+    public IBookingService ServiceBooking { get; set; }
+    [Inject]
+    public IMessageService ServiceMessage { get; set; }
+    [Inject]
+    public IBrugerService ServiceBruger { get; set; }
+    // På initialized henter vagter og brugere
+    protected override async Task OnInitializedAsync()
+    {
+        var bruger_id = GlobalState.bruger.bruger_id;
+        BookingListe = (await ServiceBooking.HentBookingerForBruger(bruger_id)).ToList();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
 
-		BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
-	}
+        BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
+    }
 
-	private void SkiftBrugerInfo()
-	{
-		var bruger_id = GlobalState.bruger_id;
-		NavManager.NavigateTo($"/personinfo/{bruger_id}");
-	}
+    private void SkiftBrugerInfo()
+    {
+        var bruger_id = GlobalState.bruger.bruger_id;
+        NavManager.NavigateTo($"/personinfo/{bruger_id}");
+    }
 
-	private async Task BookVagt(int vagtId)
-	{
+    private async Task BookVagt(int vagtId)
+    {
 
-		// Tjekker først om brugeren allerede har booket vagten.
-		if (ErVagtBooket(vagtId))
-		{
-			Console.WriteLine("Du har allerede booket denne vagt.");
-			return;
-		}
+        // Tjekker først om brugeren allerede har booket vagten.
+        if (ErVagtBooket(vagtId))
+        {
+            Console.WriteLine("Du har allerede booket denne vagt.");
+            return;
+        }
 
-		var booking = new BookingSql
-			{
-				bruger_id = GlobalState.bruger_id,
-				vagt_id = vagtId,
-			};
+        var booking = new BookingSql
+        {
+            bruger_id = GlobalState.bruger.bruger_id,
+            vagt_id = vagtId
+        };
 
-		try
-		{
-			await ServiceBooking.OpretBooking(booking);
+        try
+        {
+            await ServiceBooking.OpretBooking(booking);
 
-			// Opdaterer bookinglisten efter en vellykket booking
-			BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger_id)).ToList();
-			VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-			StateHasChanged();
-		}
-		catch (Exception ex)
-		{
-			// Håndter fejl her...
-			Console.WriteLine("Fejl ved booking: " + ex.Message);
-		}
-	}
+            // Opdaterer bookinglisten efter en vellykket booking
+            BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger.bruger_id)).ToList();
+            VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+			GlobalState.bruger = await ServiceBruger.HentBrugerSingle(GlobalState.bruger.bruger_id);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            // Håndter fejl her
+            Console.WriteLine("Fejl ved booking: " + ex.Message);
+        }
+    }
 
-	private bool ErVagtBooket(int vagtId)
-	{
-		// Metode til at tjekke om bookinglisten indeholder en vagt med samme vagtid
-		return BookingListe.Any(booking => booking.vagt_id == vagtId);
-	}
+    private bool ErVagtBooket(int vagtId)
+    {
+        // Metode til at tjekke om bookinglisten indeholder en vagt med samme vagtid
+        return BookingListe.Any(booking => booking.vagt_id == vagtId);
+    }
 
-	private async Task SletBooking(int BookingId)
-	{
-		await ServiceBooking.SletBooking(BookingId);
-		BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger_id)).ToList();
-		VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
-		StateHasChanged();
-	}
+    private async Task SletBooking(int BookingId)
+    {
+        await ServiceBooking.SletBooking(BookingId);
+        BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger.bruger_id)).ToList();
+        VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+        StateHasChanged();
+    }
 
 
 }

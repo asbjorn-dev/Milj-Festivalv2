@@ -84,7 +84,7 @@ namespace Server.Models
         {
             await LavBooking(booking);
             await OpdaterVagt(booking.vagt_id);
-            await TilføjPoint(booking.vagt_id, booking.point);
+            await TilføjPoint(booking.vagt_id, booking.bruger_id);
 
 		}
 
@@ -116,21 +116,31 @@ namespace Server.Models
 
         public async Task SkiftLåsStatus(int BookingId)
         {
-            Sql = "UPDATE booking SET er_låst = NOT er_låst WHERE booking_id = @booking_id";
+            Sql = "UPDATE booking SET er_låst = NOT er_låst WHERE booking_id = @booking_id;";
             var Parametre = new { booking_id = BookingId };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
 		// Tilføjer point til brugeren når de har booket en vagt
-		private async Task TilføjPoint(int VagtId, int Point)
+		private async Task TilføjPoint(int VagtId, int BrugerId)
 		{
-			Sql = $"UPDATE bruger SET dine_point = dine_point + @Point WHERE vagt_id = @VagtId";
+            Sql = "SELECT * FROM vagt WHERE vagt_id = @VagtId";
 			var Parametre = new
 			{
-				vagt_id = VagtId,
-				dine_point = Point
+			    VagtId = VagtId,
 			};
-			await Context.Connection.ExecuteAsync(Sql, Parametre);
+
+            var vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
+
+            Sql = "UPDATE bruger SET dine_point = dine_point + @Point WHERE bruger_id = @BrugerId;";
+
+            var Parametre2 = new
+            {
+                BrugerId = BrugerId,
+                Point = vagt.point
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre2);
 		}
 	}
 }

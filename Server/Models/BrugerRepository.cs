@@ -51,7 +51,7 @@ namespace Server.Models
         }
 
         //login funktion
-        public Login HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
+        public Bruger HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
         {
             var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
 
@@ -61,14 +61,14 @@ namespace Server.Models
                 Password = password
 
             };
-            var bruger = Context.Connection.QuerySingleOrDefault<Login>(sql, parametre);
+            var bruger = Context.Connection.QuerySingleOrDefault<Bruger>(sql, parametre);
             if(bruger == null)
             {
-                return new Login { Brugernavn = "FEJL", Rolle = "FEJL" };
-                
+                return new Bruger { brugernavn = "FEJL", rolle = "FEJL" };       
             }
             else return bruger;
         }
+
         public async Task SkiftAktivStatus(int bruger_id)
         {
             Sql = "UPDATE bruger SET er_aktiv = NOT er_aktiv WHERE bruger_id = @Bruger_id";

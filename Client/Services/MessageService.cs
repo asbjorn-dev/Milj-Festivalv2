@@ -15,6 +15,7 @@ namespace Client.Services
         {
             this.HttpClient = HttpClient;
         }
+
         public Task<Msg_board[]> HentAlleBeskeder()
         {
             var Resultat = HttpClient.GetFromJsonAsync<Msg_board[]>($"{Host}/api/beskeder/hentallebeskeder");
