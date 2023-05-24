@@ -80,9 +80,8 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-
                 <th>Område</th>
-                <th>Antal Personer</th>
+               <th> <button class="btn1" @onclick="SortByAntalPersoner">Antal Personer</button> </th>
                 <th>Beskrivelse</th>
                 <th>Start Tid</th>
                 <th>Slut tid</th>
@@ -118,7 +117,6 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-
                 <th>Område</th>
                 <th>Beskrivelse</th>
                 <th>Frivillige</th>
@@ -184,8 +182,9 @@ else
             <div>
             <label>Vagt prioritering:</label>
             <InputSelect id="priotering" @bind-Value="vagt.priotering" class="form-control">
-               <option value="høj">høj</option>
-               <option value="lav">lav</option>
+                <option value="lav" style="color:black">Vælg priotet</option>
+               <option value="høj" style="color:black">høj</option>
+               <option value="lav" style="color:black">lav</option>
             </InputSelect>
            </div>
             <div>
@@ -316,6 +315,20 @@ else
         NavManager.NavigateTo($"/opdatervagt/{vagt_id}");
     }
 
+    // Filtrer vagterne efter antal_personer når man trykker på kolonnen i tabellen
+    private bool sortAsc = true;
+    private void SortByAntalPersoner()
+    {
+      if (sortAsc)
+      {
+        VagtListe = VagtListe.OrderBy(v => v.antal_personer).ToList();
+      }
+      else
+      {
+      VagtListe = VagtListe.OrderByDescending(v => v.antal_personer).ToList();
+      }
+    sortAsc = !sortAsc;
+    }
 
     }
 
