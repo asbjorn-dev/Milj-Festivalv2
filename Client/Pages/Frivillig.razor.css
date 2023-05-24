@@ -48,3 +48,29 @@
     left: 735px;
     top: -45px;
 }
+
+/* tabler til vagter */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/* Tilføjende styling til tabellen */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Tilføjende styling til table head */
+thead th {
+    background-color: #1b6ec2;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Tilføjende styling til table body */
+tbody td {
+    padding: 10px;
+}
