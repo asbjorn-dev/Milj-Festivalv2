@@ -25,6 +25,7 @@ namespace MiljøFestivalv2.Shared
        [Required(ErrorMessage = "CPR-nummer er påkrævet")]
        [StringLength(10, MinimumLength = 10, ErrorMessage = "CPRnummer skal være præcis 10 cifre langt og uden bindestreg")]
         public string cpr_nummer { get; set; }
+        [Required(ErrorMessage = "Brugernavn er påkrævet")]
         public string brugernavn { get; set; }
         // Gør password skal have mindst et stort bogstav og et tal
         [Required(ErrorMessage = "Password er påkrævet")]

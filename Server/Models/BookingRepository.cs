@@ -56,6 +56,7 @@ namespace Server.Models
             var booking = await HentBookingSingle(BookingId);
             await FjernBooking(BookingId);
             await OpdaterVagtPlus(booking.vagt_id);
+            await FjernPoint(booking.vagt_id, booking.bruger_id);
         }
 
         private async Task FjernBooking(int bookingId)
@@ -142,7 +143,28 @@ namespace Server.Models
 
             await Context.Connection.ExecuteAsync(Sql, Parametre2);
 		}
-	}
+
+        private async Task FjernPoint(int VagtId, int BrugerId)
+        {
+            Sql = "SELECT * FROM vagt WHERE vagt_id = @VagtId";
+            var Parametre = new
+            {
+                VagtId = VagtId,
+            };
+
+            var vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
+
+            Sql = "UPDATE bruger SET dine_point = dine_point - @Point WHERE bruger_id = @BrugerId;";
+
+            var Parametre2 = new
+            {
+                BrugerId = BrugerId,
+                Point = vagt.point
+            };
+
+            await Context.Connection.ExecuteAsync(Sql, Parametre2);
+        }
+    }
 }
 
 

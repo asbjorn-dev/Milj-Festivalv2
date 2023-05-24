@@ -237,6 +237,7 @@ else
         await ServiceBooking.SletBooking(BookingId);
         BookingListe = (await ServiceBooking.HentBookingerForBruger(GlobalState.bruger.bruger_id)).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
+		GlobalState.bruger = await ServiceBruger.HentBrugerSingle(GlobalState.bruger.bruger_id);
         StateHasChanged();
     }
 
