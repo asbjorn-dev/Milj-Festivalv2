@@ -1,3 +1,10 @@
+<style>
+    body {
+        background-color: #315d55;
+    }
+</style>
+
+
 @page "/login"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
@@ -14,85 +21,85 @@
 }
 else
 {
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-	<DataAnnotationsValidator />
-	<ValidationSummary />
-	<div class="container">
-		<div>
-			<br />
-			<br />
-			<label>Brugernavn:</label>
-			<InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
-		</div>
-		<div>
-			<label>&zwnj; &zwnj; &zwnj; Password:</label>
-			<InputText id="Password" @bind-Value="Brugerinfo.Password" />
-		</div>
-		<br />
+    <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="container">
+            <div>
+                <br />
+                <br />
+                <label>Brugernavn:</label>
+                <InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
+            </div>
+            <div>
+                <label>&zwnj; &zwnj; &zwnj; Password:</label>
+                <InputText id="Password" @bind-Value="Brugerinfo.Password" />
+            </div>
+            <br />
 
-		<button type="submit">Login</button>
-		<button @onclick="Register">Register</button>
-		<br />
-		<br />
-		<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
-	</div>
-</EditForm>
+            <button type="submit">Login</button>
+            <button @onclick="Register">Register</button>
+            <br />
+            <br />
+            <h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
+        </div>
+    </EditForm>
 }
 
 
 @code {
 
-	public bool IsLoading { get; set; } = false;
-	public string UsynligTilSynlig = "hidden";
+    public bool IsLoading { get; set; } = false;
+    public string UsynligTilSynlig = "hidden";
 
-	Login Brugerinfo = new();
-	private EditContext aEditContext;
+    Login Brugerinfo = new();
+    private EditContext aEditContext;
 
-	[Inject]
-	public IBrugerService LoginService { get; set; }
-	//injecter GlobalState så den kan bruges i login, så man er logget ind som brugeren
-	[Inject]
-	public GlobalState GlobalState { get; set; }
+    [Inject]
+    public IBrugerService LoginService { get; set; }
+    //injecter GlobalState så den kan bruges i login, så man er logget ind som brugeren
+    [Inject]
+    public GlobalState GlobalState { get; set; }
 
-	protected override void OnInitialized()
-	{
-		aEditContext = new EditContext(Brugerinfo);
-	}
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(Brugerinfo);
+    }
 
-	private async Task HandleValidSubmit()
-	{
-		IsLoading = true;
-		var loggedInBruger = await LoginService.Login(Brugerinfo);
-		IsLoading = false;
+    private async Task HandleValidSubmit()
+    {
+        IsLoading = true;
+        var loggedInBruger = await LoginService.Login(Brugerinfo);
+        IsLoading = false;
 
-		if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
-		{ 
-			//Sætter GlobalState brugernavnet til at være det samme som loggedInBruger.Brugernavn
-			GlobalState.Brugernavn = loggedInBruger.Brugernavn;
-			GlobalState.bruger_id = loggedInBruger.bruger_id;
-			// Hvis rolle på bruger er "koordinator", redirect til /koordinator
-			if (loggedInBruger.Rolle == "koordinator")
-			{
-				NavManager.NavigateTo("/koordinator");
-			}
-			// Hvis rolle på bruger er "frivillig", redirect til /frivillig
-			else if (loggedInBruger.Rolle == "frivillig")
-			{
-				NavManager.NavigateTo("/frivillig");
-			}
-		}
-		else if (loggedInBruger.Brugernavn == "FEJL")
-		{
-			UsynligTilSynlig = "visible";
-			Console.WriteLine("Login fejlede");
-		}
-	}
+        if (loggedInBruger.Rolle == "koordinator" || loggedInBruger.Rolle == "frivillig")
+        {
+            //Sætter GlobalState brugernavnet til at være det samme som loggedInBruger.Brugernavn
+            GlobalState.Brugernavn = loggedInBruger.Brugernavn;
+            GlobalState.bruger_id = loggedInBruger.bruger_id;
+            // Hvis rolle på bruger er "koordinator", redirect til /koordinator
+            if (loggedInBruger.Rolle == "koordinator")
+            {
+                NavManager.NavigateTo("/koordinator");
+            }
+            // Hvis rolle på bruger er "frivillig", redirect til /frivillig
+            else if (loggedInBruger.Rolle == "frivillig")
+            {
+                NavManager.NavigateTo("/frivillig");
+            }
+        }
+        else if (loggedInBruger.Brugernavn == "FEJL")
+        {
+            UsynligTilSynlig = "visible";
+            Console.WriteLine("Login fejlede");
+        }
+    }
 
 
-	private void Register()
-	{
-		NavManager.NavigateTo("/register");
-	}
+    private void Register()
+    {
+        NavManager.NavigateTo("/register");
+    }
 
 
 }
