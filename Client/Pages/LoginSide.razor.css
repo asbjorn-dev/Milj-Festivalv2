@@ -1,5 +1,6 @@
-﻿@@ -1,82 +0,0 @@ ﻿ /* login.css */
+﻿/* login.css */
 /* Reset default styles */
+
 body, h3, div, label, input, button {
     margin: 0;
     padding: 0;
@@ -18,7 +19,7 @@ body {
 .container {
     max-width: 400px;
     padding: 20px;
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: #5F7A75; 
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: auto; /* Center horizontally */
