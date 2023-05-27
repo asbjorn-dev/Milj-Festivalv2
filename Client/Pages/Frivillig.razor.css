@@ -52,18 +52,7 @@ button {
         background-color: #e6e6e6;
     }
 
-.BrugerInfoKnap {
-    position: relative;
-    left: 735px;
-    top: -45px;
-    color:black;
-}
-.BelønningInfoKnap {
-    position: relative;
-    left: 735px;
-    top: -35px;
-    color: black;
-}
+
 /* tabler til vagter */
 h1 {
     font-size: 24px;
@@ -79,14 +68,42 @@ h1 {
 
 /* Tilføjende styling til table head */
 thead th {
-    background-color: orange;
+    background-color: #00000036;
     padding: 10px;
     text-align: left;
     font-weight: bold;
 }
-.btnBook {
-    background-color: orange;
+.btnTop {
+    background-color: #00000036;
 }
+
+.btnDisaled {
+
+}
+
+.btnBook {
+    padding: 10px 16px;
+    background-color: #00000036; /* Set buttons background color to transparent */
+    color: #fff;
+    border: 1px solid #fff; /* Set buttons border color to white */
+    border-radius: 4px;
+    cursor: pointer;
+    width: 80%; /* Make buttons expand to full width */
+    transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+    .btnBook:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Set buttons background color on hover */
+    }
+
+    .btnBook:active {
+        background-color: rgba(255, 255, 255, 0.3); /* Set buttons background color on active */
+    }
+
+    b.btnBook {
+        margin-top: 8px;
+    }
+
 /* Tilføjende styling til table body */
 tbody td {
     padding: 10px;

@@ -9,7 +9,6 @@ namespace Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddControllers();
             builder.Services.AddSingleton<dBContext>();
@@ -19,6 +18,7 @@ namespace Server
             builder.Services.AddSingleton<IMessageRepository, MessageRepository>();
             builder.Services.AddSingleton<GlobalState>();
 
+            //Tilføjer policy 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("policy",
@@ -31,7 +31,6 @@ namespace Server
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
             app.UseCors("policy");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiljøFestivalv2.Shared
 {
-	// booking arver fra vagt til frivilligsiden 
+	// booking klassen arver fra vagt 
 	public class Booking : Vagt
 	{
 		// Denne klasse er kun til front-end variabler

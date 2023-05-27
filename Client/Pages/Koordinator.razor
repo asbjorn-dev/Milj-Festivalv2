@@ -1,11 +1,4 @@
-﻿<style>
-    body {
-        background-color: #315d55;
-    }
-</style>
-
-
-
+﻿
 @page "/koordinator"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
@@ -13,7 +6,7 @@
 @using System.Globalization
 @inject HttpClient Http
 @inject NavigationManager NavManager
-@inject GlobalState GlobalState
+@inject IJSRuntime jsRuntime;
 
 <head><link rel="stylesheet" href="Koordinator.razor.css" /></head>
 
@@ -26,7 +19,7 @@
 else
 {
     <!-- Printer alle Frivillige ud-->
-    <h1 class="mb-3 mt-3">Alle Frivillige</h1>
+    <h2>Alle Frivillige</h2>
 
     <table class="table table-striped">
         <thead>
@@ -47,26 +40,25 @@ else
                     <td>@frivillige.fulde_navn</td>
                     <td>@frivillige.email</td>
                     <td>@frivillige.telefon_nummer</td>
-                    <td>@frivillige.fødselsdag</td>
+                    <td>@frivillige.GetFødselsdag()</td>
                     <td>@frivillige.cpr_nummer</td>
 
-                    <!--Skifter det den printer ud med ja og nej istedet for false og true-->
                     @if (frivillige.er_aktiv)
                         {
-                        <td><button class="btn1" @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Deaktiver bruger</button> </td>
+                        <td><button class="MainButton" style="width: 70%" @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Deaktiver bruger</button> </td>
                         }
                         else
                         {
-                        <td><button class="btn1" @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Aktiver bruger</button> </td>
+                        <td><button class="MainButton" style="width: 70%" @onclick="() => SkiftAktivStatus(frivillige.bruger_id)">Aktiver bruger</button> </td>
                         }
 
                     @if (frivillige.er_blacklistet)
                         {
-                        <td><button class="btn1" style="background-color: grey" @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Whitelist bruger</button> </td>
+                        <td><button class="MainButton" style="width: 70%; background-color: grey" @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Whitelist bruger</button> </td>
                         }
                         else
                         {
-                        <td><button class="btn1" @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Blacklist bruger</button> </td>
+                        <td><button class="MainButton" style="width: 70%" @onclick="() => SkiftBlacklistStatus(frivillige.bruger_id)">Blacklist bruger</button> </td>
                         }
 
                 </tr>
@@ -75,13 +67,13 @@ else
     </table>
 
     <!-- Printer alle vagter ud-->
-    <h1 class="mb-3 mt-3">Alle Vagter</h1>
-
+    <h2>Alle Vagter</h2>
+    <div><button class="MainButton" style="width: 10%; margin-bottom: 10px" @onclick="ScrollToBottom">Opret vagt</button></div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Område</th>
-               <th> <button class="btn1" @onclick="SortByAntalPersoner">Antal Personer</button> </th>
+               <th> <button class="MainButton" style="width: 80%" @onclick="SortByAntalPersoner">Antal Personer</button> </th>
                 <th>Beskrivelse</th>
                 <th>Start Tid</th>
                 <th>Slut tid</th>
@@ -97,14 +89,14 @@ else
                     <td>@vagt.område</td>
                     <td>@vagt.antal_personer</td>
                     <td>@vagt.beskrivelse</td>
-                    <td>@vagt.start_tid</td>
-                    <td>@vagt.slut_tid</td>
+                    <td>@vagt.FjernSekunderStart().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@vagt.FjernSekunderSlut().ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@vagt.priotering</td>
                     <td>
-                <button class="btn1" @onclick="() => RedigerVagt(vagt.vagt_id)">Rediger vagt</button>
+                <button class="MainButton" @onclick="() => RedigerVagt(vagt.vagt_id)">Rediger vagt</button>
                 </td>
                 <td>
-                <button class="btn1" @onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
+                <button class="btn btn-danger"@onclick="() => DeleteVagt(vagt.vagt_id)">Fjern Vagt</button>
                 </td
                 </tr>
                 }
@@ -112,7 +104,7 @@ else
     </table>
 
     <!-- Printer alle bookinger-->
-    <h1 class="mb-3 mt-3">Bookinger</h1>
+    <h2>Bookinger</h2>
 
     <table class="table table-striped">
         <thead>
@@ -137,20 +129,20 @@ else
                     <td>@booking.beskrivelse</td>
                     <td>@booking.fulde_navn</td>
                     <td>@booking.telefon_nummer</td>
-                    <td>@booking.start_tid</td>
-                    <td>@booking.slut_tid</td>
+                    <td>@booking.FjernSekunderStart().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@booking.FjernSekunderSlut().ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@booking.priotering</td>
                     <td>@booking.vagt_id</td>
                     @if (booking.er_låst)
                     {
-                        <td><button class="btn1" @onclick="() => SkiftLåsStatus(booking.booking_id)">Åbn booking</button> </td>
+                        <td><button class="MainButton" @onclick="() => SkiftLåsStatus(booking.booking_id)">Åbn booking</button> </td>
                     }
                     else
                     {
-                        <td><button class="btn1" @onclick="() => SkiftLåsStatus(booking.booking_id)">Lås booking</button> </td>
+                        <td><button class="MainButton" @onclick="() => SkiftLåsStatus(booking.booking_id)">Lås booking</button> </td>
                     }
                 <td>
-                    <button class="btn1" @onclick="() => SletBooking(booking.booking_id)">Slet booking</button>
+                    <button class="btn btn-danger" @onclick="() => SletBooking(booking.booking_id)">Slet booking</button>
                 </td>
                 </tr>
                 }
@@ -158,30 +150,32 @@ else
     </table>
 
     //editform til at oprette vagter
-     <h1 class="mb-3 mt-3">Opret vagt</h1>
+     <h2>Opret vagt</h2>
+  <div style="display:flex; justify-content:start">
     <EditForm EditContext="@cEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
+        <div class="opret">
         <div class="container"> 
             <div>
                 <label>Område:</label>
-                <InputText id="område" @bind-Value="vagt.område" required />
+                <InputText id="område" style="width: 200px" @bind-Value="vagt.område" required />
             </div>
             <div>
                 <label>Start tid:</label>
-                <InputDate id="start_tid" @bind-Value="vagt.start_tid" required />
+                <InputDate id="start_tid" style="width: 200px" @bind-Value="vagt.start_tid" required />
             </div>
             <div>
                 <label>Slut tid:</label>
-                <InputDate id="slut_tid" @bind-Value="vagt.slut_tid" required />
+                <InputDate id="slut_tid" style="width: 200px" @bind-Value="vagt.slut_tid" required />
             </div>
             <div>
                 <label>Vagt beskrivelse:</label>
-                <InputText id="beskrivelse" @bind-Value="vagt.beskrivelse" required />
+                <InputText id="beskrivelse" style="width: 200px" @bind-Value="vagt.beskrivelse" required />
             </div>
             <div>
-            <label>Vagt prioritering:</label>
-            <InputSelect id="priotering" @bind-Value="vagt.priotering" class="form-control">
+                <label>Priotet:</label>
+            <InputSelect id="priotering" style="width: 200px" @bind-Value="vagt.priotering" class="form-control">
                 <option value="lav" style="color:black">Vælg priotet</option>
                <option value="høj" style="color:black">høj</option>
                <option value="lav" style="color:black">lav</option>
@@ -189,33 +183,38 @@ else
            </div>
             <div>
                 <label>Antal Point</label>
-                <InputNumber id="point" @bind-Value="vagt.point" required />
+                <InputNumber id="point" style="width: 200px" @bind-Value="vagt.point" required />
             </div>
             <div>
                 <label>Antal personer:</label>
-                <InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" required />
+                <InputNumber id="antal_personer" style="width: 200px" @bind-Value="vagt.antal_personer" required />
             </div>
-            <button type="submit">Opret vagt</button>
+            <button class="MainButton" type="submit">Opret vagt</button>
         </div>
+        </div>
+      
     </EditForm>
-
-    // editform til beskeder
-     <h1 class="mb-3 mt-3">Beskeder</h1>
+   </div>
+   <h2>Opret besked</h2>
+   <div style="display:flex; justify-content:start">
         <EditForm EditContext="@dEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmitBeskeder">
         <DataAnnotationsValidator />
         <ValidationSummary />
+        <div class="opret">
         <div class="container"> 
             <div>
                 <label>Besked</label>
-                <InputText id="besked" @bind-Value="besked.besked" required />
+                <InputText id="besked" style="width: 200px" @bind-Value="besked.besked" required />
             </div>
             <div>
                 <label>Afsender</label>
-                <InputText id="afsender" @bind-Value="besked.afsender" required />
+                <InputText id="afsender" style="width: 200px" @bind-Value="besked.afsender" required />
             </div>
-            <button type="submit">Opret besked</button>
+            <button class="MainButton" type="submit">Opret besked</button>
+        </div>
         </div>
     </EditForm>
+    </div>
 
 
 }
@@ -244,18 +243,16 @@ else
     [Inject]
     public IMessageService ServiceMessage { get; set; }
 
-    // På initialized henter vagter og brugere
+    // Når siden åbnes hentes frivillige, bookinger og vagter
     protected override async Task OnInitializedAsync()
     {
 
         cEditContext = new EditContext(vagt);
         dEditContext = new EditContext(besked);
-        var vagt_id = GlobalState.vagt_id;
 
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
-    //    BeskedListe = (await ServiceMessage.HentAlleBeskeder()).ToList();
     }
 
     // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
@@ -327,7 +324,12 @@ else
       {
       VagtListe = VagtListe.OrderByDescending(v => v.antal_personer).ToList();
       }
-    sortAsc = !sortAsc;
+        sortAsc = !sortAsc;
+      }
+
+    private async Task ScrollToBottom()
+    {
+    await jsRuntime.InvokeVoidAsync("scrollToBottom");
     }
 
     }

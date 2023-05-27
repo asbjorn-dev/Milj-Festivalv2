@@ -1,11 +1,4 @@
-﻿<style>
-    body {
-        background-color: #315d55;
-    }
-</style>
-
-
-
+﻿
 @page "/frivillig"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
@@ -18,7 +11,13 @@
 
 <link rel="stylesheet" type="text/css" href="Frivillig.razor.css">
 <h3>Velkommen, @GlobalState.bruger.brugernavn</h3>
-<h1>Dine optjente point @GlobalState.bruger.dine_point</h1>
+<div>
+	<h1>Dine optjente point @GlobalState.bruger.dine_point</h1>
+	<button class="btnTop" onclick="@RedirectBelønning">Gå til belønninger</button>
+</div>
+<div>
+	<button class="btnTop" onclick="@SkiftBrugerInfo">Opdater information</button>
+</div>
 
 @if (VagtListe.Count == 0)
 {
@@ -26,16 +25,6 @@
 }
 else
 {
-	// knap til at skifte brugerinfo
-	<div>
-		<button class="BrugerInfoKnap" onclick="@SkiftBrugerInfo">Skift din bruger information</button>
-	</div>
-
-	<div>
-		<button class="BelønningInfoKnap" onclick="@RedirectBelønning">Gå til belønninger</button>
-	</div>
-
-
 	<!-- Printer alle Beskeder ud-->
 	<div class="besked-oversigt">
 		<h1 class="mb-3 mt-3">Beskeder</h1>
@@ -53,7 +42,7 @@ else
 					<tr>
 						<td>@besked.besked</td>
 						<td>@besked.afsender</td>
-						<td>@besked.tidspunkt</td>
+						<td>@besked.FjernSekunderBesked().ToString("yyyy-MM-dd HH:mm")</td>
 					</tr>
 				}
 			</tbody>
@@ -89,8 +78,8 @@ else
 					<td>@vagt.område</td>
 					<td>@vagt.antal_personer</td>
 					<td>@vagt.beskrivelse</td>
-					<td>@vagt.start_tid</td>
-					<td>@vagt.slut_tid</td>
+					<td>@vagt.FjernSekunderStart().ToString("yyyy-MM-dd HH:mm")</td>
+					<td>@vagt.FjernSekunderSlut().ToString("yyyy-MM-dd HH:mm")</td>
 					<td>@vagt.priotering</td>
 					<td>@vagt.point</td>
 					@if (vagt.antal_personer > 0 && !ErVagtBooket(vagt.vagt_id))
@@ -102,7 +91,7 @@ else
 					else if (vagt.antal_personer > 0)
 					{
 						<td>
-							<button class="btnBook" disabled="disabled">Allerede booket</button>
+							<button class="btnDisabled" disabled="disabled">Allerede booket</button>
 						</td>
 					}
 				</tr>
@@ -137,8 +126,8 @@ else
 				<tr>
 					<td>@booking.område</td>
 					<td>@booking.beskrivelse</td>
-					<td>@booking.start_tid</td>
-					<td>@booking.slut_tid</td>
+					<td>@booking.FjernSekunderStart().ToString("yyyy-MM-dd HH:mm")</td>
+					<td>@booking.FjernSekunderSlut().ToString("yyyy-MM-dd HH:mm")</td>
 					<td>@booking.priotering</td>
 					<td>@booking.vagt_id</td>
 					<td>@booking.point</td>

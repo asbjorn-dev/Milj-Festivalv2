@@ -12,15 +12,20 @@ namespace Server.Models
 {
     public class VagtRepository : IVagtRepository
     {
+        // Definerer en SQL-streng, så den ikke behøver at blive oprettet igen i hver metode
         private string Sql = "";
 
+        // Bruger dBContext fra klassen og opretter en variabel, der kan genbruges i metoderne
         private dBContext Context;
 
+        //Denne constructor-metode tager en parameter af typen "dBContext" og tildeler værdien af denne parameter 
+        //til den private variabel "Context" i klassen. Hvilket muliggør brugen af databaseforbindelsen i metoderne i vores repository
         public VagtRepository(dBContext context)
         {
-            this.Context = context;
+            Context = context;
         }
 
+        //Henter alle vagter fra databasen
         public async Task<IEnumerable<Vagt>> HentAlleVagter()
         {
             // filtre efter priotering med 'høj' kommer først og bagefter filtre den tidligste start_tid
@@ -37,6 +42,7 @@ namespace Server.Models
             await Context.Connection.ExecuteAsync(Sql);
         }
 
+        //Tilføjer en vagt til databasen
         public async Task TilføjVagt(Vagt vagt)
         {
             Sql = @"INSERT INTO vagt ( område, start_tid, slut_tid, beskrivelse, priotering, antal_personer, point) 
@@ -53,7 +59,7 @@ namespace Server.Models
             });
         }
 
-
+        //Henter en enkelt vagt fra databasen ved hjælp af vagt_id
 		public async Task<Vagt> HentVagtSingle(int vagt_id)
 		{
 			Sql = $"SELECT * FROM vagt WHERE vagt_id = {vagt_id}";
@@ -62,6 +68,7 @@ namespace Server.Models
 			return Vagt;
 		}
 
+        //Metode så koordinator kan opdatere en vagt i databasen
 		public async Task OpdaterVagt(Vagt OpdateretVagt)
         {
             Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner, point = @Point WHERE vagt_id = @VagtId";

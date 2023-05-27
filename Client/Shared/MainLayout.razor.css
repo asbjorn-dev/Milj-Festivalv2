@@ -26,7 +26,7 @@ main {
         white-space: nowrap;
         margin-left: 1.5rem;
         text-decoration: none;
-        color: #315d55; /* Updated color */
+        color: #54877d; /* Updated color */
     }
 
         .top-row a:hover,
@@ -76,7 +76,7 @@ main {
             flex: 1;
             text-align: right;
             width: 0;
-            color: #315d55; /* Updated color */
+            color: #54877d; /* Updated color */
         }
 
     .top-row,

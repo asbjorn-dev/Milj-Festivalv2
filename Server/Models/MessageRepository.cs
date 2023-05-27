@@ -12,16 +12,20 @@ namespace Server.Models
 {
     public class MessageRepository : IMessageRepository
     {
+        // Definerer en SQL-streng, så den ikke behøver at blive oprettet igen i hver metode
         private string Sql = "";
 
+        // Bruger dBContext fra klassen og opretter en variabel, der kan genbruges i metoderne
         private dBContext Context;
 
+        //Denne constructor-metode tager en parameter af typen "dBContext" og tildeler værdien af denne parameter 
+        //til den private variabel "Context" i klassen. Hvilket muliggør brugen af databaseforbindelsen i metoderne i vores repository
         public MessageRepository(dBContext context)
         {
             this.Context = context;
         }
 
-
+        // Henter alle beskeder fra databasen
         public async Task<IEnumerable<Msg_board>> HentAlleBeskeder()
         {
             Sql = $"SELECT * FROM msg_board;";
@@ -30,6 +34,7 @@ namespace Server.Models
             return BeskedListe.ToList();
         }
 
+        // Metode så koordinator kan tilføje beskeder til databasen
         public async Task TilføjBesked(Msg_board msg)
         {
             Sql = @"INSERT INTO msg_board ( besked, afsender, tidspunkt) 

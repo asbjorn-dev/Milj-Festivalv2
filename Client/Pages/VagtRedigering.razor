@@ -1,6 +1,6 @@
 ﻿<style>
     body {
-        background-color: #315d55;
+        background-color: #54877d;
     }
 </style>
 
@@ -25,26 +25,26 @@
 
 			<div class="form-group">
 				<label for="område">Område:</label>
-				<InputText id="område" @bind-Value="vagt.område" class="form-control" />
+			<InputText id="område" style="width: 300px" @bind-Value="vagt.område" class="form-control" />
 			</div>
 			<div class="form-group">
 				<label for="start_tid">Start tid:</label>
-				<InputDate id="start_tid" @bind-Value="vagt.start_tid" class="form-control" />
+			<InputDate id="start_tid" style="width: 300px" @bind-Value="vagt.start_tid" class="form-control" />
 			</div>
 
 			<div class="form-group">
 				<label for="slut_tid">Slut tid:</label>
-				<InputDate id="slut_tid" @bind-Value="vagt.slut_tid" class="form-control" />
+			<InputDate id="slut_tid" style="width: 300px" @bind-Value="vagt.slut_tid" class="form-control" />
 			</div>
 
 			<div class="form-group">
 				<label for="beskrivelse">Beskrivelse:</label>
-				<InputText id="beskrivelse" @bind-Value="vagt.beskrivelse" class="form-control" />
+			<InputText id="beskrivelse" style="width: 300px" @bind-Value="vagt.beskrivelse" class="form-control" />
 			</div>
 
             <div>
             <label>Vagt prioritering:</label>
-            <InputSelect id="priotering" @bind-Value="vagt.priotering" class="form-control">
+			<InputSelect id="priotering" style="width: 300px" @bind-Value="vagt.priotering" class="form-control">
 			   <option value="lav" style="color:black">Vælg priotet</option>
                <option value="høj">høj</option>
                <option value="lav">lav</option>
@@ -52,15 +52,16 @@
            </div>
 		    <div>
                 <label>Antal point</label>
-                <InputNumber id="point" @bind-Value="vagt.point" required />
+			<InputNumber id="point" @bind-Value="vagt.point" style="width: 300px" required />
             </div>
 			<div class="form-group">
 				<label for="antal_personer">Antal personer:</label>
-				<InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" class="form-control" />
+			<InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" style="width: 300px" class="form-control" />
 			</div>
-
-			<button type="submit" class="btn btn-primary">Opdater</button>
-			<button @onclick="RedirectKoordinator" class="btn btn-primary">Gå tilbage</button>
+			<div>
+			<button type="submit">Opdater</button>
+			<button @onclick="RedirectKoordinator">Gå tilbage</button>
+			</div>
 		</EditForm>
 }
 else

@@ -12,5 +12,14 @@ namespace MiljøFestivalv2.Shared
         public string afsender { get; set; }
         public DateTime tidspunkt { get; set; }
 
-    }
+		// Metode der fjerner sekunder fra tidspunktet for beskeder når den kaldes i clienten
+		public DateTime FjernSekunderBesked()
+		{
+			DateTime Tidspunkt = this.tidspunkt;
+			DateTime TidUdenSekunder = new DateTime(Tidspunkt.Year, Tidspunkt.Month, Tidspunkt.Day, Tidspunkt.Hour, Tidspunkt.Minute, 0);
+
+			return TidUdenSekunder;
+		}
+
+	}
 }

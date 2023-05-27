@@ -23,6 +23,13 @@
 
   <ItemGroup>
     <None Remove="Pages\" />
+    <None Remove="Pages\PersonInfo.razor.css" />
+    <None Remove="Pages\VagtRedigering.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\PersonInfo.razor.css" />
+    <Content Include="Pages\VagtRedigering.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

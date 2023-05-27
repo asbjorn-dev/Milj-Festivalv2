@@ -1,6 +1,6 @@
 ﻿<style>
     body {
-        background-color: #315d55;
+        background-color: #54877d;
     }
 </style>
 
@@ -22,41 +22,42 @@
 
 		<div class="form-group">
 			<label for="fulde_navn">Fulde Navn:</label>
-			<InputText id="fulde_navn" @bind-Value="Person.fulde_navn" class="form-control" />
+			<InputText id="fulde_navn" style="width: 300px" @bind-Value="Person.fulde_navn" class="form-control" />
 		</div>
 		<div class="form-group">
 			<label for="fødselsdag">Fødselsdag:</label>
-			<InputDate id="fødselsdag" @bind-Value="Person.fødselsdag" class="form-control" readonly />
+			<InputDate id="fødselsdag" style="width: 300px" @bind-Value="Person.fødselsdag" class="form-control" readonly />
 		</div>
 
 		<div class="form-group">
 			<label for="email">Email:</label>
-			<InputText id="email" @bind-Value="Person.email" class="form-control" />
+			<InputText id="email" style="width: 300px" @bind-Value="Person.email" class="form-control" />
 		</div>
 
 		<div class="form-group">
 			<label for="brugernavn">Brugernavn:</label>
-			<InputText id="brugernavn" @bind-Value="Person.brugernavn" class="form-control" />
+			<InputText id="brugernavn" style="width: 300px" @bind-Value="Person.brugernavn" class="form-control" />
 		</div>
 
 		<div class="form-group">
 			<label for="password">Password:</label>
-			<InputText id="password" @bind-Value="Person.password" class="form-control" />
+			<InputText id="password" style="width: 300px" @bind-Value="Person.password" class="form-control" />
 		</div>
 
 		<div class="form-group">
 			<label for="telefon_nummer">Telefonnummer:</label>
-			<InputNumber id="telefon_nummer" @bind-Value="Person.telefon_nummer" class="form-control" />
+			<InputNumber id="telefon_nummer" style="width: 300px" @bind-Value="Person.telefon_nummer" class="form-control" />
 		</div>
 
 		<div class="form-group">
 			<label for="cpr_nummer">CPR Nummer:</label>
-			<InputText id="cpr_nummer" @bind-Value="Person.cpr_nummer" class="form-control" readonly />
+			<InputText id="cpr_nummer" style="width: 300px" @bind-Value="Person.cpr_nummer" class="form-control" readonly />
 		</div>
 		<br />
-		<button type="submit" class="btn btn-primary">Opdater</button>
+		<button type="submit">Opdater</button>
 	
-		<button class="btn btn-primary" onclick="@RedirectBack">Gå tilbage</button>
+		<button onclick="@RedirectBack">Gå tilbage</button>
+		<h5 style="visibility:@Synlighed">Dine oplysninger er opdateret</h5>
 	</EditForm>
 }
 else
@@ -69,6 +70,7 @@ else
 	public string BrugerId { get; set; }
 
 	private Bruger Person;
+	private string Synlighed = "hidden";
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -80,7 +82,8 @@ else
 	private async Task UpdatePerson()
 	{
 		await BrugerService.UpdateBruger(Person);
-		Navigation.NavigateTo($"/personinfo/{Person.bruger_id}", forceLoad: true);
+		Synlighed = "visible";
+		//Navigation.NavigateTo($"/personinfo/{Person.bruger_id}");
 	}
 	private void RedirectBack() {
         Navigation.NavigateTo($"/frivillig");
