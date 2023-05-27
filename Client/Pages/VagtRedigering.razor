@@ -1,10 +1,4 @@
-﻿<style>
-    body {
-        background-color: #54877d;
-    }
-</style>
-
-
+﻿
 @page "/opdatervagt/{vagt_id:int}"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
@@ -72,30 +66,34 @@ else
 
 
 @code {
-	[Parameter]
-    public int vagt_id { get; set; }
-	[Inject]
-	public IVagtService VagtService { get; set; }
+// Parameter som indeholder id'et for den vagt, der skal opdateres.
+[Parameter] 
+public int vagt_id { get; set; } 
 
-	private Vagt vagt;
+// Injecter VagtService interfacet så metoderne derfra kan bruges.
+[Inject]
+public IVagtService VagtService { get; set; } 
 
-	protected override async Task OnInitializedAsync()
-	{
-		//int Id = int.Parse(VagtId);
-		vagt = await VagtService.HentVagtSingle(vagt_id);
-	}
+// En lokal instans af en 'Vagt', der repræsenterer den vagt der skal opdateres.
+private Vagt vagt;
 
-	//forceload opdaterer siden og viser den nye information
-	private async Task OpdaterVagt()
-	{
-		await VagtService.OpdaterVagt(vagt);
-		Navigation.NavigateTo($"/opdatervagt/{vagt.vagt_id}", forceLoad: true);
-	}
+// Denne metode bliver kaldt når komponenten initialiseres. Den henter den relevante vagt baseret på id'et.
+protected override async Task OnInitializedAsync()
+{
+    vagt = await VagtService.HentVagtSingle(vagt_id);
+}
 
+// Denne metode opdaterer vagten ved at kalde OpdaterVagt metoden fra VagtService og derefter navigerer tilbage til den samme side for at vise opdateringerne.
+private async Task OpdaterVagt()
+{
+    await VagtService.OpdaterVagt(vagt);
+    Navigation.NavigateTo($"/opdatervagt/{vagt.vagt_id}", forceLoad: true);
+}
 
-	//Redirect til koordinator side efter man har redigeret vagt
-	private void RedirectKoordinator()
-	{
-		Navigation.NavigateTo("/koordinator");
-	}
+// Denne metode navigerer til koordinator-siden efter en vagt er blevet redigeret.
+private void RedirectKoordinator()
+{
+    Navigation.NavigateTo("/koordinator");
+}
+
 }

@@ -1,12 +1,4 @@
-﻿<style>
-    body {
-        background-color: #54877d;
-    }
-</style>
-
-
-
-@page "/register"
+﻿@page "/register"
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
 @using Client.Services
@@ -18,74 +10,95 @@
 <h3>Register</h3>
 
 <EditForm EditContext="@bEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-<div class="container">
-    <div>
-        <!--&zwnj; betyder usynligt mellem (specielt tegn i html)-->
-        <label>&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; 
-            Fulde Navn:</label>
-        <InputText id="fulde_navn" @bind-Value="bruger.fulde_navn" required />
-    </div>
-    <div>
-        <label>&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
-            Email:</label>
-        <InputText id ="email" @bind-Value="bruger.email" required />
-    </div>
-    <div>
-        <label>Telefonnummer:</label>
-        <InputNumber id ="telefon_nummer" @bind-Value="bruger.telefon_nummer" required />
-    </div>
-    <div>
-        <label> &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
-            Fødselsdag:</label>
-        <InputDate id="fødseldag" @bind-Value="bruger.fødselsdag" required />
-    </div>
-    <div>
-        <label> &zwnj; &zwnj; &zwnj; &zwnj;
-            CPR-nummer:</label>
-        <InputText id ="cpr_number" @bind-Value="bruger.cpr_nummer" required />
-    </div>
-    <div>
-        <label> &zwnj; &zwnj;&zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
-            Brugernavn:</label>
-        <InputText id ="brugernavn" @bind-Value="bruger.brugernavn" required />
-    </div>
-    <div>
-        <label> &zwnj; &zwnj;&zwnj; &zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
-            Password:</label>
-        <InputText id ="password" @bind-Value="bruger.password" required />
-    </div>
-    <button type="submit">Register</button>
-    <button @onclick="BackToLogin">Back to Login</button>
-</div>
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="container">
+		<div>
+			<!--&zwnj; betyder usynligt mellem (specielt tegn i html)-->
+			<label>
+				&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+				Fulde Navn:
+			</label>
+			<InputText id="fulde_navn" @bind-Value="bruger.fulde_navn" required />
+		</div>
+		<div>
+			<label>
+				&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+				Email:
+			</label>
+			<InputText id="email" @bind-Value="bruger.email" required />
+		</div>
+		<div>
+			<label>Telefonnummer:</label>
+			<InputNumber id="telefon_nummer" @bind-Value="bruger.telefon_nummer" required />
+		</div>
+		<div>
+			<label>
+				&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+				Fødselsdag:
+			</label>
+			<InputDate id="fødseldag" @bind-Value="bruger.fødselsdag" required />
+		</div>
+		<div>
+			<label>
+				&zwnj; &zwnj; &zwnj; &zwnj;
+				CPR-nummer:
+			</label>
+			<InputText id="cpr_number" @bind-Value="bruger.cpr_nummer" required />
+		</div>
+		<div>
+			<label>
+				&zwnj; &zwnj;&zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+				Brugernavn:
+			</label>
+			<InputText id="brugernavn" @bind-Value="bruger.brugernavn" required />
+		</div>
+		<div>
+			<label>
+				&zwnj; &zwnj;&zwnj; &zwnj;&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj;
+				Password:
+			</label>
+			<InputText id="password" @bind-Value="bruger.password" required />
+		</div>
+		<button type="submit">Register</button>
+		<button @onclick="BackToLogin">Back to Login</button>
+	</div>
 </EditForm>
 
 @code {
-    private EditContext bEditContext;
-    Bruger bruger = new Bruger();
-    
-    [Inject]
-    public IBrugerService BrugerService {get; set;}
+	// Laver en privat instans af EditContext-klasse, som bruges til at håndtere formularer og validering i Blazor.
+	private EditContext bEditContext;
 
-    protected override void OnInitialized()
-    {   
-        bEditContext = new EditContext(bruger);
-    }
+	Bruger bruger = new Bruger();
 
-    private async Task HandleValidSubmit()
-    {
-        await BrugerService.TilføjBruger(bruger);
-        NavManager.NavigateTo("/confirmation");
-    }
+	// Injecter brugerservice interfacet så metoderne derfra kan bruges
+	[Inject]
+	public IBrugerService BrugerService { get; set; }
 
-    private void HåndterFødselsdag(DateOnly NyDato)
-    {
-        bruger.fødselsdag = NyDato.ToDateTime(TimeOnly.MinValue);
-    }
+	// Denne metode kaldes, når komponenten initialiseres. Den opretter en ny EditContext med 'bruger'-objektet.
+	protected override void OnInitialized()
+	{
+		bEditContext = new EditContext(bruger);
+	}
 
-    private void BackToLogin()
-    {
-        NavManager.NavigateTo("/login");
-    }
+	// Denne metode håndterer en gyldig formularindsendelse. Den tilføjer den nye bruger ved hjælp af BrugerService og navigerer til bekræftelsessiden.
+	private async Task HandleValidSubmit()
+	{
+		await BrugerService.TilføjBruger(bruger);
+		NavManager.NavigateTo("/confirmation");
+	}
+
+	// Laver den indtastede information om til datetime, så det kan sendes til databasen
+	// og giver automatisk 00:00:00 tidspunkt med, så man ikke selv skal indtaste det
+	private void HåndterFødselsdag(DateOnly NyDato)
+	{
+		bruger.fødselsdag = NyDato.ToDateTime(TimeOnly.MinValue);
+	}
+
+	// Denne metode navigerer brugeren tilbage til login-siden.
+	private void BackToLogin()
+	{
+		NavManager.NavigateTo("/login");
+	}
+
 }

@@ -1,12 +1,4 @@
-﻿<style>
-    body {
-        background-color: #54877d;
-    }
-</style>
-
-
-
-@page "/personinfo/{brugerId}"
+﻿@page "/personinfo/{brugerId}"
 @using MiljøFestivalv2.Shared
 @using Client.Services
 @inject IBrugerService BrugerService
@@ -66,26 +58,33 @@ else
 }
 
 @code {
+	// Parameter som indeholder brugerid'et for den bruger der skal opdateres.
 	[Parameter]
 	public string BrugerId { get; set; }
 
 	private Bruger Person;
+
+	// Denne variabel styrer synligheden af et element på skærmen. Default værdien er "hidden".
 	private string Synlighed = "hidden";
 
+	// Denne metode kaldes, når komponenten initialiseres. Den får brugeren med det angivne id ved hjælp af BrugerService.
 	protected override async Task OnInitializedAsync()
 	{
 		int Id = int.Parse(BrugerId);
 		Person = await BrugerService.HentBrugerSingle(Id);
 	}
 
-	//forceload opdaterer siden og viser den nye information
+	// Denne metode opdaterer brugeren ved hjælp af BrugerService og ændrer synligheden til "visible".
 	private async Task UpdatePerson()
 	{
 		await BrugerService.UpdateBruger(Person);
 		Synlighed = "visible";
-		//Navigation.NavigateTo($"/personinfo/{Person.bruger_id}");
 	}
-	private void RedirectBack() {
-        Navigation.NavigateTo($"/frivillig");
+
+	// Denne metode navigerer brugeren tilbage til "/frivillig"-siden.
+	private void RedirectBack()
+	{
+		Navigation.NavigateTo($"/frivillig");
 	}
+
 }

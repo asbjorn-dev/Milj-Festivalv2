@@ -77,8 +77,12 @@ thead th {
     background-color: #00000036;
 }
 
-.btnDisaled {
-
+.btnDisabled {
+    padding: 10px 16px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    width: 80%;
+    transition: background-color 0.3s ease;
 }
 
 .btnBook {
