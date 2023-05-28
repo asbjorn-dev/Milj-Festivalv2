@@ -11,7 +11,7 @@
 
 <h1>Koordinator</h1>
 
-@if (VagtListe.Count == 0)
+@if (FrivilligListe.Count == 0)
 {
     <img src="Images/loading.gif" class="GIF">
 }
@@ -295,21 +295,28 @@ else
         StateHasChanged();
     }
 
-    private async Task HandleValidSubmit()
-    {
-        vagt.start_tid += StartKlokkeslæt;
-        vagt.slut_tid += SlutKlokkeslæt;
-        await ServiceVagt.TilføjVagt(vagt);
-        StateHasChanged();
+   private async Task HandleValidSubmit()
+{
+    vagt.start_tid += StartKlokkeslæt;
+    vagt.slut_tid += SlutKlokkeslæt;
+    await ServiceVagt.TilføjVagt(vagt);
+    StateHasChanged();
+    
+    // Reloader siden når der er oprettet en vagt
+    NavManager.NavigateTo("/temp");
+    NavManager.NavigateTo("/koordinator");
+}
 
-    }
 
     private async Task HandleValidSubmitBeskeder()
     {
         // sender det nuværende Tidspunkt og dato når man trykker sumbit knappen til Beskeder
         Besked.Tidspunkt = DateTime.Now;
         await ServiceMessage.TilføjBesked(Besked);
-        StateHasChanged();
+
+        // Reloader siden når der er oprettet en besked
+        NavManager.NavigateTo("/temp");
+        NavManager.NavigateTo("/koordinator");
     }
 
     private async Task SletBooking(int BookingId)

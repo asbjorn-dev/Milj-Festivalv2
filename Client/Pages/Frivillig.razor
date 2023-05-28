@@ -18,7 +18,7 @@
 	<button class="btnTop" onclick="@SkiftBrugerInfo">Opdater information</button>
 </div>
 
-@if (VagtListe.Count == 0)
+@if (GlobalState.bruger == null)
 {
 	<img src="Images/loading.gif" class="GIF">
 }

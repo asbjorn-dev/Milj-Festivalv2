@@ -8,8 +8,8 @@ public class VagtService : IVagtService
     private readonly HttpClient HttpClient;
 
     // To forskellige hosts så vi kunne bytte mellem localhost og hosten til siden vi skulle deploy på
-    public string Host = "https://localhost:7155";
-    //public string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
+    //public string Host = "https://localhost:7155";
+    public string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
 
     // Constructor, der tager en HttpClient som parameter og initialiserer den private HttpClient med den.
     public VagtService(HttpClient HttpClient)
