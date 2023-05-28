@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using MiljøFestivalv2.Shared;
-using Client.Services;
+
 
 namespace Client.Services
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using MiljøFestivalv2.Shared;
+﻿using MiljøFestivalv2.Shared;
 
 namespace Server.Models
 {

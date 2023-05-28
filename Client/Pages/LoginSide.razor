@@ -2,7 +2,6 @@
 @using MiljøFestivalv2.Shared
 @using System.Net.Http.Json
 @using Client.Services
-@using System.Globalization
 
 @inject NavigationManager NavManager
 @inject HttpClient Http
@@ -10,38 +9,30 @@
 <h1>Miljøfestivalen</h1>
 @if (IsLoading)
 {
-    <img src="Images/loading.gif" class="GIF">
+	<img src="Images/loading.gif" class="GIF">
 }
 else
 {
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-	<DataAnnotationsValidator />
-	<ValidationSummary />
-	<div class="container">
-		<div>
-			<br />
-			<br />
-			<label>Brugernavn:</label>
-			<InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
-		</div>
-		<div>
-			<label>&zwnj; &zwnj; &zwnj; Password:</label>
-			<InputText id="Password" @bind-Value="Brugerinfo.Password" />
-		</div>
-		<br />
-
-		<button type="submit">Login</button>
-		<button @onclick="Register">Register</button>
-		<br />
-		<br />
-		<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
+	<div style="display: flex; justify-content: center" class="container">
+		<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+			<div style="display: grid; grid-template-columns: 100px 150px; row-gap: 8px; column-gap: 16px; align-items: center; margin-top: 30px" class="input-grid">
+				<label>Brugernavn:</label>
+				<InputText id="Brugernavn" @bind-Value="Brugerinfo.Brugernavn" />
+				<label>Password:</label>
+				<InputText id="Password" @bind-Value="Brugerinfo.Password" />
+				<button type="submit">Login</button>
+				<div>
+					<button @onclick="Register">Register</button>
+				</div>
+				<h3 style="visibility:@UsynligTilSynlig">Login informationer var forkerte</h3>
+			</div>
+		</EditForm>
 	</div>
-</EditForm>
 }
 
-
 @code {
-
 	public bool IsLoading { get; set; } = false;
 	public string UsynligTilSynlig = "hidden";
 
@@ -50,7 +41,7 @@ else
 
 	[Inject]
 	public IBrugerService LoginService { get; set; }
-	//injecter GlobalState så den kan bruges i login, så man er logget ind som brugeren
+
 	[Inject]
 	public GlobalState GlobalState { get; set; }
 
@@ -62,36 +53,31 @@ else
 	private async Task HandleValidSubmit()
 	{
 		IsLoading = true;
-		var loggedInBruger = await LoginService.Login(Brugerinfo);
+		var LoggedInBruger = await LoginService.Login(Brugerinfo);
 		IsLoading = false;
 
-		if (loggedInBruger.rolle == "koordinator" || loggedInBruger.rolle == "frivillig")
-		{ 
-			//Sætter GlobalState brugernavnet til at være det samme som loggedInBruger.Brugernavn
-			GlobalState.bruger = loggedInBruger;
-			// Hvis rolle på bruger er "koordinator", redirect til /koordinator
-			if (loggedInBruger.rolle == "koordinator")
+		if (LoggedInBruger.rolle == "koordinator" || LoggedInBruger.rolle == "frivillig")
+		{
+			GlobalState.bruger = LoggedInBruger;
+
+			if (LoggedInBruger.rolle == "koordinator")
 			{
 				NavManager.NavigateTo("/koordinator");
 			}
-			// Hvis rolle på bruger er "frivillig", redirect til /frivillig
-			else if (loggedInBruger.rolle == "frivillig")
+			else if (LoggedInBruger.rolle == "frivillig")
 			{
 				NavManager.NavigateTo("/frivillig");
 			}
 		}
-		else if (loggedInBruger.brugernavn == "FEJL")
+		else if (LoggedInBruger.brugernavn == "FEJL")
 		{
 			UsynligTilSynlig = "visible";
 			Console.WriteLine("Login fejlede");
 		}
 	}
 
-
 	private void Register()
 	{
 		NavManager.NavigateTo("/register");
 	}
-
-
 }

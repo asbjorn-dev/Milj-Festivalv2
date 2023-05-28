@@ -1,5 +1,4 @@
-﻿using Client.Services;
-using MiljøFestivalv2.Shared;
+﻿using MiljøFestivalv2.Shared;
 using System.Net.Http.Json;
 
 // Denne service bruges til at håndtere alle HTTP-anmodninger relateret til brugere til serveren

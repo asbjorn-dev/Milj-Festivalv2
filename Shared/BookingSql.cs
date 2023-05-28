@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MiljøFestivalv2.Shared
 {
     //Klasse der bruges når der skal oprettes en booking, da bookingklassen arver fra vagt så ikke matcher databasen

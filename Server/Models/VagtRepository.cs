@@ -1,12 +1,5 @@
-﻿using System;
-using Dapper;
-using System.Linq;
-using Npgsql;
+﻿using Dapper;
 using MiljøFestivalv2.Shared;
-using System.Diagnostics;
-using System.Data;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Models
 {
