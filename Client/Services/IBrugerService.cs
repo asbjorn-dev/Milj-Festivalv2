@@ -7,13 +7,13 @@ public interface IBrugerService
 
     Task TilføjBruger(Bruger bruger);
 
-    Task<Bruger> Login(Login brugerinfo);
+    Task<Bruger> Login(Login BrugerInfo);
 
-    Task SkiftAktivStatus(int bruger_id);
+    Task SkiftAktivStatus(int BrugerId);
 
-    Task SkiftBlacklistStatus(int bruger_id);
+    Task SkiftBlacklistStatus(int BrugerId);
 
-    Task<Bruger> HentBrugerSingle(int bruger_id);
+    Task<Bruger> HentBrugerSingle(int BrugerId);
 
-    Task UpdateBruger(Bruger updatedBruger);
+    Task UpdateBruger(Bruger UpdatedBruger);
 }

@@ -34,9 +34,9 @@ namespace Server.Controllers
         [EnableCors("policy")]
         // Definerer en HTTP POST-metode og sætter URL'en
         [HttpPost("tilfoejbesked")]
-        public async Task TilføjBesked(Msg_board msg)
+        public async Task TilføjBesked(Msg_board Msg)
         {
-            await MessageReposi.TilføjBesked(msg);
+            await MessageReposi.TilføjBesked(Msg);
         }
     }
 }

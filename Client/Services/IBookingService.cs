@@ -5,11 +5,11 @@ public interface IBookingService
 {
     Task<Booking[]> HentAlleBookinger();
 
-    Task<Booking[]> HentBookingerForBruger(int bruger_id);
+    Task<Booking[]> HentBookingerForBruger(int Brugerid);
 
-    Task OpretBooking(BookingSql booking);
+    Task OpretBooking(BookingSql Booking);
 
-    Task SletBooking(int bookingId);
+    Task SletBooking(int BookingId);
 
     Task SkiftLåsStatus(int BookingId);
 }

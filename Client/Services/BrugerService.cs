@@ -31,33 +31,33 @@ public class BrugerService : IBrugerService
         await HttpClient.PostAsJsonAsync($"{Host}/api/brugere/tilfoejfrivillig", bruger);
     }
 
-    public async Task<Bruger> Login(Login brugerinfo)
+    public async Task<Bruger> Login(Login Brugerinfo)
     {
     // Sender en HTTP GET-anmodning til den angivne URI for at logge en bruger ind
-        return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
+        return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/login/{Brugerinfo.Brugernavn}/{Brugerinfo.Password}");
     }
 
-    public async Task SkiftAktivStatus(int bruger_id)
+    public async Task SkiftAktivStatus(int BrugerId)
     {
     // Sender en HTTP PUT-anmodning til den angivne URI for at ændre status for en bruger (aktiv / inaktiv)
-        await HttpClient.PutAsync($"{Host}/api/brugere/skiftaktivstatus/{bruger_id}", null);
+        await HttpClient.PutAsync($"{Host}/api/brugere/skiftaktivstatus/{BrugerId}", null);
     }
 
-    public async Task SkiftBlacklistStatus(int bruger_id)
+    public async Task SkiftBlacklistStatus(int BrugerId)
     {
     // Sender en HTTP PUT-anmodning til den angivne URI for at ændre blacklist status for en bruger
-        await HttpClient.PutAsync($"{Host}/api/brugere/skiftblackliststatus/{bruger_id}", null);
+        await HttpClient.PutAsync($"{Host}/api/brugere/skiftblackliststatus/{BrugerId}", null);
     }
 
-    public async Task<Bruger> HentBrugerSingle(int bruger_id)
+    public async Task<Bruger> HentBrugerSingle(int BrugerId)
     {
     // Sender en HTTP GET-anmodning til den angivne URI for at hente en specifik bruger baseret på deres id
-        return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/hentbrugersingle/{bruger_id}");
+        return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/hentbrugersingle/{BrugerId}");
     }
 
-    public async Task UpdateBruger(Bruger updatedBruger)
+    public async Task UpdateBruger(Bruger UpdatedBruger)
     {
     // Sender en HTTP PUT-anmodning til den angivne URI for at opdatere en bruger
-        await HttpClient.PutAsJsonAsync($"{Host}/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
+        await HttpClient.PutAsJsonAsync($"{Host}/api/brugere/updatebruger/{UpdatedBruger.bruger_id}", UpdatedBruger);
     }
 }

@@ -40,39 +40,39 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
-        [HttpGet("login/{brugernavn}/{password}")]
-        public Bruger Login(string brugernavn, string password)
+        [HttpGet("login/{Brugernavn}/{Password}")]
+        public Bruger Login(string Brugernavn, string Password)
         {
-            return FrivilligRepo.HentBrugerMedBrugernavnOgPassword(brugernavn, password);
+            return FrivilligRepo.HentBrugerMedBrugernavnOgPassword(Brugernavn, Password);
         }
 
         [EnableCors("policy")]
         // Definerer en HTTP PUT-metode og sætter URL'en
-        [HttpPut("skiftaktivstatus/{bruger_id}")]
-        public async Task SkiftAktivStatus(int bruger_id)
+        [HttpPut("skiftaktivstatus/{BrugerId}")]
+        public async Task SkiftAktivStatus(int BrugerId)
         {
-            await FrivilligRepo.SkiftAktivStatus(bruger_id);
+            await FrivilligRepo.SkiftAktivStatus(BrugerId);
         }
 
         [EnableCors("policy")]
-        [HttpPut("skiftblackliststatus/{bruger_id}")]
-        public async Task SkiftBlacklistStatus(int bruger_id)
+        [HttpPut("skiftblackliststatus/{BrugerId}")]
+        public async Task SkiftBlacklistStatus(int BrugerId)
         {
-            await FrivilligRepo.SkiftBlacklistStatus(bruger_id);
+            await FrivilligRepo.SkiftBlacklistStatus(BrugerId);
         }
 
         [EnableCors("policy")]
-        [HttpGet("hentbrugersingle/{bruger_id}")]
-        public async Task<Bruger> HentBrugerSingle(int bruger_id)
+        [HttpGet("hentbrugersingle/{BrugerId}")]
+        public async Task<Bruger> HentBrugerSingle(int BrugerId)
         {
-            return await FrivilligRepo.HentBrugerSingle(bruger_id);
+            return await FrivilligRepo.HentBrugerSingle(BrugerId);
         }
 
         [EnableCors("policy")]
-        [HttpPut("updatebruger/{bruger_id}")]
-        public async Task UpdateBruger([FromBody] Bruger updatedBruger)
+        [HttpPut("updatebruger/{BrugerId}")]
+        public async Task UpdateBruger([FromBody] Bruger UpdatedBruger)
         {
-            await FrivilligRepo.UpdateBruger(updatedBruger);
+            await FrivilligRepo.UpdateBruger(UpdatedBruger);
         }
     }
 }

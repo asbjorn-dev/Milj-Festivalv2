@@ -187,7 +187,6 @@ else
                 <InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" required />
  
                 <button class="MainButton" type="submit">Opret vagt</button>
-                <button class="MainButton" @onclick="LogStartTid">Log</button>
             </div>
         </div>
       
@@ -345,12 +344,6 @@ else
     private async Task ScrollToBottom()
     {
         await jsRuntime.InvokeVoidAsync("scrollToBottom");
-    }
-
-    private void LogStartTid()
-    {
-        DateTime Tidspunkt = vagt.start_tid + StartKlokkeslæt;
-        Console.WriteLine(Tidspunkt);
     }
 
     }

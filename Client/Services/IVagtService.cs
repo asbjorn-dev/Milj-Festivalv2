@@ -5,11 +5,11 @@ public interface IVagtService
 {
     Task<Vagt[]> HentAlleVagter();
 
-    Task DeleteVagt(int vagt_id);
+    Task DeleteVagt(int VagtId);
 
     Task TilføjVagt(Vagt vagt);
 
     Task OpdaterVagt(Vagt OpdateretVagt);
 
-    Task<Vagt> HentVagtSingle(int vagt_id);
+    Task<Vagt> HentVagtSingle(int VagtId);
 }

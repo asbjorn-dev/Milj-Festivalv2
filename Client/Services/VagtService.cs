@@ -23,14 +23,14 @@ public class VagtService : IVagtService
         return Resultat;
     }
 
-    public async Task DeleteVagt(int vagt_id)
+    public async Task DeleteVagt(int VagtId)
     {
-        await HttpClient.DeleteAsync($"{Host}/api/vagter/{vagt_id}");
+        await HttpClient.DeleteAsync($"{Host}/api/vagter/{VagtId}");
     }
 
-    public async Task<Vagt> HentVagtSingle(int vagt_id)
+    public async Task<Vagt> HentVagtSingle(int VagtId)
     {
-        return await HttpClient.GetFromJsonAsync<Vagt>($"{Host}/api/vagter/hentvagtsingle/{vagt_id}");
+        return await HttpClient.GetFromJsonAsync<Vagt>($"{Host}/api/vagter/hentvagtsingle/{VagtId}");
     }
 
     public async Task OpdaterVagt(Vagt OpdateretVagt)

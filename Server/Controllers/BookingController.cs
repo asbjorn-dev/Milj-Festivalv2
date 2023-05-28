@@ -36,22 +36,22 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
-        [HttpGet("hentbookingerforbruger/{brugerId}")]
-        public async Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId)
+        [HttpGet("hentbookingerforbruger/{BrugerId}")]
+        public async Task<IEnumerable<Booking>> HentBookingerForBruger(int BrugerId)
         {
-            Console.WriteLine(brugerId);
-            return await BookingRepo.HentBookingerForBruger(brugerId);
+            Console.WriteLine(BrugerId);
+            return await BookingRepo.HentBookingerForBruger(BrugerId);
         }
 
         [EnableCors("policy")]
         // Definerer en HTTP POST-metode sætter URL'en
         [HttpPost("opretbooking")]
-        public async Task<IActionResult> OpretBooking([FromBody] BookingSql booking)
+        public async Task<IActionResult> OpretBooking([FromBody] BookingSql Booking)
         {
             // Kører en Try/catch exception der prøver at køre koden og hvis den finder en fejl printer den fejlBeskeden i konsollen. 
             try
             {
-                await BookingRepo.OpretBooking(booking);
+                await BookingRepo.OpretBooking(Booking);
                 return Ok();
             }
             catch (Exception ex)

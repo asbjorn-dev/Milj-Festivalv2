@@ -5,5 +5,5 @@ public interface IMessageService
 {
     Task<Msg_board[]> HentAlleBeskeder();
 
-    Task TilføjBesked(Msg_board msg);
+    Task TilføjBesked(Msg_board Msg);
 }

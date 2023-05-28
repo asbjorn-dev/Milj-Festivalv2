@@ -34,10 +34,10 @@ namespace Server.Controllers
 
         [EnableCors("policy")]
         // Definerer en HTTP DELETE-metode og sætter URL'en
-        [HttpDelete("{vagt_id}")]
-        public async Task DeleteVagt(int vagt_id)
+        [HttpDelete("{VagtId}")]
+        public async Task DeleteVagt(int VagtId)
         {
-            await VagtReposi.DeleteVagt(vagt_id);
+            await VagtReposi.DeleteVagt(VagtId);
         }
 
         [EnableCors("policy")]
@@ -50,15 +50,15 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
-        [HttpGet("hentvagtsingle/{vagt_id}")]
-        public async Task<Vagt> HentVagtSingle(int vagt_id)
+        [HttpGet("hentvagtsingle/{VagtId}")]
+        public async Task<Vagt> HentVagtSingle(int VagtId)
         {
-            return await VagtReposi.HentVagtSingle(vagt_id);
+            return await VagtReposi.HentVagtSingle(VagtId);
         }
 
         [EnableCors("policy")]
         // Definerer en HTTP PUT-metode og sætter URL'en
-        [HttpPut("opdatervagt/{vagt_id}")]
+        [HttpPut("opdatervagt/{VagtId}")]
         public async Task OpdaterVagt([FromBody] Vagt OpdateretVagt)
         {
             await VagtReposi.OpdaterVagt(OpdateretVagt);

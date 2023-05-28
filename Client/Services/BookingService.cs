@@ -30,30 +30,29 @@ namespace Client.Services
             return Resultat;
         }
 
-        public Task<Booking[]> HentBookingerForBruger(int bruger_id)
+        public Task<Booking[]> HentBookingerForBruger(int BrugerId)
         {
             // Send en HTTP GET-anmodning til den angivne URI med bruger_id som parameter i URL og returnere svaret
-            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"{Host}/api/bookinger/hentbookingerforbruger/{bruger_id}");
+            var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"{Host}/api/bookinger/hentbookingerforbruger/{BrugerId}");
 
             // Vi returnerer en Task<Booking[]>, som repræsenterer en igangværende operation, der producerer et array af Booking
             return Resultat;
         }
 
 
-        public async Task OpretBooking(BookingSql booking)
+        public async Task OpretBooking(BookingSql Booking)
         {
-            Console.WriteLine(booking);
             // Sender en POST-request til serveren med bookingen som JSON i body
-            var response = await HttpClient.PostAsJsonAsync($"{Host}/api/bookinger/opretbooking", booking);
+            var response = await HttpClient.PostAsJsonAsync($"{Host}/api/bookinger/opretbooking", Booking);
             // Kontrollere svaret og kaster en exception hvis den fejler
             // Dette sikrer, at hvis noget går galt, vil vi få en exception her.
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task SletBooking(int bookingId)
+        public async Task SletBooking(int BookingId)
         {
             // Sender en DELETE-request til serveren med bookingId i URL'en
-            await HttpClient.DeleteAsync($"{Host}/api/bookinger/slet/{bookingId}");
+            await HttpClient.DeleteAsync($"{Host}/api/bookinger/slet/{BookingId}");
         }
 
         public async Task SkiftLåsStatus(int BookingId)

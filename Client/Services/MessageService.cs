@@ -23,8 +23,8 @@ public class MessageService : IMessageService
         return Resultat;
     }
 
-    public async Task TilføjBesked(Msg_board msg)
+    public async Task TilføjBesked(Msg_board Msg)
     {
-        await HttpClient.PostAsJsonAsync($"{Host}/api/beskeder/tilfoejbesked", msg);
+        await HttpClient.PostAsJsonAsync($"{Host}/api/beskeder/tilfoejbesked", Msg);
     }
 }
