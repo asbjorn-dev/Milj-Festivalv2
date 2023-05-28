@@ -47,6 +47,10 @@ body {
     color: white;
 }
 
+.input-grid label {
+    margin: 0;
+}
+
 
 h3 {
     margin-bottom: 20px;

@@ -27,7 +27,6 @@ namespace Server.Models
             this.Context = context;
         }
 
-        // Henter alle bookinger fra databasen, joiner den med bruger og vagt tabellen så tilhørende frivillig og vagt kan vises sammen med bookingen
         public async Task<IEnumerable<Booking>> HentAlleBookinger()
         {
             // laver en join mellem booking, bruger og vagt og laver en order by start tiden fra vagt tabellen
@@ -37,26 +36,23 @@ namespace Server.Models
             return BookingList.ToList();
         }
 
-        //Henter bookinger for en enkelt bruger via bruger_id
-		public async Task<IEnumerable<Booking>> HentBookingerForBruger(int brugerId)
+		public async Task<IEnumerable<Booking>> HentBookingerForBruger(int BrugerId)
 		{
 			Sql = $"SELECT booking.booking_id, bruger.fulde_navn, bruger.telefon_nummer, booking.er_låst, vagt.* FROM booking JOIN bruger ON booking.bruger_id = bruger.bruger_id JOIN vagt ON booking.vagt_id = vagt.vagt_id WHERE booking.bruger_id = @BrugerId";
-			var parametre = new { BrugerId = brugerId };
-			var bookingListe = await Context.Connection.QueryAsync<Booking>(Sql, parametre);
-			Console.WriteLine(brugerId + "hej brugerid");
-			return bookingListe.ToList();
+			var Parametre = new { BrugerId = BrugerId };
+			var BookingListe = await Context.Connection.QueryAsync<Booking>(Sql, Parametre);
+			return BookingListe.ToList();
 		}
 
-        //Metode til at slette booking, der også kalder metoderne til at opdatere den tilknyttede data
+        
         public async Task SletBooking(int BookingId)
         {
-            var booking = await HentBookingSingle(BookingId);
+            var Booking = await HentBookingSingle(BookingId);
             await FjernBooking(BookingId);
-            await OpdaterVagtPlus(booking.vagt_id);
-            await FjernPoint(booking.vagt_id, booking.bruger_id);
+            await OpdaterVagtPlus(Booking.vagt_id);
+            await FjernPoint(Booking.vagt_id, Booking.bruger_id);
         }
 
-        // Henter en enkelt booking ud fra bookingId, bruges til at slette en booking
         public async Task<Booking> HentBookingSingle(int BookingId)
         {
             Sql = $"SELECT * FROM booking WHERE booking_id = @BookingId";
@@ -67,13 +63,12 @@ namespace Server.Models
             return booking;
         }
 
-        // Metode til at fjerne en booking ud fra bookingid
-        private async Task FjernBooking(int bookingId)
+        private async Task FjernBooking(int BookingId)
         {
             Sql = $"DELETE FROM booking WHERE booking_id = @BookingId";
             var Parametre = new
             {
-                BookingId = bookingId
+                BookingId = BookingId
             };
 
             await Context.Connection.ExecuteAsync(Sql, Parametre);
@@ -100,41 +95,39 @@ namespace Server.Models
                 VagtId = VagtId,
             };
 
-            var vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
+            var Vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
 
             Sql = "UPDATE bruger SET dine_point = dine_point - @Point WHERE bruger_id = @BrugerId;";
 
             var Parametre2 = new
             {
                 BrugerId = BrugerId,
-                Point = vagt.point
+                Point = Vagt.point
             };
 
             await Context.Connection.ExecuteAsync(Sql, Parametre2);
         }
 
-        //Metode til at oprette en booking, der også kalder metoderne til at opdatere den tilknyttede data
-        public async Task OpretBooking(BookingSql booking)
+        public async Task OpretBooking(BookingSql Booking)
         {
-            await LavBooking(booking);
-            await OpdaterVagt(booking.vagt_id);
-            await TilføjPoint(booking.vagt_id, booking.bruger_id);
+            await LavBooking(Booking);
+            await OpdaterVagt(Booking.vagt_id);
+            await TilføjPoint(Booking.vagt_id, Booking.bruger_id);
 
 		}
 
-        //Metoden der opretter en ny booking
-        private async Task LavBooking(BookingSql booking)
+        private async Task LavBooking(BookingSql Booking)
         {
             Sql = "INSERT INTO booking (bruger_id, vagt_id, er_låst) VALUES (@BrugerId, @VagtId, @ErLåst);";
 
-            var parametre = new
+            var Parametre = new
             {
-                BrugerId = booking.bruger_id,
-                VagtId = booking.vagt_id,
-                ErLåst = booking.er_låst
+                BrugerId = Booking.bruger_id,
+                VagtId = Booking.vagt_id,
+                ErLåst = Booking.er_låst
             };
 
-            await Context.Connection.ExecuteAsync(Sql, parametre);
+            await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
         //Metode til at opdatere antallet af frivillige vagten mangler, når en vagt bliver booket
@@ -150,7 +143,6 @@ namespace Server.Models
         }
 
 
-		// Tilføjer point til brugeren når de har booket en vagt
 		private async Task TilføjPoint(int VagtId, int BrugerId)
 		{
             Sql = "SELECT * FROM vagt WHERE vagt_id = @VagtId";
@@ -159,14 +151,14 @@ namespace Server.Models
 			    VagtId = VagtId,
 			};
 
-            var vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
+            var Vagt = await Context.Connection.QueryFirstOrDefaultAsync<Vagt>(Sql, Parametre);
 
             Sql = "UPDATE bruger SET dine_point = dine_point + @Point WHERE bruger_id = @BrugerId;";
 
             var Parametre2 = new
             {
                 BrugerId = BrugerId,
-                Point = vagt.point
+                Point = Vagt.point
             };
 
             await Context.Connection.ExecuteAsync(Sql, Parametre2);

@@ -83,14 +83,12 @@ protected override async Task OnInitializedAsync()
     vagt = await VagtService.HentVagtSingle(vagt_id);
 }
 
-// Denne metode opdaterer vagten ved at kalde OpdaterVagt metoden fra VagtService og derefter navigerer tilbage til den samme side for at vise opdateringerne.
 private async Task OpdaterVagt()
 {
     await VagtService.OpdaterVagt(vagt);
     Navigation.NavigateTo($"/opdatervagt/{vagt.vagt_id}", forceLoad: true);
 }
 
-// Denne metode navigerer til koordinator-siden efter en vagt er blevet redigeret.
 private void RedirectKoordinator()
 {
     Navigation.NavigateTo("/koordinator");

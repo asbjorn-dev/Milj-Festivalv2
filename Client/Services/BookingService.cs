@@ -20,7 +20,6 @@ namespace Client.Services
             this.HttpClient = HttpClient;
         }
 
-        // Henter alle bookinger fra serveren
         public Task<Booking[]> HentAlleBookinger()
         {
             // Sender en HTTP GET-anmodning til den angivne URI og returnere svaret
@@ -31,11 +30,9 @@ namespace Client.Services
             return Resultat;
         }
 
-        // Henter bookinger for en specifik bruger fra serveren
         public Task<Booking[]> HentBookingerForBruger(int bruger_id)
         {
             // Send en HTTP GET-anmodning til den angivne URI med bruger_id som parameter i URL og returnere svaret
-            // bruger_id bruges på serveren til at finde og returnere kun de bookinger, der tilhører den specifikke bruger
             var Resultat = HttpClient.GetFromJsonAsync<Booking[]>($"{Host}/api/bookinger/hentbookingerforbruger/{bruger_id}");
 
             // Vi returnerer en Task<Booking[]>, som repræsenterer en igangværende operation, der producerer et array af Booking
@@ -43,7 +40,6 @@ namespace Client.Services
         }
 
 
-        // Opretter en ny booking på serveren
         public async Task OpretBooking(BookingSql booking)
         {
             Console.WriteLine(booking);
@@ -54,14 +50,12 @@ namespace Client.Services
             response.EnsureSuccessStatusCode();
         }
 
-        // Sletter en booking på serveren
         public async Task SletBooking(int bookingId)
         {
             // Sender en DELETE-request til serveren med bookingId i URL'en
             await HttpClient.DeleteAsync($"{Host}/api/bookinger/slet/{bookingId}");
         }
 
-        // Skifter låsstatus for en booking på serveren
         public async Task SkiftLåsStatus(int BookingId)
         {
             // Sender en PUT-request til serveren med BookingId i URL'en

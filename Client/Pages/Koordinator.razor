@@ -156,41 +156,39 @@ else
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="opret">
-        <div class="container"> 
-            <div>
+            <div style="display: grid; grid-template-columns: min-content 200px; row-gap: 8px; column-gap: 16px; align-items: center" class="container input-grid"> 
+   
                 <label>Område:</label>
-                <InputText id="område" style="width: 200px" @bind-Value="vagt.område" required />
-            </div>
-            <div>
-                <label>Start tid:</label>
-                <InputDate id="start_tid" style="width: 200px" @bind-Value="vagt.start_tid" required />
-            </div>
-            <div>
-                <label>Slut tid:</label>
-                <InputDate id="slut_tid" style="width: 200px" @bind-Value="vagt.slut_tid" required />
-            </div>
-            <div>
-                <label>Vagt beskrivelse:</label>
-                <InputText id="beskrivelse" style="width: 200px" @bind-Value="vagt.beskrivelse" required />
-            </div>
-            <div>
+                <InputText id="område" @bind-Value="vagt.område" required />
+
+                <label style="white-space: nowrap">Start dato:</label>
+                <InputDate id="start_tid" @bind-Value="vagt.start_tid" required />
+                <label>Start tidspunkt</label>
+                <InputText type="time" @bind-Value="StartKlokkeslætProxy"/>
+                <label style="white-space: nowrap">Slut dato:</label>
+                <InputDate id="slut_tid" @bind-Value="vagt.slut_tid" required />
+                <label>Stlut tidspunkt</label>
+                <InputText type="time" @bind-Value="SlutKlokkeslætProxy"/>
+                
+                <label style="white-space: nowrap">Vagt beskrivelse:</label>
+                <InputText id="beskrivelse" @bind-Value="vagt.beskrivelse" required />
+          
                 <label>Priotet:</label>
-            <InputSelect id="priotering" style="width: 200px" @bind-Value="vagt.priotering" class="form-control">
-                <option value="lav" style="color:black">Vælg priotet</option>
-               <option value="høj" style="color:black">høj</option>
-               <option value="lav" style="color:black">lav</option>
-            </InputSelect>
-           </div>
-            <div>
-                <label>Antal Point</label>
-                <InputNumber id="point" style="width: 200px" @bind-Value="vagt.point" required />
+                <InputSelect id="priotering" @bind-Value="vagt.priotering" class="form-control">
+                    <option value="lav" style="color:black">Vælg priotet</option>
+                    <option value="høj" style="color:black">høj</option>
+                    <option value="lav" style="color:black">lav</option>
+                </InputSelect>
+   
+                <label style="white-space: nowrap">Antal Point</label>
+                <InputNumber id="point" @bind-Value="vagt.point" required />
+     
+                <label style="white-space: nowrap">Antal personer:</label>
+                <InputNumber id="antal_personer" @bind-Value="vagt.antal_personer" required />
+ 
+                <button class="MainButton" type="submit">Opret vagt</button>
+                <button class="MainButton" @onclick="LogStartTid">Log</button>
             </div>
-            <div>
-                <label>Antal personer:</label>
-                <InputNumber id="antal_personer" style="width: 200px" @bind-Value="vagt.antal_personer" required />
-            </div>
-            <button class="MainButton" type="submit">Opret vagt</button>
-        </div>
         </div>
       
     </EditForm>
@@ -204,13 +202,13 @@ else
         <div class="container"> 
             <div>
                 <label>Besked</label>
-                <InputText id="besked" style="width: 200px" @bind-Value="besked.besked" required />
+                <InputText id="Besked" style="width: 200px" @bind-Value="Besked.Besked" required />
             </div>
             <div>
                 <label>Afsender</label>
-                <InputText id="afsender" style="width: 200px" @bind-Value="besked.afsender" required />
+                <InputText id="Afsender" style="width: 200px" @bind-Value="Besked.Afsender" required />
             </div>
-            <button class="MainButton" type="submit">Opret besked</button>
+            <button class="MainButton" type="submit">Opret Besked</button>
         </div>
         </div>
     </EditForm>
@@ -223,7 +221,22 @@ else
     private EditContext cEditContext;
     private EditContext dEditContext;
     Vagt vagt = new Vagt();
-    Msg_board besked = new Msg_board();
+    Msg_board Besked = new Msg_board();
+
+    private TimeSpan StartKlokkeslæt = TimeSpan.FromHours(0);
+    private TimeSpan SlutKlokkeslæt = TimeSpan.FromHours(0);
+
+    private string StartKlokkeslætProxy
+    {
+        get => StartKlokkeslæt.ToString();
+        set => TimeSpan.TryParse(value, out StartKlokkeslæt);
+    }
+
+    private string SlutKlokkeslætProxy
+    {
+        get => SlutKlokkeslæt.ToString();
+        set => TimeSpan.TryParse(value, out SlutKlokkeslæt);
+    }
 
 
     // Laver en liste med datamodel klasserne fra shared
@@ -233,7 +246,7 @@ else
     public List<Msg_board> BeskedListe = new List<Msg_board>();
 
 
-    // Injecter metoderne fra services
+    // Injecter Interfaces fra services så deres tilknyttede metoder kan bruges
     [Inject]
     public IVagtService ServiceVagt { get; set; }
     [Inject]
@@ -244,18 +257,18 @@ else
     public IMessageService ServiceMessage { get; set; }
 
     // Når siden åbnes hentes frivillige, bookinger og vagter
+    // og der bliver oprettet to editcontext med vagt og Besked
     protected override async Task OnInitializedAsync()
     {
 
         cEditContext = new EditContext(vagt);
-        dEditContext = new EditContext(besked);
+        dEditContext = new EditContext(Besked);
 
         FrivilligListe = (await ServiceBruger.HentAlleFrivillige()).ToList();
         VagtListe = (await ServiceVagt.HentAlleVagter()).ToList();
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
     }
 
-    // Metoden der bruges på vores fjern vagt knap, sletter vagten på listen ud fra id
     private async Task DeleteVagt(int vagt_id)
     {
         await ServiceVagt.DeleteVagt(vagt_id);
@@ -283,19 +296,21 @@ else
         BookingListe = (await ServiceBooking.HentAlleBookinger()).ToList();
         StateHasChanged();
     }
-    // handlevalidsumbit til vagter editformen
+
     private async Task HandleValidSubmit()
     {
+        vagt.start_tid += StartKlokkeslæt;
+        vagt.slut_tid += SlutKlokkeslæt;
         await ServiceVagt.TilføjVagt(vagt);
         StateHasChanged();
 
     }
-    // handlevalidsumbit til beskeder editformen
+
     private async Task HandleValidSubmitBeskeder()
     {
-        // sender det nuværende tidspunkt og dato når man trykker sumbit knappen til beskeder
-        besked.tidspunkt = DateTime.Now;
-        await ServiceMessage.TilføjBesked(besked);
+        // sender det nuværende Tidspunkt og dato når man trykker sumbit knappen til Beskeder
+        Besked.Tidspunkt = DateTime.Now;
+        await ServiceMessage.TilføjBesked(Besked);
         StateHasChanged();
     }
 
@@ -316,20 +331,26 @@ else
     private bool sortAsc = true;
     private void SortByAntalPersoner()
     {
-      if (sortAsc)
-      {
-        VagtListe = VagtListe.OrderBy(v => v.antal_personer).ToList();
-      }
-      else
-      {
-      VagtListe = VagtListe.OrderByDescending(v => v.antal_personer).ToList();
-      }
+        if (sortAsc)
+        {
+            VagtListe = VagtListe.OrderBy(v => v.antal_personer).ToList();
+        }
+        else
+        {
+            VagtListe = VagtListe.OrderByDescending(v => v.antal_personer).ToList();
+        }
         sortAsc = !sortAsc;
-      }
+    }
 
     private async Task ScrollToBottom()
     {
-    await jsRuntime.InvokeVoidAsync("scrollToBottom");
+        await jsRuntime.InvokeVoidAsync("scrollToBottom");
+    }
+
+    private void LogStartTid()
+    {
+        DateTime Tidspunkt = vagt.start_tid + StartKlokkeslæt;
+        Console.WriteLine(Tidspunkt);
     }
 
     }

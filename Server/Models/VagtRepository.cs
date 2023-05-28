@@ -25,7 +25,6 @@ namespace Server.Models
             Context = context;
         }
 
-        //Henter alle vagter fra databasen
         public async Task<IEnumerable<Vagt>> HentAlleVagter()
         {
             // filtre efter priotering med 'høj' kommer først og bagefter filtre den tidligste start_tid
@@ -35,14 +34,12 @@ namespace Server.Models
             return VagtListe.ToList();
         }
 
-        // Sletter en enkelt vagt fra databasen ved hjælp af vagt_id
-        public async Task DeleteVagt(int vagt_id)
+        public async Task DeleteVagt(int VagtId)
         {
-            Sql = $"DELETE FROM vagt WHERE vagt_id = {vagt_id}";
+            Sql = $"DELETE FROM vagt WHERE vagt_id = {VagtId}";
             await Context.Connection.ExecuteAsync(Sql);
         }
 
-        //Tilføjer en vagt til databasen
         public async Task TilføjVagt(Vagt vagt)
         {
             Sql = @"INSERT INTO vagt ( område, start_tid, slut_tid, beskrivelse, priotering, antal_personer, point) 
@@ -59,16 +56,14 @@ namespace Server.Models
             });
         }
 
-        //Henter en enkelt vagt fra databasen ved hjælp af vagt_id
-		public async Task<Vagt> HentVagtSingle(int vagt_id)
+		public async Task<Vagt> HentVagtSingle(int VagtId)
 		{
-			Sql = $"SELECT * FROM vagt WHERE vagt_id = {vagt_id}";
-			var Parametre = new { Vagt_id = vagt_id };
+			Sql = $"SELECT * FROM vagt WHERE vagt_id = {VagtId}";
+			var Parametre = new { Vagt_id = VagtId };
 			var Vagt = await Context.Connection.QuerySingleOrDefaultAsync<Vagt>(Sql, Parametre);
 			return Vagt;
 		}
 
-        //Metode så koordinator kan opdatere en vagt i databasen
 		public async Task OpdaterVagt(Vagt OpdateretVagt)
         {
             Sql = "UPDATE vagt SET område = @Område, start_tid = @StartTid, slut_tid = @SlutTid, beskrivelse = @Beskrivelse, priotering = @Priotering, antal_personer = @AntalPersoner, point = @Point WHERE vagt_id = @VagtId";

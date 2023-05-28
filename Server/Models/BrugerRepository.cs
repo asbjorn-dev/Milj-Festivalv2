@@ -25,7 +25,6 @@ namespace Server.Models
             this.Context = context;
         }
 
-        //Metode til at hente alle frivillige fra databasen
         public async Task<IEnumerable<Bruger>> HentAlleFrivillige()
         {
             // Query til at hente alle frivillige fra Bruger tabbellen og decryptere cpr_nummer med nøglen "furkan"
@@ -34,7 +33,6 @@ namespace Server.Models
             return BrugerListe.ToList();
         }
 
-        // Metode til at tilføje en frivillig til databasen
         public async Task TilføjFrivillig(Bruger bruger)
         {
             Sql = "INSERT INTO bruger(fulde_navn, email, telefon_nummer, fødselsdag, brugernavn, password, cpr_nummer, rolle, er_aktiv, er_blacklistet) VALUES(@fulde_navn, @email, @telefon_nummer, @fødselsdag, @brugernavn, @password, encrypt_cpr_nummer(@cpr_nummer), @rolle, @er_aktiv, @er_blacklistet)";
@@ -57,62 +55,58 @@ namespace Server.Models
         }
 
         //Metode der henter en bruger i databasen der matcher brugernavn og password argumenterne 
-        public Bruger HentBrugerMedBrugernavnOgPassword(string brugernavn, string password)
+        public Bruger HentBrugerMedBrugernavnOgPassword(string Brugernavn, string Password)
         {
-            var sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
+            Sql = @"SELECT * FROM bruger WHERE brugernavn = @Brugernavn AND password = @Password";
 
-            var parametre = new
+            var Parametre = new
             {
-                Brugernavn = brugernavn,
-                Password = password
+                Brugernavn = Brugernavn,
+                Password = Password
 
             };
-            var bruger = Context.Connection.QuerySingleOrDefault<Bruger>(sql, parametre);
-            if(bruger == null)
+            var Bruger = Context.Connection.QuerySingleOrDefault<Bruger>(Sql, Parametre);
+            if(Bruger == null)
             {
                 return new Bruger { brugernavn = "FEJL", rolle = "FEJL" };       
             }
-            else return bruger;
+            else return Bruger;
         }
 
-        //Metode til at skifte aktiv status for en bruger i databasen
-        public async Task SkiftAktivStatus(int bruger_id)
+        public async Task SkiftAktivStatus(int BrugerId)
         {
             Sql = "UPDATE bruger SET er_aktiv = NOT er_aktiv WHERE bruger_id = @Bruger_id";
-            var Parametre = new { Bruger_id = bruger_id };
+            var Parametre = new { Bruger_id = BrugerId };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
-        //Metode til at skifte blacklist status for en bruger i databasen
-        public async Task SkiftBlacklistStatus(int bruger_id)
+        public async Task SkiftBlacklistStatus(int BrugerId)
         {
             Sql = "UPDATE bruger SET er_blacklistet = NOT er_blacklistet WHERE bruger_id = @Bruger_id";
-            var Parametre = new { Bruger_id = bruger_id };
+            var Parametre = new { Bruger_id = BrugerId };
             await Context.Connection.ExecuteAsync(Sql, Parametre);
         }
 
-        // Metode til at hente en enkelt frivillig, her køres decrypt også på CPR-nummer ved hjælp af decrypt key
-		public async Task<Bruger> HentBrugerSingle(int bruger_id)
+		public async Task<Bruger> HentBrugerSingle(int BrugerId)
 		{
-			Sql = $"SELECT *, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE bruger_id = {bruger_id}";
-            var Parametre = new { Bruger_id = bruger_id };
+			Sql = $"SELECT *, decrypt_cpr(cpr_nummer, 'furkan') AS cpr_nummer FROM bruger WHERE bruger_id = {BrugerId}";
+            var Parametre = new { Bruger_id = BrugerId };
 			var person = await Context.Connection.QuerySingleOrDefaultAsync<Bruger>(Sql, Parametre);
 			return person;
 		}
 
-        //Metode til at opdaterer brugerens oplysninger
-		public async Task UpdateBruger(Bruger updatedBruger)
+		public async Task UpdateBruger(Bruger UpdatedBruger)
 		{
 			Sql = "UPDATE bruger SET fulde_navn = @FuldeNavn, email = @Email, brugernavn = @Brugernavn, password = @Password, telefon_nummer = @TelefonNummer WHERE bruger_id = @BrugerId";
 
 			var Parametre = new
 			{
-				FuldeNavn = updatedBruger.fulde_navn,
-				Email = updatedBruger.email,
-                Brugernavn = updatedBruger.brugernavn,
-				Password = updatedBruger.password,
-				TelefonNummer = updatedBruger.telefon_nummer,
-				BrugerId = updatedBruger.bruger_id,
+				FuldeNavn = UpdatedBruger.fulde_navn,
+				Email = UpdatedBruger.email,
+                Brugernavn = UpdatedBruger.brugernavn,
+				Password = UpdatedBruger.password,
+				TelefonNummer = UpdatedBruger.telefon_nummer,
+				BrugerId = UpdatedBruger.bruger_id,
 
 			};
 

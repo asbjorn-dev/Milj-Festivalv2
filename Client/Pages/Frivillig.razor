@@ -26,7 +26,7 @@
 else
 {
 	<!-- Printer alle Beskeder ud-->
-	<div class="besked-oversigt">
+	<div class="Besked-oversigt">
 		<h1 class="mb-3 mt-3">Beskeder</h1>
 		<table class="table table-striped">
 			<thead>
@@ -37,12 +37,12 @@ else
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var besked in BeskedListe)
+				@foreach (var Besked in BeskedListe)
 				{
 					<tr>
-						<td>@besked.besked</td>
-						<td>@besked.afsender</td>
-						<td>@besked.FjernSekunderBesked().ToString("yyyy-MM-dd HH:mm")</td>
+						<td>@Besked.Besked</td>
+						<td>@Besked.Afsender</td>
+						<td>@Besked.FjernSekunderBesked().ToString("yyyy-MM-dd HH:mm")</td>
 					</tr>
 				}
 			</tbody>
@@ -156,7 +156,7 @@ else
     public List<Booking> BookingListe = new List<Booking>();
     public List<Msg_board> BeskedListe = new List<Msg_board>();
 
-    // Injecter metoderne fra services
+    // Injecter interfaces fra services så deres tilknyttede metoder kan bruges
     [Inject]
     public IVagtService ServiceVagt { get; set; }
     [Inject]
@@ -165,7 +165,7 @@ else
     public IMessageService ServiceMessage { get; set; }
     [Inject]
     public IBrugerService ServiceBruger { get; set; }
-    // På initialized henter vagter og brugere
+
     protected override async Task OnInitializedAsync()
     {
         var bruger_id = GlobalState.bruger.bruger_id;
@@ -214,14 +214,14 @@ else
         }
         catch (Exception ex)
         {
-            // Håndter fejl her
+            // Hvis der sker fejl i try printes en exception message i konsollen
             Console.WriteLine("Fejl ved booking: " + ex.Message);
         }
     }
 
     private bool ErVagtBooket(int vagtId)
     {
-        // Metode til at tjekke om bookinglisten indeholder en vagt med samme vagtid
+        // tjekker om bookinglisten indeholder en vagt med samme vagtid
         return BookingListe.Any(booking => booking.vagt_id == vagtId);
     }
 

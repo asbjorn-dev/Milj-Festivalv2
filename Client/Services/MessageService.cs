@@ -17,14 +17,12 @@ public class MessageService : IMessageService
         this.HttpClient = HttpClient;
     }
 
-    // Metode til at hente alle beskeder fra serveren. Det sender en GET-anmodning til angivet URL og returnerer resultatet som en opgave af en besked-array.
     public Task<Msg_board[]> HentAlleBeskeder()
     {
         var Resultat = HttpClient.GetFromJsonAsync<Msg_board[]>($"{Host}/api/beskeder/hentallebeskeder");
         return Resultat;
     }
 
-    // Metode til at sende en besked til serveren. Det sender en POST-anmodning med den angivne besked til angivet URL.
     public async Task TilføjBesked(Msg_board msg)
     {
         await HttpClient.PostAsJsonAsync($"{Host}/api/beskeder/tilfoejbesked", msg);

@@ -81,7 +81,6 @@
 		bEditContext = new EditContext(bruger);
 	}
 
-	// Denne metode håndterer en gyldig formularindsendelse. Den tilføjer den nye bruger ved hjælp af BrugerService og navigerer til bekræftelsessiden.
 	private async Task HandleValidSubmit()
 	{
 		await BrugerService.TilføjBruger(bruger);
@@ -89,13 +88,12 @@
 	}
 
 	// Laver den indtastede information om til datetime, så det kan sendes til databasen
-	// og giver automatisk 00:00:00 tidspunkt med, så man ikke selv skal indtaste det
+	// og giver automatisk 00:00:00 Tidspunkt med, så man ikke selv skal indtaste det
 	private void HåndterFødselsdag(DateOnly NyDato)
 	{
 		bruger.fødselsdag = NyDato.ToDateTime(TimeOnly.MinValue);
 	}
 
-	// Denne metode navigerer brugeren tilbage til login-siden.
 	private void BackToLogin()
 	{
 		NavManager.NavigateTo("/login");

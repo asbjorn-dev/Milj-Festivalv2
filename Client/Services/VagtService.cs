@@ -17,32 +17,27 @@ public class VagtService : IVagtService
         this.HttpClient = HttpClient;
     }
 
-    // Henter alle vagter fra serveren
     public Task<Vagt[]> HentAlleVagter()
     {
         var Resultat = HttpClient.GetFromJsonAsync<Vagt[]>($"{Host}/api/vagter/hentallevagter");
         return Resultat;
     }
 
-    // Sletter en specifik vagt fra serveren
     public async Task DeleteVagt(int vagt_id)
     {
         await HttpClient.DeleteAsync($"{Host}/api/vagter/{vagt_id}");
     }
 
-    // Henter en specifik vagt fra serveren
     public async Task<Vagt> HentVagtSingle(int vagt_id)
     {
         return await HttpClient.GetFromJsonAsync<Vagt>($"{Host}/api/vagter/hentvagtsingle/{vagt_id}");
     }
 
-    // Opdaterer en specifik vagt på serveren
     public async Task OpdaterVagt(Vagt OpdateretVagt)
     {
         await HttpClient.PutAsJsonAsync($"{Host}/api/vagter/opdatervagt/{OpdateretVagt.vagt_id}", OpdateretVagt);
     }
 
-    // Tilføjer en vagt til serveren
     public async Task TilføjVagt(Vagt vagt)
     {
         await HttpClient.PostAsJsonAsync($"{Host}/api/vagter/tilfoejvagt", vagt);

@@ -18,46 +18,46 @@ public class BrugerService : IBrugerService
         this.HttpClient = HttpClient;
     }
 
-    // Sender en HTTP GET-anmodning til den angivne URI for at hente alle brugere (frivillige)
     public Task<Bruger[]> HentAlleFrivillige()
     {
+    // Sender en HTTP GET-anmodning til den angivne URI for at hente alle brugere (frivillige)
         var Resultat = HttpClient.GetFromJsonAsync<Bruger[]>($"{Host}/api/brugere/hentallefrivillige");
         return Resultat;
     }
 
-    // Sender en HTTP POST-anmodning til den angivne URI for at tilføje en ny bruger
     public async Task TilføjBruger(Bruger bruger)
     {
+    // Sender en HTTP POST-anmodning til den angivne URI for at tilføje en ny bruger
         await HttpClient.PostAsJsonAsync($"{Host}/api/brugere/tilfoejfrivillig", bruger);
     }
 
-    // Sender en HTTP GET-anmodning til den angivne URI for at logge en bruger ind
     public async Task<Bruger> Login(Login brugerinfo)
     {
+    // Sender en HTTP GET-anmodning til den angivne URI for at logge en bruger ind
         return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/login/{brugerinfo.Brugernavn}/{brugerinfo.Password}");
     }
 
-    // Sender en HTTP PUT-anmodning til den angivne URI for at ændre status for en bruger (aktiv / inaktiv)
     public async Task SkiftAktivStatus(int bruger_id)
     {
+    // Sender en HTTP PUT-anmodning til den angivne URI for at ændre status for en bruger (aktiv / inaktiv)
         await HttpClient.PutAsync($"{Host}/api/brugere/skiftaktivstatus/{bruger_id}", null);
     }
 
-    // Sender en HTTP PUT-anmodning til den angivne URI for at ændre blacklist status for en bruger
     public async Task SkiftBlacklistStatus(int bruger_id)
     {
+    // Sender en HTTP PUT-anmodning til den angivne URI for at ændre blacklist status for en bruger
         await HttpClient.PutAsync($"{Host}/api/brugere/skiftblackliststatus/{bruger_id}", null);
     }
 
-    // Sender en HTTP GET-anmodning til den angivne URI for at hente en specifik bruger baseret på deres id
     public async Task<Bruger> HentBrugerSingle(int bruger_id)
     {
+    // Sender en HTTP GET-anmodning til den angivne URI for at hente en specifik bruger baseret på deres id
         return await HttpClient.GetFromJsonAsync<Bruger>($"{Host}/api/brugere/hentbrugersingle/{bruger_id}");
     }
 
-    // Sender en HTTP PUT-anmodning til den angivne URI for at opdatere en bruger
     public async Task UpdateBruger(Bruger updatedBruger)
     {
+    // Sender en HTTP PUT-anmodning til den angivne URI for at opdatere en bruger
         await HttpClient.PutAsJsonAsync($"{Host}/api/brugere/updatebruger/{updatedBruger.bruger_id}", updatedBruger);
     }
 }

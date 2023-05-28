@@ -25,7 +25,6 @@ namespace Server.Models
             this.Context = context;
         }
 
-        // Henter alle beskeder fra databasen
         public async Task<IEnumerable<Msg_board>> HentAlleBeskeder()
         {
             Sql = $"SELECT * FROM msg_board;";
@@ -34,16 +33,16 @@ namespace Server.Models
             return BeskedListe.ToList();
         }
 
-        // Metode så koordinator kan tilføje beskeder til databasen
-        public async Task TilføjBesked(Msg_board msg)
+        // Metode så koordinator kan tilføje Beskeder til databasen
+        public async Task TilføjBesked(Msg_board Msg)
         {
-            Sql = @"INSERT INTO msg_board ( besked, afsender, tidspunkt) 
+            Sql = @"INSERT INTO msg_board ( Besked, Afsender, Tidspunkt) 
                     VALUES (@Besked, @Afsender, @Tidspunkt)";
             await Context.Connection.ExecuteAsync(Sql, new
             {
-                Besked = msg.besked,
-                Afsender = msg.afsender,
-                Tidspunkt = msg.tidspunkt
+                Besked = Msg.Besked,
+                Afsender = Msg.Afsender,
+                Tidspunkt = Msg.Tidspunkt
             });
         }
     }
