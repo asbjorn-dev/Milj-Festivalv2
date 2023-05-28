@@ -20,11 +20,11 @@ body {
 .container {
     max-width: 400px;
     padding: 20px;
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: #00000036;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: auto;
-    color: white; 
+    color: white;
 }
 
 h3 {

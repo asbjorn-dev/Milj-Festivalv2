@@ -5,7 +5,7 @@
     border: 1px solid #fff;
     border-radius: 4px;
     cursor: pointer;
-    width: 10%;
+    width: 100%;
     transition: background-color 0.3s ease;
 }
 
@@ -20,3 +20,13 @@
     button + button {
         margin-top: 8px;
     }
+
+.container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #00000036;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    color: white;
+}
