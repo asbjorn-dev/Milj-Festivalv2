@@ -13,7 +13,7 @@
 }
 
 .reward-item {
-    flex-basis: 45%; /* Adjust as needed to fit desired width */
+    flex-basis: 45%;
     margin-right: 20px;
     margin-bottom: 20px;
     padding: 10px;

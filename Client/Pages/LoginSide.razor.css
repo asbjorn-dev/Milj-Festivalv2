@@ -19,8 +19,8 @@ body {
     background-color: #00000036;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: auto; /* Center horizontally */
-    color: white; /* Set text color to white */
+    margin: auto; 
+    color: white; 
 }
 
 main {
@@ -34,7 +34,7 @@ h1 {
 }
 
 .centerpage {
-    display: grid; /* Use CSS Grid layout */
+    display: grid; 
     place-items: center;
 }
 

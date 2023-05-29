@@ -14,14 +14,14 @@ button {
 
     .Besked-oversigt th:first-child,
     .Besked-oversigt td:first-child {
-        width: 70%; /* Adjust the width as needed */
+        width: 70%; 
     }
 
     .Besked-oversigt th:nth-child(2),
     .Besked-oversigt td:nth-child(2),
     .Besked-oversigt th:nth-child(3),
     .Besked-oversigt td:nth-child(3) {
-        width: 15%; /* Adjust the width as needed */
+        width: 15%; 
     }
 
     .Besked-oversigt td {
@@ -53,20 +53,17 @@ button {
     }
 
 
-/* tabler til vagter */
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
-/* Tilføjende styling til tabellen */
 .table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Tilføjende styling til table head */
 thead th {
     background-color: #00000036;
     padding: 10px;
@@ -87,28 +84,27 @@ thead th {
 
 .btnBook {
     padding: 10px 16px;
-    background-color: #00000036; /* Set buttons background color to transparent */
+    background-color: #00000036; 
     color: #fff;
-    border: 1px solid #fff; /* Set buttons border color to white */
+    border: 1px solid #fff; 
     border-radius: 4px;
     cursor: pointer;
-    width: 80%; /* Make buttons expand to full width */
-    transition: background-color 0.3s ease; /* Add transition effect */
+    width: 80%; 
+    transition: background-color 0.3s ease;
 }
 
     .btnBook:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Set buttons background color on hover */
+        background-color: rgba(255, 255, 255, 0.2); 
     }
 
     .btnBook:active {
-        background-color: rgba(255, 255, 255, 0.3); /* Set buttons background color on active */
+        background-color: rgba(255, 255, 255, 0.3); 
     }
 
     b.btnBook {
         margin-top: 8px;
     }
 
-/* Tilføjende styling til table body */
 tbody td {
     padding: 10px;
 }

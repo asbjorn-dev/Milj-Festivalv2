@@ -64,6 +64,9 @@ else
 [Parameter] 
 public int vagt_id { get; set; } 
 
+// To variable til start/slutklokkeslæt
+// Input feltet læser stedfortræderen som string og parser til timespan
+// og sætter startklokkeslæt
 private TimeSpan StartKlokkeslæt = TimeSpan.FromHours(0);
 private TimeSpan SlutKlokkeslæt = TimeSpan.FromHours(0);
 
