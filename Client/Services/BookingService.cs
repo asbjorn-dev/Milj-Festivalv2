@@ -11,7 +11,7 @@ namespace Client.Services
 
         // To forskellige hosts så vi kunne bytte mellem localhost og hosten til siden vi skulle deploy på
         //public string Host = "https://localhost:7155";
-        public string Host = "https://xn--miljfestivalgruppe2-y7b.azurewebsites.net";
+        public string Host = "https://festivalmiljo.azurewebsites.net";
 
         // Constructor til BookingService, som initialiserer HttpClient med den injicerede HttpClient
         public BookingService(HttpClient HttpClient)
